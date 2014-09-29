@@ -1,0 +1,3 @@
+[submodule "features"]
+	path = features
+	url = https://github.com/gettyimages/connect_sdk_bdd.git

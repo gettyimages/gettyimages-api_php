@@ -1,0 +1,17 @@
+{
+    "name": "gettyimages/connect_sdk",
+    "description": "Getty Images Connect PHP SDK",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Casey MacPherson",
+            "email": "casey.macpherson@gettyimages.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "phine/phar": "~1.0",
+        "behat/behat": "3.0.x-dev"
+    }
+}

@@ -1,0 +1,4 @@
+#behat.yml
+default:
+  autoload:
+    '': %paths.base%/bdd_bootstrap
