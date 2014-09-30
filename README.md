@@ -3,6 +3,17 @@
 ## Assumptions
 * You have PHP >=5.4 setup
 
+### PHP.ini settings to build the code
+    [Phar]
+    ; http://php.net/phar.readonly
+    phar.readonly = Off
+	
+	//Extensions
+	extension=php_curl.dll
+	extension=php_mbstring.dll
+	extension=php_exif.dll 
+	extension=php_sockets.dll
+
 ## Quick Build
 If everything is setup on your machine where PHP will run, you can most likely run BuildSDK.bat or BuildSDK.sh to automatically run composer and then the Phar creation process.
 
