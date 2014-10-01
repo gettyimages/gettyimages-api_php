@@ -2,7 +2,7 @@
     "name": "gettyimages/connect_sdk",
     "description": "Getty Images Connect PHP SDK",
     "minimum-stability": "stable",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Casey MacPherson",
@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.0",
         "phine/phar": "~1.0",
         "behat/behat": "3.0.x-dev"
     }

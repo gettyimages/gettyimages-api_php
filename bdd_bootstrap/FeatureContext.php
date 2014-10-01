@@ -52,16 +52,12 @@ class FeatureContext implements Context, SnippetAcceptingContext
   public function getConnectBaseURI() {
     if($this->environment == "production") {
       return "https://connect.gettyimages.com/v3";
-    } else {
-      return "https://gibson.candidate-gettyimages.com/Public/3.0";
     }
   }
 
   public function getAuthURI() {
     if($this->environment == "production") {
       return "https://connect.gettyimages.com/oauth2/token";
-    } else {
-      return "https://gibson.candidate-gettyimages.com/Public/oauth2/token";
     }
   }
 

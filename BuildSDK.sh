@@ -3,9 +3,9 @@
 export outputDirectory=${PWD}/build
 
 cls
-echo.
+echo
 echo Determining build directory structure
-echo.
+echo
 
 if [ ! -d "$outputDirectory" ]; then
  echo Creating Directory $outputDirectory
@@ -15,18 +15,18 @@ fi
 echo -------------------------------------------------------------
 echo Output Directory for Build: ${outputDirectory}
 echo -------------------------------------------------------------
-echo.
-echo.
+echo
+echo
 echo --------------------Building PHP SDK-------------------------
-echo.
+echo
 echo Running Composer to make sure all dependencies are installed
 php composer.phar install
 
-echo.
-echo.
+echo
+echo
 php buildPhar.php
 
-echo.
-echo.
+echo
+echo
 echo Contents of Build output @: $outputDirectory
 ls $outputDirectory
