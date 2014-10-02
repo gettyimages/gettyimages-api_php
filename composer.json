@@ -3,15 +3,30 @@
     "description": "Getty Images Connect PHP SDK",
     "minimum-stability": "stable",
     "license": "MIT",
+    "keywords": ["images","getty","gettyimages","photo","photos","search","creative","artist","embed"],
+    "homepage": "http://api.gettyimages.com",
     "authors": [
         {
             "name": "Casey MacPherson",
-            "email": "casey.macpherson@gettyimages.com"
+            "email": "casey.macpherson@gettyimages.com",
+            "role" : "Developer"
         }
     ],
+    "support": {
+        "forum": "http://api.gettyimages.com/forum",
+        "issues": "https://github.com/gettyimages/connect_sdk_php/issues",
+        "source": "https://github.com/gettyimages/connect_sdk_php"
+    },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.4.0"
+    },
+    "require-dev" : {
         "phine/phar": "~1.0",
         "behat/behat": "3.0.x-dev"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "GettyImages\\Connect\\": "src/"
+        }
     }
 }
