@@ -74,10 +74,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function givenIHaveAnAPIKey()
     {
+        $envToGetkeyFrom = "ConnectSDK_test_ResourceOwner_clientkey";
+        
         if($this->useSandboxCredentials) {
-            $this->apiKey = getenv("ConnectSDK_test_SandboxApiKey");
-        } else {
-            $this->apiKey = getenv("ConnectSDK_test_ResourceOwner_clientkey");
+            $envToGetkeyFrom = "ConnectSDK_test_SandboxApiKey";
+        }
+        
+        if(!getenv($envToGetkeyFrom)) {
+            throw new \Exception("Environment var: ".$envToGetkeyFrom." was not found in the environment");
         }
     }
 
