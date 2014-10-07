@@ -160,17 +160,14 @@ namespace GettyImages\Connect {
                 
                     $response = $this->getOauth2ClientCredentials($this->credentials["client_key"],$this->credentials["client_secret"]);
                     break;
-                case "resource_owner":
-                    printf("Getting Resource Owner Credentials");
-                
-                    if(array_key_exists("refresh_token",$this->credentials) && !is_null($this->credentials["refresh_token"])) {
-                        printf("...with refresh token");
-                        
+                case "resource_owner":                
+                    if(array_key_exists("refresh_token",$this->credentials)) {
+                                                
                        $response = $this->getOauth2ResourceOwnerCredentialsWithRefreshToken($this->credentials["client_key"], 
                                                                                            $this->credentials["client_secret"],
                                                                                            $this->credentials["refresh_token"]); 
                     } else {
-                        printf("...full key/secret user/pass");
+                        
                         $response = $this->getOauth2ResourceOwnerCredentials($this->credentials["client_key"],
                                                                              $this->credentials["client_secret"],
                                                                              $this->credentials["username"],
@@ -182,7 +179,7 @@ namespace GettyImages\Connect {
             }
 
             if($response["http_code"] != 200) {
-                throw new \Exception("Non 200 status code: ".$response["http_code"]."\nCurlError: ".$response["curl_error"]."\nResponse Body: ".$response["body"]."\nHeaders: ".$response["header"]."\n".$response["last_url"]);
+                throw new \Exception("Non 200 status code: ".$response["http_code"]."\nCurlError: ".$response["curl_error"]."\nResponse Body: ".$response["body"]."\nHeaders: ".$response["header"]."\n".$response["last_url"]."\nAdditional DebugInfo: ".$response["debugInfo"]);
             }
 
             $this->tokenDetails = json_decode($response["body"],true);
@@ -217,11 +214,14 @@ namespace GettyImages\Connect {
         }
 
         public function getOauth2ResourceOwnerCredentialsWithRefreshToken($userKey, $userSecret, $refreshToken) {
-            $request = array("client_id" => $userKey,
-                            "client_secret" => $userSecret,
-                            "refresh_token" => $refreshToken);
+            $request = array(
+                "client_id" => $userKey,
+                "client_secret" => $userSecret,
+                "refresh_token" => $refreshToken,
+                "grant_type" => "refresh_token");
             
             $response = WebHelper::postFormEncodedWebRequest($this->endpointUri, $request);
+            return $response;
         }
 
         /**

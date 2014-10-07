@@ -356,7 +356,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $response = $this->downloadResponse;
         }
 
-
         $this->assertTrue(is_a($response,'\Exception',true), "Expected Response Object to be an exception");
     }
 
@@ -369,8 +368,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $sdk = $this->getSDK();
         
         $response = $sdk->getAccessToken();
-        
-        var_dump($response);
 
         $this->accessTokenResponse = $response;
 
@@ -584,7 +581,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {                                                                                                                                                       
         $this->assertTrue($this->accessTokenResponse != null);
         $this->assertTrue($this->accessTokenResponse != "");
-        var_dump($this->accessTokenResponse);
     }  
     
     /**                                                                                                                                                     
@@ -592,9 +588,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */                                                                                                                                                     
     public function theResponseContainsField($fieldName)                                                                                                            
     {    
-        $this->assertTrue(array_key_exists($fieldName,$this->imageDetailsResponse["images"][0]));
-        var_dump($this->imageDetailsResponse);
-        //$this->assertTrue(false);
+        $response = json_decode($this->imageDetailsResponse,true);
+        $images = $response["images"];
+        $this->assertTrue(array_key_exists($fieldName,$images[0]));
     }         
     
     /**
