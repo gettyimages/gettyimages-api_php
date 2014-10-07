@@ -13,7 +13,6 @@ use GettyImages\Connect\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilt
  */
 class FeatureContext implements Context, SnippetAcceptingContext
 {
-  public $authenticationTokenResponse = null;
   public $deferredSearch  = null;
   public $searchResponse = null;
   public $collectionsResponse = null;
@@ -28,9 +27,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
   public $apiSecret = null;
   public $username = null;
   public $password = null;
+  public $refreshToken = null;
   public $sandboxApiSecret = null;
-
+  public $accessTokenResponse = null;
   public $useSandboxCredentials = false;
+  public $imageDetailsFields = array();
   public $environment;
 
   /**
@@ -60,15 +61,31 @@ class FeatureContext implements Context, SnippetAcceptingContext
       return "https://connect.gettyimages.com/oauth2/token";
     }
   }
+    
+    private function getEnvValueAndThrowIfNotSet($envKey) {
+        if(!getenv($envKey)) {
+            throw new \Exception("Environment var: ".$envKey." was not found in the environment");
+        }
+        
+        return getenv($envKey);
+    }
 
+    /**                                                                                                                                                     
+     * @Given a refresh token                                                                                                                               
+     */                                                                                                                                                     
+    public function aRefreshToken()                                                                                                                         
+    {                                                                                                                                                       
+        $this->refreshToken = $this->getEnvValueAndThrowIfNotSet("ConnectSDK_test_ResourceOwner_refreshToken");                                                                                                                    
+    } 
+    
     /**
      * @Given /^I am trying out connect$/
      */
-
     public function givenIamTryingOutConnect()
     {
         $this->useSandboxCredentials = true;
     }
+    
     /**
      * @Given /^I have an apikey$/
      */
@@ -80,9 +97,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $envToGetkeyFrom = "ConnectSDK_test_SandboxApiKey";
         }
         
-        if(!getenv($envToGetkeyFrom)) {
-            throw new \Exception("Environment var: ".$envToGetkeyFrom." was not found in the environment");
-        }
+        $this->apiKey = $this->getEnvValueAndThrowIfNotSet($envToGetkeyFrom);
     }
 
     /**
@@ -90,23 +105,35 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function givenIHaveAnAPISecret()
     {
+        $envToGetkeyFrom = "ConnectSDK_test_ResourceOwner_clientsecret";
+        
         if($this->useSandboxCredentials) {
-            $this->apiSecret = getenv("ConnectSDK_test_SandboxApiSecret");
-        } else {
-            $this->apiSecret = getenv("ConnectSDK_test_ResourceOwner_clientsecret");
+            $envToGetkeyFrom = "ConnectSDK_test_SandboxApiSecret";
         }
+        
+        $this->apiSecret = $this->getEnvValueAndThrowIfNotSet($envToGetkeyFrom);
     }
+    
+    /**                                                                                                                                                     
+     * @Given /^I specify field (\w+)$/
+     */
+    public function givenISpecifyField($fieldName)                                                                                                                  
+    {
+        array_push($this->imageDetailsFields,$fieldName);
+    } 
 
     /**
      * @Given /^a username$/
      */
     public function givenAUsername()
     {
+        $envToGetKeyFrom = "ConnectSDK_test_ResourceOwner_username";
+        
         if($this->useSandboxCredentials) {
             throw new \Exception("Currently configured for sandbox credentials, should not be sending in a username");
-        } else {
-            $this->username = getenv("ConnectSDK_test_ResourceOwner_username");
         }
+        
+        $this->username = $this->getEnvValueAndThrowIfNotSet($envToGetKeyFrom);
     }
 
     /**
@@ -114,11 +141,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function givenAPassword()
     {
+        $envToGetKeyFrom = "ConnectSDK_test_ResourceOwner_password";
+        
         if($this->useSandboxCredentials) {
             throw new \Exception("Currently configured for sandbox credentials, should not be sending in a password");
-        } else {
-            $this->password = getenv("ConnectSDK_test_ResourceOwner_password");
         }
+        
+        $this->password = $this->getEnvValueAndThrowIfNotSet($envToGetKeyFrom);
     }
 
     /**
@@ -174,7 +203,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @Then /^a token is returned$/
      */
     public function aTokenIsReturned() {
-        $tokenResponse = $this->authenticationTokenResponse;
+        $tokenResponse = $this->accessTokenResponse;
 
         $this->assertTrue($tokenResponse != null);
 
@@ -338,10 +367,12 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iAskTheSdkForAnAuthenticationToken()
     {
         $sdk = $this->getSDK();
-
+        
         $response = $sdk->getAccessToken();
+        
+        var_dump($response);
 
-        $this->authenticationTokenResponse = $response;
+        $this->accessTokenResponse = $response;
 
     }
 
@@ -367,6 +398,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
     }
 
+    /**                                                                                                                                                     
+     * @When I request an access token                                                                                                                      
+     */                                                                                                                                                     
+    public function iRequestAnAccessToken()                                                                                                                 
+    {
+        $sdk = $this->getSDK();
+        
+        $this->accessTokenResponse = $sdk->getAccessToken();
+    }  
+    
     /**
      * @When /^I specify I want only embeddable images$/
      */
@@ -403,9 +444,15 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $sdk = $this->getSDK();
 
         $imageId = $this->imageDetailParameters['imageId'];
-        $response = $sdk->Images()
-                        ->withId($imageId)
-                        ->execute();
+        $imageFields = $this->imageDetailsFields;
+        
+        $sdk = $sdk->Images()->withId($imageId);
+        
+        for($i = 0; $i < count($imageFields); ++$i) {
+            $sdk = $sdk->withResponseField($imageFields[$i]);
+        }
+        
+        $response = $sdk->execute();
 
         $this->imageDetailsResponse = $response;
     }
@@ -529,6 +576,27 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->deferredSearch = $searchObject;
     }
 
+    
+    /**                                                                                                                                                     
+     * @Then an access token is returned                                                                                                                    
+     */                                                                                                                                                     
+    public function anAccessTokenIsReturned()                                                                                                               
+    {                                                                                                                                                       
+        $this->assertTrue($this->accessTokenResponse != null);
+        $this->assertTrue($this->accessTokenResponse != "");
+        var_dump($this->accessTokenResponse);
+    }  
+    
+    /**                                                                                                                                                     
+     * @Then /^the response contains (\w+)$/
+     */                                                                                                                                                     
+    public function theResponseContainsField($fieldName)                                                                                                            
+    {    
+        $this->assertTrue(array_key_exists($fieldName,$this->imageDetailsResponse["images"][0]));
+        var_dump($this->imageDetailsResponse);
+        //$this->assertTrue(false);
+    }         
+    
     /**
      * @return ConnectSDK|null
      */
@@ -537,7 +605,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         if(is_null($context->sdk)) {
 
-            $context->sdk = new ConnectSDK($context->apiKey,$context->apiSecret,$context->username,$context->password);
+            $context->sdk = new ConnectSDK($context->apiKey,$context->apiSecret,$context->username,$context->password,$context->refreshToken);
 
             return $context->sdk;
 

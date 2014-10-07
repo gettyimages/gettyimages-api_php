@@ -35,6 +35,9 @@ namespace GettyImages\Connect\Request {
             $options[CURLOPT_POST] = 1;
             $options[CURLOPT_URL] = $url;
             $options[CURLOPT_POSTFIELDS] = http_build_query($post);
+            
+            printf("Posting Options");
+            var_dump($options);
 
             $result = self::execute($options);
 

@@ -52,6 +52,11 @@ namespace GettyImages\Connect\Request {
             $this->requestDetails["fields"] = $fields;
             return $this;
         }
+        
+        public function withResponseField($fieldName) {
+           $this->appendArrayValueToRequestDetails("fields",$fieldName);
+            return $this;
+        }
 
         /**
          * @access private

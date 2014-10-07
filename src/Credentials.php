@@ -37,8 +37,22 @@ namespace GettyImages\Connect {
          */
         public function __construct($endpointUri, array $credentials) {
             $this->endpointUri = $endpointUri;
+            $credentials = $this->removeNullValuesFromArray($credentials);
             $this->credentials = self::validateCredentials($credentials);
-            $this->oauth2Request = new Oauth2($this,$endpointUri);
+        }
+        
+        private function removeNullValuesFromArray(array $collectionToFilter) {
+            $output = array();
+            
+            foreach($collectionToFilter as $key => $value) {
+                if(is_null($value)) {
+                    continue;
+                }
+                
+                $output[$key] = $value;
+            }
+            
+            return $output;
         }
 
         /**
@@ -57,6 +71,10 @@ namespace GettyImages\Connect {
                 $credentials["credential_type"] = "client_credentials";
             }
 
+            if(array_key_exists("refresh_token",$credentials)) {
+                $credentials["credential_type"] = "resource_owner";
+            }
+            
             if(array_key_exists("username",$credentials) &&
                 array_key_exists("password",$credentials) &&
                 !is_null($credentials["username"]) &&
@@ -82,7 +100,7 @@ namespace GettyImages\Connect {
                 return $this->credentials["client_key"];
             }
 
-            return FALSE;
+            return false;
         }
 
         /**
@@ -101,7 +119,7 @@ namespace GettyImages\Connect {
 
             $details = $this->getAuthenticationDetails();
             //TODO pull token_type from $details
-            return "Bearer ".$details["access_token"];
+            return $details["token_type"]." ".$details["access_token"];
         }
 
         /**
@@ -109,13 +127,13 @@ namespace GettyImages\Connect {
          *
          * @access private
          */
-        private function TokenHasExpired() {
+        private function tokenHasExpired() {
             if($this->tokenDetails != null &&
                 array_key_exists("sdk_expire_time",$this->tokenDetails)) {
                 return time() > $this->tokenDetails["sdk_expire_time"];
             }
 
-            return TRUE;
+            return true;
         }
 
         /**
@@ -129,21 +147,35 @@ namespace GettyImages\Connect {
          * @return mixed[]
          */
         public function getAuthenticationDetails() {
-            if(!$this->TokenHasExpired()) {
+            if(!$this->tokenHasExpired()) {
                 return $this->tokenDetails;
             }
-
+            
             $credentialType = $this->credentials["credential_type"];
 
             switch ($credentialType) {
                 case "client_credentials":
+                
+                    printf("Getting Client Credentials");
+                
                     $response = $this->getOauth2ClientCredentials($this->credentials["client_key"],$this->credentials["client_secret"]);
                     break;
                 case "resource_owner":
-                    $response = $this->getOauth2ResourceOwnerCredentials($this->credentials["client_key"],
-                        $this->credentials["client_secret"],
-                        $this->credentials["username"],
-                        $this->credentials["password"]);
+                    printf("Getting Resource Owner Credentials");
+                
+                    if(array_key_exists("refresh_token",$this->credentials) && !is_null($this->credentials["refresh_token"])) {
+                        printf("...with refresh token");
+                        
+                       $response = $this->getOauth2ResourceOwnerCredentialsWithRefreshToken($this->credentials["client_key"], 
+                                                                                           $this->credentials["client_secret"],
+                                                                                           $this->credentials["refresh_token"]); 
+                    } else {
+                        printf("...full key/secret user/pass");
+                        $response = $this->getOauth2ResourceOwnerCredentials($this->credentials["client_key"],
+                                                                             $this->credentials["client_secret"],
+                                                                             $this->credentials["username"],
+                                                                             $this->credentials["password"]);
+                    }
                     break;
                 default:
                     throw new UnknownCredentialTypeException("Not sure what type : ".$credentialType);
@@ -179,9 +211,17 @@ namespace GettyImages\Connect {
                 "grant_type" => "password"
             );
 
-            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri,$request,array(CURLOPT_SSL_VERIFYPEER => false));
+            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri,$request);
 
             return $response;
+        }
+
+        public function getOauth2ResourceOwnerCredentialsWithRefreshToken($userKey, $userSecret, $refreshToken) {
+            $request = array("client_id" => $userKey,
+                            "client_secret" => $userSecret,
+                            "refresh_token" => $refreshToken);
+            
+            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri, $request);
         }
 
         /**
@@ -198,7 +238,7 @@ namespace GettyImages\Connect {
                 "grant_type" => "client_credentials"
             );
 
-            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri,$request,array(CURLOPT_SSL_VERIFYPEER => false));
+            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri,$request);
 
             return $response;
         }
