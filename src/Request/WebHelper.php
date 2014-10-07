@@ -15,32 +15,40 @@ namespace GettyImages\Connect\Request {
             return $json_response;
         }
 
-        public static function postFormEncodedWebRequest($endpoint, $data, array $options = array()) {
+        public static function postFormEncodedWebRequest($endpoint,array $data, array $options = array()) {
 
-            $defaults = array(CURLOPT_HEADER => 'Content-Type: application/x-www-form-urlencoded');
+            $data = http_build_query($data);
+            $defaults = array(
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded',
+                    'Content-Length: ' . strlen($data)),
+                CURLOPT_POST => 1,
+            );
+            
+            $defaults[CURLOPT_URL] = $endpoint;
+            $defaults[CURLOPT_POSTFIELDS] = $data;
+            
+            $result = self::execute(($options + $defaults));
 
-            $result = self::curl_post($endpoint,$data, ($defaults + $options));
             return $result;
         }
 
-        /**
-         * Send a POST requst using cURL
-         * @param string $url to request
-         * @param array $post values to send
-         * @param array $options for cURL
-         * @return string
-         */
-        public static function curl_post($url, array $post = NULL, array $options = array()) {
-
-            $options[CURLOPT_POST] = 1;
-            $options[CURLOPT_URL] = $url;
-            $options[CURLOPT_POSTFIELDS] = http_build_query($post);
-
+        public static function postWithNoBody($endpoint, $queryParams, $credentialHeaders) {
+            
+            $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
+            
+            $options = array(
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Content-Length: 0'),
+                CURLOPT_POST => 1,
+                CURLOPT_URL => $endpoint);
+            
             $result = self::execute($options);
-
-            return $result;
+            
         }
-
+        
+        
         /**
          * Send a GET requst using cURL
          * @param string $url to request
@@ -116,7 +124,8 @@ namespace GettyImages\Connect\Request {
                 'body' => '',
                 'curl_error' => '',
                 'http_code' => '',
-                'last_url' => '');
+                'last_url' => '',
+                'debugInfo' => '');
             if ( $error != "" )
             {
                 $result['curl_error'] = $error;

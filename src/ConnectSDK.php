@@ -17,7 +17,6 @@ namespace GettyImages\Connect {
     require_once("Credentials.php");
     require_once("Request/Collections.php");
     require_once("Request/Countries.php");
-    require_once("Request/Oauth2.php");
     require_once("Request/WebHelper.php");
     require_once("Request/Download.php");
     require_once("Request/Images.php");
@@ -51,13 +50,14 @@ namespace GettyImages\Connect {
          * @param null $password
          * @example UsageExamples.php Examples
          */
-        public function __construct($apiKey, $apiSecret = null, $username = null, $password = null) {
+        public function __construct($apiKey, $apiSecret = null, $username = null, $password = null, $refreshToken = null) {
 
             $credentials = array(
                 "client_key" => $apiKey,
                 "client_secret" => $apiSecret,
                 "username" => $username,
-                "password" => $password);
+                "password" => $password,
+                "refresh_token" => $refreshToken);
 
             $this->credentials = new Credentials($this->authEndpoint ,$credentials);
         }
@@ -67,7 +67,6 @@ namespace GettyImages\Connect {
          */
         public function getAccessToken() {
             $authenticationResponse = $this->credentials->getAuthenticationDetails();
-
             return $authenticationResponse;
         }
 
