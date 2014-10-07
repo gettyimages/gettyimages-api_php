@@ -15,6 +15,11 @@
 	extension=php_sockets.dll
     extension=php_openssl.dll
 
+## Install via Composer
+If you have composer you can install via
+
+	composer require gettyimages/connect_sdk
+
 ## Quick Build
 If everything is setup on your machine where PHP will run, you can most likely run BuildSDK.bat or BuildSDK.sh to automatically build the phar. If something fails please read the error messages, PHP can have a finicky setup if you've never tried to use it to build a package before.
 
