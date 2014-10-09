@@ -5,6 +5,8 @@ vendor/
 .idea
 composer.lock
 ConnectSDK.phar
+.codio
+README_codio.md
 
 
 #ignore thumbnails created by windows
