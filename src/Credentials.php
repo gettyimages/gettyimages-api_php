@@ -118,7 +118,6 @@ namespace GettyImages\Connect {
             }
 
             $details = $this->getAuthenticationDetails();
-            //TODO pull token_type from $details
             return $details["token_type"]." ".$details["access_token"];
         }
 

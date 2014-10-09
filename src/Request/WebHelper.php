@@ -33,19 +33,22 @@ namespace GettyImages\Connect\Request {
             return $result;
         }
 
-        public static function postWithNoBody($endpoint, $queryParams, $credentialHeaders) {
+        public static function postWithNoBody($endpoint, $queryParams, array $options = array()) {
             
             $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
             
-            $options = array(
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Content-Length: 0'),
-                CURLOPT_POST => 1,
-                CURLOPT_URL => $endpoint);
+            if(!array_key_exists(CURLOPT_HTTPHEADER, $options)) {
+                $options[CURLOPT_HTTPHEADER] = array();
+            }
+            
+            array_push($options[CURLOPT_HTTPHEADER],'Content-Type: application/json');
+            array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: 0');
+            $options[CURLOPT_POST] = 1;
+            $options[CURLOPT_URL] = $endpoint;
             
             $result = self::execute($options);
             
+            return $result;
         }
         
         
@@ -117,7 +120,6 @@ namespace GettyImages\Connect\Request {
             $ch = curl_init();
             curl_setopt_array($ch, $options);
             $response = curl_exec($ch);
-
 
             $error = curl_error($ch);
             $result = array( 'header' => '',

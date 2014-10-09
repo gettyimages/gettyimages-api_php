@@ -104,7 +104,7 @@ namespace GettyImages\Connect {
          * @return Download
          */
         public function Download() {
-            $downloadObj = new Download($this->credentials,$this->connectBaseUri,null);
+            $downloadObj = new Download($this->credentials,$this->connectBaseUri);
 
             return $downloadObj;
         }

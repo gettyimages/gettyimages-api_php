@@ -24,13 +24,13 @@ namespace GettyImages\Connect\Request {
 
             $credentialHeaders = array(CURLOPT_HTTPHEADER =>
                 array("Api-Key: ". $this->credentials->getApiKey(),
-                    "Authorization: ".$this->credentials->getAuthorizationHeaderValue()),
-                CURLOPT_FOLLOWLOCATION => 0);
-
+                    "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
+                                       
             $response = WebHelper::postWithNoBody($endpointUrl, $this->requestDetails, $credentialHeaders);
 
+            
             if($response["http_code"] != 200 && $response["http_code"] != 303) {
-                throw new \Exception("Non 200/303 status code returned: '" .$response["http_code"] . "'\nBody: ". $response["body"] . "\nCurl Error: " . $response["curl_error"]);
+                throw new \Exception("Non 200/303 status code returned: '" . $response["http_code"] . "'\nBody: ". $response["body"] . "\nCurl Error: " . $response["curl_error"]);
             }
 
             if($response["http_code"] == 303) {
@@ -44,7 +44,10 @@ namespace GettyImages\Connect\Request {
                         return $imageDownloadUrl;
                     }
                 }
+            } else {
+                return $response['body'];
             }
+                
 
             return $response;
         }

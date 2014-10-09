@@ -316,11 +316,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function theUrlForTheSandboxImageIsReturned() {
         $expectedResponseURL = $this->getConnectBaseURI() . "/sandboxdownloads/getty_images_large.jpg";
-        $downloadResponse = $this->downloadResponse;
+        $downloadResponse = json_decode($this->downloadResponse,true);
 
         $this->assertAreEqual($downloadResponse,
             $expectedResponseURL,
-            "Download Response was not pointing to correct location");
+            "Download Response was not pointing to correct location. Expected: " . $expectedResponseURL . " but was " . $downloadResponse);
     }
 
     /**
@@ -328,8 +328,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      *
      */
     public function theUrlfortheImageIsReturned() {
-        $downloadResponse = $this->downloadResponse;
-        $this->assertTrue(strpos($downloadResponse, "https://delivery.gettyimages.com/xa/".$this->imageIdToDownload) === 0,"Download Response was not pointing to correct location");
+        $downloadResponse = json_decode($this->downloadResponse,true);
+        
+        $this->assertTrue(strpos($downloadResponse["uri"], "https://delivery.gettyimages.com/xa/".$this->imageIdToDownload) === 0,"Download Response was not pointing to correct location");
     }
 
     /**
