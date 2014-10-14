@@ -87,13 +87,17 @@ namespace GettyImages\Connect\Request {
          * @ignore
          */
         private static function getCurlDefaults($options) {
+            
+            $userAgent = "ConnectSDK/1.0.1-beta (". php_uname("s")." ".php_uname("r")."; PHP ". phpversion() . ")";
+            
             $defaults = array(
                 CURLOPT_HEADER => 1,
                 CURLOPT_FRESH_CONNECT => 1,
                 CURLOPT_RETURNTRANSFER => 1,
                 CURLOPT_FORBID_REUSE => 1,
                 CURLOPT_SSL_VERIFYHOST => 2,
-                CURLOPT_SSL_VERIFYPEER => 1
+                CURLOPT_SSL_VERIFYPEER => 1,
+                CURLOPT_USERAGENT => $userAgent
             );
 
             if(getenv("ConnectSDK_UseProxy") != null) {
@@ -116,6 +120,8 @@ namespace GettyImages\Connect\Request {
         private static function execute(array $options) {
 
             $options = self::getCurlDefaults($options);
+            
+            var_dump($options);
 
             $ch = curl_init();
             curl_setopt_array($ch, $options);
