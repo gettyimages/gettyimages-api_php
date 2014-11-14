@@ -2,7 +2,7 @@
 
 export outputDirectory=${PWD}/build
 
-cls
+clear
 echo
 echo Determining build directory structure
 echo
