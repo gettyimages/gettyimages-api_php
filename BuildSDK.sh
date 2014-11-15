@@ -16,6 +16,18 @@ echo -------------------------------------------------------------
 echo Output Directory for Build: ${outputDirectory}
 echo -------------------------------------------------------------
 echo
+echo Checking Build Dependencies
+echo ..composer.phar
+
+if [ ! -f ${PWD}/composer.phar ]; then
+  echo Fetching composer.phar
+  curl -sS https://getcomposer.org/installer | php
+else
+  echo Updating composer.phar inplace
+  php composer.phar self-update
+fi
+
+
 echo
 echo --------------------Building PHP SDK-------------------------
 echo
