@@ -10,6 +10,11 @@
             "name": "Casey MacPherson",
             "email": "casey.macpherson@gettyimages.com",
             "role" : "Developer"
+        },
+        {
+          "name": "Mark Pitman",
+          "email": "mark.pitman@gettyimages.com",
+          "role": "Developer"
         }
     ],
     "support": {
