@@ -24,34 +24,34 @@ namespace GettyImages\Connect\Request {
                     'Content-Length: ' . strlen($data)),
                 CURLOPT_POST => 1,
             );
-            
+
             $defaults[CURLOPT_URL] = $endpoint;
             $defaults[CURLOPT_POSTFIELDS] = $data;
-            
+
             $result = self::execute(($options + $defaults));
 
             return $result;
         }
 
         public static function postWithNoBody($endpoint, $queryParams, array $options = array()) {
-            
+
             $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
-            
+
             if(!array_key_exists(CURLOPT_HTTPHEADER, $options)) {
                 $options[CURLOPT_HTTPHEADER] = array();
             }
-            
+
             array_push($options[CURLOPT_HTTPHEADER],'Content-Type: application/json');
             array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: 0');
             $options[CURLOPT_POST] = 1;
             $options[CURLOPT_URL] = $endpoint;
-            
+
             $result = self::execute($options);
-            
+
             return $result;
         }
-        
-        
+
+
         /**
          * Send a GET requst using cURL
          * @param string $url to request
@@ -87,9 +87,9 @@ namespace GettyImages\Connect\Request {
          * @ignore
          */
         private static function getCurlDefaults($options) {
-            
+
             $userAgent = "ConnectSDK/1.0.1-beta (". php_uname("s")." ".php_uname("r")."; PHP ". phpversion() . ")";
-            
+
             $defaults = array(
                 CURLOPT_HEADER => 1,
                 CURLOPT_FRESH_CONNECT => 1,
@@ -121,8 +121,6 @@ namespace GettyImages\Connect\Request {
 
             $options = self::getCurlDefaults($options);
             
-            var_dump($options);
-
             $ch = curl_init();
             curl_setopt_array($ch, $options);
             $response = curl_exec($ch);

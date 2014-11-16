@@ -40,18 +40,18 @@ namespace GettyImages\Connect {
             $credentials = $this->removeNullValuesFromArray($credentials);
             $this->credentials = self::validateCredentials($credentials);
         }
-        
+
         private function removeNullValuesFromArray(array $collectionToFilter) {
             $output = array();
-            
+
             foreach($collectionToFilter as $key => $value) {
                 if(is_null($value)) {
                     continue;
                 }
-                
+
                 $output[$key] = $value;
             }
-            
+
             return $output;
         }
 
@@ -74,7 +74,7 @@ namespace GettyImages\Connect {
             if(array_key_exists("refresh_token",$credentials)) {
                 $credentials["credential_type"] = "resource_owner";
             }
-            
+
             if(array_key_exists("username",$credentials) &&
                 array_key_exists("password",$credentials) &&
                 !is_null($credentials["username"]) &&
@@ -149,24 +149,21 @@ namespace GettyImages\Connect {
             if(!$this->tokenHasExpired()) {
                 return $this->tokenDetails;
             }
-            
+
             $credentialType = $this->credentials["credential_type"];
 
             switch ($credentialType) {
-                case "client_credentials":
-                
-                    printf("Getting Client Credentials");
-                
+                case "client_credentials":  
                     $response = $this->getOauth2ClientCredentials($this->credentials["client_key"],$this->credentials["client_secret"]);
                     break;
-                case "resource_owner":                
+                case "resource_owner":
                     if(array_key_exists("refresh_token",$this->credentials)) {
-                                                
-                       $response = $this->getOauth2ResourceOwnerCredentialsWithRefreshToken($this->credentials["client_key"], 
+
+                       $response = $this->getOauth2ResourceOwnerCredentialsWithRefreshToken($this->credentials["client_key"],
                                                                                            $this->credentials["client_secret"],
-                                                                                           $this->credentials["refresh_token"]); 
+                                                                                           $this->credentials["refresh_token"]);
                     } else {
-                        
+
                         $response = $this->getOauth2ResourceOwnerCredentials($this->credentials["client_key"],
                                                                              $this->credentials["client_secret"],
                                                                              $this->credentials["username"],
@@ -218,7 +215,7 @@ namespace GettyImages\Connect {
                 "client_secret" => $userSecret,
                 "refresh_token" => $refreshToken,
                 "grant_type" => "refresh_token");
-            
+
             $response = WebHelper::postFormEncodedWebRequest($this->endpointUri, $request);
             return $response;
         }
