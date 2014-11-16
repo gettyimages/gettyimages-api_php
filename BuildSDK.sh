@@ -21,6 +21,9 @@ echo ..composer.phar
 
 if [ ! -f ${PWD}/composer.phar ]; then
   echo Fetching composer.phar
+  if [ -f ${PWD}/composer.lock ]; then
+    rm composer.lock
+  fi
   curl -sS https://getcomposer.org/installer | php
 else
   echo Updating composer.phar inplace
