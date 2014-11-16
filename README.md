@@ -7,18 +7,16 @@
     [Phar]
     ; http://php.net/phar.readonly
     phar.readonly = Off
-	
+
 	//Extensions
 	extension=php_curl.dll
 	extension=php_mbstring.dll
-	extension=php_exif.dll 
+	extension=php_exif.dll
 	extension=php_sockets.dll
     extension=php_openssl.dll
 
 ## Install via Composer
-If you have composer you can install via
-
-	composer require gettyimages/connect_sdk
+Please refer to README_ComposerInstall.md
 
 ## Quick Build
 If everything is setup on your machine where PHP will run, you can most likely run BuildSDK.bat or BuildSDK.sh to automatically build the phar. If something fails please read the error messages, PHP can have a finicky setup if you've never tried to use it to build a package before.
@@ -30,18 +28,30 @@ If everything is setup on your machine where PHP will run, you can most likely r
 ### *nix / OSX
 
     BuildSDK.sh
-	
+
 This will put ConnectSDK.phar in a build folder. Then you can use the package as you would any other phar.
 
-## To get BDD scenarios for running the tests
-git submodule update --init
+The build does a few things for you automatically
+1. Determines if you have composer.phar and will retrieve it if you don't have it
+1. Runs composer install to get dependencies that are outlined in the composer.json file
+1. Then produces the phar file in ./build/ConnectSDK.phar
 
-## Installing PHP libraries
+## Manually Installing PHP libraries
+
+BuildSDK should get all the dependencies for you but if you want to do the update without a build
 From the root of the repository
 
     php composer.phar install
 
+### If you want the BDD dependencies
+
+    php composer.phar install --require-dev
+
 This command should install behat (the bdd framework) and any other php dependency libraries
+
+## To get BDD scenarios for running the tests
+git submodule update --init
+
 
 ## Environment variables of interest
 
@@ -61,7 +71,7 @@ The sdk does support using a proxy directly as well as ignoring ssl validation e
     set ConnectSDK_UseProxy=127.0.0.0:8888
 
 ### Powershell Example
-    
+
     $env:ConnectSDK_IgnoreSSLValidation=TRUE
     $env:ConnectSDK_UseProxy="127.0.0.0:8888"
 
@@ -75,7 +85,7 @@ If you'd like to run the SDK through it's passes using your credentials, you can
     ConnectSDK_test_SandboxApiKey
     ConnectSDK_test_SandboxApiSecret
 
-    //If you only have an api key and api secret only export the first two variables. 
+    //If you only have an api key and api secret only export the first two variables.
     //Sandbox credentials can be used in most of the cases where key and secret are used
     ConnectSDK_test_ResourceOwner_clientkey
     ConnectSDK_test_ResourceOwner_clientsecret
