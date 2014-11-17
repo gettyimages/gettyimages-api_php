@@ -45,3 +45,19 @@ echo
 echo
 echo Contents of Build output @: $outputDirectory
 ls $outputDirectory
+
+
+if [[ ":$PATH:" == *":${PWD}/vendor/behat/behat/bin:"* ]]; then
+  echo Behat already in path skipping
+else
+  echo Registering Behat in the path
+  export PATH="${PATH}:${PWD}/vendor/behat/behat/bin"
+fi
+
+
+echo
+echo
+echo To run BDD scenarios
+echo php ./vendor/behat/behat/bin/behat
+echo or
+echo behat
