@@ -25,6 +25,7 @@ namespace GettyImages\Connect {
     use GettyImages\Connect\Request\Search\Search;
     use GettyImages\Connect\Request\Download;
     use GettyImages\Connect\Request\Images;
+    use GettyImages\Connect\Request\Collections;
 
     /**
      * ConnectSDK
@@ -109,7 +110,7 @@ namespace GettyImages\Connect {
             return $downloadObj;
         }
 
-        private function Collections() {
+        public function Collections() {
             $collectionsObj = new Collections($this->credentials,$this->connectBaseUri);
             return $collectionsObj;
         }
