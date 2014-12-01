@@ -126,6 +126,16 @@ namespace GettyImages\Connect\Request\Search {
         }
 
         /**
+         * @param $order
+         * @return $this
+         */
+        public function withSortOrder($order) {
+            $this->requestDetails["sort_order"] = $order;
+
+            return $this;
+        }
+
+        /**
          * @return $this
          */
         public function withEmbedContentOnly() {
