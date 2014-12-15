@@ -13,6 +13,11 @@ namespace GettyImages\Connect\Request {
             return $this;
         }
 
+        public function withHeight($height) {
+            $this->requestDetails["height"] = $height;
+            return $this;
+        }
+
         public function execute() {
 
             $assetId = $this->requestDetails["id"];
