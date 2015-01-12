@@ -84,6 +84,11 @@ namespace GettyImages\Connect\Request\Search {
             return $this;
         }
 
+        public function withProductType($type) {
+            $this->appendArrayValueToRequestDetails("product_types", $type);
+            return $this;
+        }
+
         /**
          * @param OrientationFilter $orientation
          * @internal param \Orientation|\use $orientationName use values from Orientation::
