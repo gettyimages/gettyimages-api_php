@@ -26,6 +26,7 @@ namespace GettyImages\Connect {
     use GettyImages\Connect\Request\Download;
     use GettyImages\Connect\Request\Images;
     use GettyImages\Connect\Request\Collections;
+    use GettyImages\Connect\Request\Countries;
 
     /**
      * ConnectSDK
@@ -115,7 +116,7 @@ namespace GettyImages\Connect {
             return $collectionsObj;
         }
 
-        private function Countries() {
+        public function Countries() {
             $countriesObj = new Countries($this->credentials,$this->connectBaseUri);
             return $countriesObj;
         }

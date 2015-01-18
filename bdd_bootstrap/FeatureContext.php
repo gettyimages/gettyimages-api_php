@@ -236,6 +236,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->assertTrue(count($searchResponse["images"]) > 0, "Expected images to have a count greater than 0");
         $this->assertTrue($searchResponse["result_count"] >= count($searchResponse["images"]) , "Expected images count to be less than or equal to resultCount");
     }
+    
+    /**                                                                                                                                                                                                                      
+     * @Then I get a response back that has a list of countries                                                                                                                                                              
+     */                                                                                                                                                                                                                      
+    public function iGetAResponseBackThatHasAListOfCountries()                                                                                                                                                               
+    {                                                                                                                                                                                                                        
+        $countriesResponse = json_decode($this->countriesResponse,true);
+        
+        $this->assertTrue(count($countriesResponse["countries"]) > 0, "Expected countries to have a count greater than 0");
+    }  
 
     /**
      * @Then /^only required return fields plus asset_family are returned$/
@@ -395,6 +405,21 @@ class FeatureContext implements Context, SnippetAcceptingContext
           $this->collectionsResponse = $sdk->Collections()->execute();
         } catch (Exception $ex) {
           $this->collectionsResponse = $ex;
+        }
+    }
+    
+    /**
+     *  @When I retrieve countries
+     */
+    public function iRetriveCountries() 
+    {
+        printf('Retrieving Countries');
+        $sdk = $this->getSDK();
+        
+        try {
+            $this->countriesResponse = $sdk->Countries()->execute();
+        } catch (Exception $ex) {
+            $this->countriesResponse = $ex;
         }
     }
 
