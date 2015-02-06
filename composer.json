@@ -1,10 +1,10 @@
 {
     "name": "gettyimages/connect_sdk",
-    "description": "Getty Images Connect PHP SDK",
+    "description": "Getty Images API SDK - PHP",
     "minimum-stability": "stable",
     "license": "MIT",
     "keywords": ["images","getty","gettyimages","photo","photos","search","creative","artist","embed"],
-    "homepage": "http://api.gettyimages.com",
+    "homepage": "http://developer.gettyimages.com",
     "authors": [
         {
             "name": "Casey MacPherson",
@@ -18,9 +18,9 @@
         }
     ],
     "support": {
-        "forum": "http://api.gettyimages.com/forum",
-        "issues": "https://github.com/gettyimages/connect_sdk_php/issues",
-        "source": "https://github.com/gettyimages/connect_sdk_php"
+        "forum": "http://developer.gettyimages.com/forum",
+        "issues": "https://github.com/gettyimages/gettyimages-api_php/issues",
+        "source": "https://github.com/gettyimages/gettyimages-api_php"
     },
     "require": {
         "php": ">=5.4.0"
