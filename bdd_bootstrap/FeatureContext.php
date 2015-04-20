@@ -52,13 +52,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
   public function getConnectBaseURI() {
     if($this->environment == "production") {
-      return "https://connect.gettyimages.com/v3";
+      return "https://api.gettyimages.com/v3";
     }
   }
 
   public function getAuthURI() {
     if($this->environment == "production") {
-      return "https://connect.gettyimages.com/oauth2/token";
+      return "https://api.gettyimages.com/oauth2/token";
     }
   }
 
@@ -188,7 +188,15 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iHaveAnImageIdIWantDetailsOn()
     {
-        $this->imageDetailParameters["imageId"] = 1234567;
+        $this->imageDetailParameters["imageId"] = "482383805";
+    }
+        
+    /**                                                                                                                                                                               
+     * @Given I have a list of image ids I want details on                                                                                                                            
+     */                                                                                                                                                                               
+    public function iHaveAListOfImageIdsIWantDetailsOn()                                                                                                                              
+    {            
+        $this->imageDetailParameters["imageIds"] = array("482383805","183559345");                                                                                                                                                
     }
 
     /**
@@ -198,7 +206,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $this->deferredSearch = $this->deferredSearch->withExcludeNudity();
     }
-
     /**
      * @Then I receive collection details
      */
@@ -363,6 +370,27 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->assertTrue(count($response["images"] > 0));
         $this->assertTrue($response["images"][0]["id"] == $expectedImageId, "Expected ID was not in the response");
     }
+    
+    /**
+     * @Then /^I get a response back that has details for multiple images$/
+     */
+    public function iGetAResponseBackThatHasDetailsForMultipleImages() {
+        $response = json_decode($this->imageDetailsResponse,true);
+
+        $expectedImageId = $this->imageDetailParameters["imageIds"][0];
+
+        $this->assertTrue(count($response["images"] > 1));
+
+        $images = $response["images"];
+
+        $foundImage = false;
+        foreach($images as $image){
+            if ($image["id"] == $expectedImageId){ 
+                $foundImage = true;
+            }
+        }
+        $this->assertTrue($foundImage, "Expected ID was not in the response");
+    }
 
     /**
      * @Then /^I receive an error$/
@@ -483,16 +511,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->searchResponse = $response;
     }
 
-    /**
-     * @When /^I retrieve image details$/
-     */
-    public function iRetrieveImageDetails()
+    /**                                                                                                                                                                               
+     * @When I retrieve details for the image        
+     * @When I retrieve image details                                                                                                                                                                                                                                                                                  
+     */                                                                                                                                                                               
+    public function iRetrieveDetailsForTheImage()                                                                                                                                     
     {
         $sdk = $this->getSDK();
 
-        $imageId = $this->imageDetailParameters['imageId'];
+        $imageId = $this->imageDetailParameters["imageId"];
         $imageFields = $this->imageDetailsFields;
-
         $sdk = $sdk->Images()->withId($imageId);
 
         for($i = 0; $i < count($imageFields); ++$i) {
@@ -501,6 +529,27 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $response = $sdk->execute();
 
+        $this->imageDetailsResponse = $response;
+    }
+
+    /**                                                                                                                                                                               
+     * @When I retrieve details for the images                                                                                                                                        
+     */                                                                                                                                                                               
+    public function iRetrieveDetailsForTheImages()                                                                                                                                    
+    { 
+        $sdk = $this->getSDK();
+        
+        $imageIds = $this->imageDetailParameters["imageIds"];
+        $imageFields = $this->imageDetailsFields;
+        
+        $sdk = $sdk->Images()->withIds($imageIds);
+
+        for($i = 0; $i < count($imageFields); ++$i) {
+            $sdk = $sdk->withResponseField($imageFields[$i]);
+        }
+
+        $response = $sdk->execute();
+        
         $this->imageDetailsResponse = $response;
     }
 
@@ -662,7 +711,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $context = $this;
 
         if(is_null($context->sdk)) {
-          printf('newing up the sdk');
           $context->sdk = new ConnectSDK($context->apiKey,$context->apiSecret,$context->username,$context->password,$context->refreshToken);
           return $context->sdk;
         }

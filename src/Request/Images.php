@@ -29,9 +29,9 @@ namespace GettyImages\Connect\Request {
             if(!$imageIds) {
                 throw new \Exception('expected $ids parameter to have at least one value');
             }
-
-            $this->imageIdsToLookup =  $imageIds;
-
+            
+            $this->requestDetails["ids"] = $imageIds;
+            
             return $this;
         }
 
@@ -63,8 +63,12 @@ namespace GettyImages\Connect\Request {
          */
         public function getRoute() {
             $imageIds = $this->imageIdsToLookup;
-
-            $route = "images/".implode(",", $imageIds);
+            
+            if(count($imageIds) == 1) {
+                $route = "images/".implode(",", $imageIds);
+            } else {
+                $route = "images";
+            }
 
             return $route;
         }
