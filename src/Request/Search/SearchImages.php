@@ -8,6 +8,8 @@ namespace GettyImages\Connect\Request\Search {
     use GettyImages\Connect\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
     use GettyImages\Connect\Request\Search\Filters\LicenseModel\LicenseModelFilter;
     use GettyImages\Connect\Request\Search\Filters\Orientation\OrientationFilter;
+    use GettyImages\Connect\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
+    use GettyImages\Connect\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;        
 
     /**
      * Provides Image Search specific behavior
@@ -74,8 +76,8 @@ namespace GettyImages\Connect\Request\Search {
         public function withPageSize($pageSize) {
             $this->requestDetails["page_size"] = $pageSize;
             return $this;
-        }
-
+        }      
+        
         /**
          * Adds the specific request field to the results
          */
@@ -130,6 +132,34 @@ namespace GettyImages\Connect\Request\Search {
             return $this;
         }
 
+        /**
+         * @param $locations
+         * @return $this
+         */
+        public function withSpecificLocations($locations) {
+            $this->requestDetails["specific_locations"] = $locations;
+
+            return $this;
+        }
+        
+        /**
+         * @param $set
+         * @return $this
+         */
+        public function withNumberOfPeople(NumberOfPeopleFilter $people) {
+            $this->appendArrayValueToRequestDetails("number_of_people",$people->getValue());
+            return $this;
+        }
+        
+        /**
+         * @param $age
+         * @return $this
+         */
+        public function withAgeOfPeople(AgeOfPeopleFilter $age) {
+            $this->appendArrayValueToRequestDetails("age_of_people",$age->getValue());
+            return $this;
+        }
+        
         /**
          * @param $order
          * @return $this

@@ -9,7 +9,6 @@
 namespace GettyImages\Connect\Request\Search\Filters\GraphicalStyle;
 
 class FineArtGraphicalStyleFilter extends GraphicalStyleFilter {
-
     function getValue()
     {
         return "fine_art";
