@@ -21,6 +21,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
   public $imageDetailsResponse = null;
   public $imageDetailParameters = array();
   public $imageIdToDownload = "165375606";
+  public $downloadParameters = array();
   public $downloadResponse = null;
   public $sdk = null;
   public $apiKey = null;
@@ -206,6 +207,23 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $this->deferredSearch = $this->deferredSearch->withExcludeNudity();
     }
+
+    /**                                                                                                                                                                               
+     * @Given /^I specify (\w+) file type$/                                                                                                                                                
+     */                                                                                                                                                                               
+    public function iSpecifyAFileType($fileType)                                                                                                                                             
+    {               
+        $this->downloadParameters["fileType"] = $fileType;                                                                                                                                                 
+    }                                                                                                                                                                                 
+                                                                                                                                                                                      
+    /**                                                                                                                                                                               
+     * @Given a pixel height                                                                                                                                                           
+     */                                                                                                                                                                               
+    public function aPixelHeight()                                                                                                                                                    
+    {                                
+        $this->downloadParameters["height"] = 2277;                                                                                                                                        
+    }
+    
     /**
      * @Then I receive collection details
      */
@@ -347,7 +365,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->assertAreEqual($downloadResponse,
             $expectedResponseURL,
             "Download Response was not pointing to correct location. Expected: " . $expectedResponseURL . " but was " . $downloadResponse);
-    }
+    } 
 
     /**
      * @Then /^the url for the image is returned$/
@@ -357,8 +375,17 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $downloadResponse = json_decode($this->downloadResponse,true);
 
         $this->assertTrue(strpos($downloadResponse["uri"], "https://delivery.gettyimages.com/xa/".$this->imageIdToDownload) === 0,"Download Response was not pointing to correct location");
-    }
+    } 
+    
+    /**                                                                                                                                                                               
+     * @Then /^the url has a (\w+) file type/                                                                                                                                              
+     */                                                                                                                                                                               
+    public function theUrlHasAFileType($fileType){
+        $downloadResponse = json_decode($this->downloadResponse,true);
 
+        $this->assertTrue(strpos($downloadResponse["uri"], $fileType) === 0,"Download is not of correct type");                                                                                                                                                 
+    }                                                                                                                                                                                 
+    
     /**
      * @Then /^I get a response back that has my image details$/
      */
@@ -405,8 +432,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         }
 
         $this->assertTrue(is_a($response,'\Exception',true), "Expected Response Object to be an exception");
-    }
-
+    }                                                                                                                                                                                
 
     /**
      * @When /^I ask the sdk for an authentication token$/
@@ -457,16 +483,23 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iRequestForAnyImageToBeDownloaded()
     {
         $context = $this;
-        $sdk = $this->getSDK();
+        $downloadSdk = $this->getSDK()->Download();
 
+        if (array_key_exists("fileType", $context->downloadParameters)) {
+            $downloadSdk = $downloadSdk->withFileType($context->downloadParameters["fileType"]);
+        }
+        
+        if (array_key_exists("height", $context->downloadParameters)) {
+            $downloadSdk = $downloadSdk->withHeight($context->downloadParameters["height"]);
+        }
+        
         try {
-            $response = $sdk->Download()
-                ->withId($context->imageIdToDownload)
-                ->execute();
+            $imageIdToDownload = $context->imageIdToDownload;
+            $response = $downloadSdk->withId($imageIdToDownload)->execute();
 
             $context->downloadResponse = $response;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $context->downloadResponse = $e;
         }
     }
@@ -627,7 +660,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
                           ->withLicenseModel($licenseModelToGet);
 
         $this->deferredSearch = $searchObj;
-    }
+    }                                                                                                                                                                                
+                                                                                                                                                                               
+                                                                                                                                                                                      
 
     private static function parseStringToStaticType($className,$value) {
         $reflector = new ReflectionClass($className);

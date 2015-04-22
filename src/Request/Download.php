@@ -5,7 +5,7 @@ namespace GettyImages\Connect\Request {
     class Download extends FluentRequest {
 
         protected function getRoute() {
-            return "downloads";
+            return "downloads/images";
         }
 
         public function withId($assetId) {
@@ -15,6 +15,11 @@ namespace GettyImages\Connect\Request {
 
         public function withHeight($height) {
             $this->requestDetails["height"] = $height;
+            return $this;
+        }
+        
+        public function withFileType($fileType) {
+            $this->requestDetails["file_type"] = $fileType;
             return $this;
         }
 
@@ -32,7 +37,6 @@ namespace GettyImages\Connect\Request {
                     "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
                                        
             $response = WebHelper::postWithNoBody($endpointUrl, $this->requestDetails, $credentialHeaders);
-
             
             if($response["http_code"] != 200 && $response["http_code"] != 303) {
                 throw new \Exception("Non 200/303 status code returned: '" . $response["http_code"] . "'\nBody: ". $response["body"] . "\nCurl Error: " . $response["curl_error"]);
