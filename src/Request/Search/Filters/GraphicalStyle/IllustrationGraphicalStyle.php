@@ -9,7 +9,7 @@
 namespace GettyImages\Connect\Request\Search\Filters\GraphicalStyle;
 
 class IllustrationGraphicalStyleFilter extends GraphicalStyleFilter {
-    function getValue()
+    public function getValue()
     {
         return "illustration";
     }

@@ -2,10 +2,15 @@
 
 namespace GettyImages\Connect\Request\Search {
     //Require Filters
+    require_once("Filters/Ethnicity/EthnicityFilter.php");
     require_once("Filters/EditorialSegment/EditorialSegmentFilter.php");
     require_once("Filters/GraphicalStyle/GraphicalStyleFilter.php");
     require_once("Filters/LicenseModel/LicenseModelFilter.php");
     require_once("Filters/Orientation/OrientationFilter.php");
+    require_once("Filters/NumberOfPeople/NumberOfPeopleFilter.php");
+    require_once("Filters/AgeOfPeople/AgeOfPeopleFilter.php");
+    require_once("Filters/FileType/FileTypeFilter.php");
+    require_once("Filters/Composition/CompositionFilter.php");
 
     //Require Other Search Types
     require_once("SearchImages.php");

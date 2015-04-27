@@ -7,6 +7,9 @@ include __DIR__."/../src/ConnectSDK.php";
 use GettyImages\Connect\ConnectSDK;
 use GettyImages\Connect\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
 use GettyImages\Connect\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
+use GettyImages\Connect\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;
+use GettyImages\Connect\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
+use GettyImages\Connect\Request\Search\Filters\Ethnicity\EthinicityFilter;
 
 /**
  * Features context.
@@ -34,6 +37,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
   public $useSandboxCredentials = false;
   public $imageDetailsFields = array();
   public $environment;
+
+  private $collectionCode = null;
 
   /**
    * Initializes context.
@@ -206,15 +211,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iHaveRequestedToExcludeNudity()
     {
         $this->deferredSearch = $this->deferredSearch->withExcludeNudity();
-    }
-
-    /**                                                                                                                                                                               
-     * @Given /^I specify (\w+) file type$/                                                                                                                                                
-     */                                                                                                                                                                               
-    public function iSpecifyAFileType($fileType)                                                                                                                                             
-    {               
-        $this->downloadParameters["fileType"] = $fileType;                                                                                                                                                 
-    }                                                                                                                                                                                 
+    }                                                                                                                                                                               
                                                                                                                                                                                       
     /**                                                                                                                                                                               
      * @Given a pixel height                                                                                                                                                           
@@ -223,7 +220,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {                                
         $this->downloadParameters["height"] = 2277;                                                                                                                                        
     }
-    
+
     /**
      * @Then I receive collection details
      */
@@ -365,7 +362,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->assertAreEqual($downloadResponse,
             $expectedResponseURL,
             "Download Response was not pointing to correct location. Expected: " . $expectedResponseURL . " but was " . $downloadResponse);
-    } 
+    }
 
     /**
      * @Then /^the url for the image is returned$/
@@ -375,17 +372,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $downloadResponse = json_decode($this->downloadResponse,true);
 
         $this->assertTrue(strpos($downloadResponse["uri"], "https://delivery.gettyimages.com/xa/".$this->imageIdToDownload) === 0,"Download Response was not pointing to correct location");
-    } 
-    
+    }
+
     /**                                                                                                                                                                               
      * @Then /^the url has a (\w+) file type/                                                                                                                                              
      */                                                                                                                                                                               
     public function theUrlHasAFileType($fileType){
         $downloadResponse = json_decode($this->downloadResponse,true);
-
         $this->assertTrue(strpos($downloadResponse["uri"], $fileType) === 0,"Download is not of correct type");                                                                                                                                                 
-    }                                                                                                                                                                                 
-    
+    } 
+
     /**
      * @Then /^I get a response back that has my image details$/
      */
@@ -432,7 +428,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
         }
 
         $this->assertTrue(is_a($response,'\Exception',true), "Expected Response Object to be an exception");
-    }                                                                                                                                                                                
+    }
+
 
     /**
      * @When /^I ask the sdk for an authentication token$/
@@ -492,13 +489,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
         if (array_key_exists("height", $context->downloadParameters)) {
             $downloadSdk = $downloadSdk->withHeight($context->downloadParameters["height"]);
         }
-        
+
         try {
             $imageIdToDownload = $context->imageIdToDownload;
             $response = $downloadSdk->withId($imageIdToDownload)->execute();
-
             $context->downloadResponse = $response;
-
         } catch (Exception $e) {
             $context->downloadResponse = $e;
         }
@@ -532,6 +527,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $this->searchResponse = $response;
     }
+
+    /**
+     * @When I search
+     */
+    public function iSearchWithoutPhrase()
+    {
+        $response = $this->deferredSearch->execute();
+
+        $this->searchResponse = $response;
+    }    
 
     /**
      * @When /^I retrieve the results$/
@@ -641,9 +646,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
                         '\GettyImages\Connect\Request\Search\Filters\Orientation\OrientationFilter',
                         $orientation);
 
-        $searchObj = $this->deferredSearch
-                          ->withOrientation($orientation);
-
+        $searchObj = $this->deferredSearch->withOrientation($orientation);
         $this->deferredSearch = $searchObj;
     }
 
@@ -656,13 +659,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
                                 '\GettyImages\Connect\Request\Search\Filters\LicenseModel\LicenseModelFilter',
                                 $licenseModel);
 
-        $searchObj = $this->deferredSearch
-                          ->withLicenseModel($licenseModelToGet);
-
+        $searchObj = $this->deferredSearch->withLicenseModel($licenseModelToGet);
         $this->deferredSearch = $searchObj;
-    }                                                                                                                                                                                
-                                                                                                                                                                               
-                                                                                                                                                                                      
+    }
 
     private static function parseStringToStaticType($className,$value) {
         $reflector = new ReflectionClass($className);
@@ -678,7 +677,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         return false;
     }
-    
+
     private static function MapKnownIllegalValuesToLegalMethodName($name)    
     {                
         $legalNameMap  = array(
@@ -707,13 +706,15 @@ class FeatureContext implements Context, SnippetAcceptingContext
             '45-49_years' => 'FortyFiveToFortyNine_Years',
             '50-54_years' => 'FiftyToFiftyFour_Years',
             '50-59_years' => 'FiftyToFiftyNine_Years',
+            '55-59_years' => 'FiftyFiveToFiftyNine_Years',
             '60-64_years' => 'SixtyToSixtyFour_Years',
             '60-69_years' => 'SixtyToSixtyNine_Years',
             '65-69_years' => 'SixtyFiveToSixtyNine_Years',
             '70-79_years' => 'SeventyToSeventyNine_Years',
             '80-89_years' => 'EightyToEightyNine_Years',
             '90_plus_years' => 'NinetyPlus_Years',
-            '100_over' => 'OneHundredAndOver_Years'
+            '100_over' => 'OneHundredAndOver_Years',
+            'abstract' => 'Abstract_'
         );
         
         if (!array_key_exists($name, $legalNameMap)) return $name;
@@ -729,7 +730,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $edSeg = self::parseStringToStaticType(
                         '\GettyImages\Connect\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter',
                         $editorialSegment);
-        
+
         $search = $this->deferredSearch->withEditorialSegment($edSeg);
         $this->deferredSearch = $search;
     }
@@ -746,27 +747,145 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $searchObject = $this->deferredSearch->withGraphicalStyle($edSeg);
 
         $this->deferredSearch = $searchObject;
-    }         
+    }
+
+    /**                                                                                                                                                                                                  
+     * @When I specify an artist                                                                                                                                                                         
+     */                                                                                                                                                                                                  
+    public function iSpecifyAnArtist()                                                                                                                                                                   
+    {                                                                                                                                                                                                    
+        $response = $this->deferredSearch->withArtists("roman makhmutov");
+    }                                                                                                                                                                                                   
+                                                                                                                                                                                                         
+    /**                                                                                                                                                                                                  
+     * @When /^I specify a (\w+) collection code$/                                                                                                                                                             
+     */                                                                                                                                                                                                  
+    public function iSpecifyACollectionCode($collectionCode)                                                                                                                                                         
+    {          
+        $this->collectionCode = $collectionCode;                                                                                                                                                                  
+    }    
     
     /**                                                                                                                                                                                                  
-     * @When I search                                                                                                                                                                                    
+     * @When I specify a collection code                                                                                                                                                         
      */                                                                                                                                                                                                  
-    public function iSearch()                                                                                                                                                                            
+    public function iSpecifySomeCollectionCode()                                                                                                                                                         
+    {          
+        $this->collectionCode = "wri";                                                                                                                                                                  
+    }     
+                                                                                                                                                                                                         
+    /**                                                                                                                                                                                                  
+     * @When I specify a include collection filter type                                                                                                                                                  
+     */                                                                                                                                                                                                  
+    public function iSpecifyAIncludeCollectionFilterType()                                                                                                                                               
     {                                                                                                                                                                                                    
-        $this->searchResponse = $response;                                                                                                                                                                   
-    }      
-    
+        $response = $this->deferredSearch->withCollectionCode($this->collectionCode);
+    }                                                                                                                                                                                                    
+                                                                                                                                                                                                         
+    /**                                                                                                                                                                                                  
+     * @When I specify a exclude collection filter type                                                                                                                                                  
+     */                                                                                                                                                                                                  
+    public function iSpecifyAExcludeCollectionFilterType()                                                                                                                                               
+    {                                                                                                                                                                                                    
+        $response = $this->deferredSearch->withoutCollectionCode($this->collectionCode);
+    }                                                                                                                                                                                                         
+            
     /**                                                                                                                                                                                                                                    
      * @When /^I specify a location of (\w+)$/                                                                                                                                                                                            
      */                                                                                                                                                                                                                                    
     public function iSpecifyALocation($location)                                                                                                                                                                                        
     {                                
-        //free text: california, chicago, seattle
-        $response = $this->deferredSearch->withSpecificLocations($location)->execute();      
+        $response = $this->deferredSearch->withSpecificLocations($location);
+    }                                                                                                                                 
+                                                                                                                                      
+    /**                                                                                                                               
+     * @When I specify a specific person                                                                                              
+     */                                                                                                                               
+    public function iSpecifyASpecificPerson()                                                                                         
+    {                                
+        $response = $this->deferredSearch->withSpecificPeople("Reggie Jackson"); 
     }
     
+    /**                                                                                                                               
+     * @When I specify an event id                                                                                                     
+     */                                                                                                                               
+    public function iSearchForAnEventId()                                                                                                
+    {    
+        $response = $this->deferredSearch->withEventId(550100521);   
+    }
+                                                                                                                                      
+    /**                                                                                                                               
+     * @When I specify I want only prestige images                                                                                    
+     */                                                                                                                               
+    public function iSpecifyIWantOnlyPrestigeImages()                                                                                 
+    {                                                                         
+        $response = $this->deferredSearch->withOnlyPrestigeContent();
+    }      
+    
+    /**                                                                                                                                                                                                  
+     * @When /^I specify an (\w+) ethnicity$/
+     */                                                                                                                                                                                                  
+    public function iSpecifyAnEthnicity($ethnicity)                                                                                                                                                                                                          
+    {              
+        $ethnicityType = self::parseStringToStaticType(
+                        '\GettyImages\Connect\Request\Search\Filters\Ethnicity\EthnicityFilter',
+                        $ethnicity);
+        
+        $response = $this->deferredSearch->withEthnicity($ethnicityType);
+    }
+    
+    /**                                                                                                                                                                                                                                                   
+     * @When /^I specify a (\w+) composition$/
+     */                                                                                                                                                                                                                                                   
+    public function iSpecifyAStillLifeComposition($composition)                                                                                                                                                                                              
+    {   
+        $compositionType = self::parseStringToStaticType(
+                        '\GettyImages\Connect\Request\Search\Filters\Composition\CompositionFilter',
+                        $composition);
+        
+        $response = $this->deferredSearch->withComposition($compositionType);
+    }
+    
+    /**                                                                                                                                                                                                                                                   
+     * @When I specify a keyword id
+     */                                                                                                                                                                                                                                                   
+    public function iSpecifyAKeywordId()                                                                                                                                                                                                    
+    {                                                                                                                                                                                                                                                     
+        $response = $this->deferredSearch->withKeywordId(62361);
+    }    
+    
+    /**                                                                                                                                                                                                  
+     * @When /^I specify a (\w+) file type$/                                                                                                                                                                   
+     */                                                                                                                                                                                                  
+    public function iSpecifyAFileType($fileType)                                                                                                                                                               
+    {        
+        $this->downloadParameters["fileType"] = $fileType;
+
+        $fileTypeEnum = self::parseStringToStaticType(
+                        '\GettyImages\Connect\Request\Search\Filters\FileType\FileTypeFilter',
+                        $fileType);
+        
+        $response = $this->deferredSearch->withFileType($fileTypeEnum);
+    }                                                                                                                                                                                                          
+                                                                                                                                      
+    /**                                                                                                                               
+     * @When /^I specify a (\w+) product type$/
+     */                                                                                                    
+    public function iSpecifyAProductType($productType)
+    {                                                                                                                                 
+        $response = $this->deferredSearch->withProductType($productType);
+    }    
+    
+    /**                                                                                                                                                                                                  
+     * @When /^I specify a one number of people$/                                                                                                                                                   
+     */                                                                                                                                                                                                  
+    //public function iSpecifyAOneNumberOfPeopleInImage($number)                                                                                                                                                  
+    //{                                                                                                                                                                                                    
+    //    iSpecifyANumberOfPeopleInImage($number);
+    //}                                                                                                                                                                                                    
+              
+    
     /**                                                                                                                                                                                                                                    
-     * @When /^I specify a (\w+) number of people$/
+     * @When /^I specify a (\w+) number of people in image$/
      */
     public function iSpecifyANumberOfPeopleInImage($number)                                                                                                                                                                                   
     {         
@@ -788,24 +907,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
                         $age);
         
         $searchObject = $this->deferredSearch->withAgeOfPeople($ageType);                                                                                                                                                                                                 
-    }
-    
-    /**********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    ***********************************************************************************************
-    **********************************************************************************************/     
-    
-    
+    }    
+
     /**
      * @Then an access token is returned
      */

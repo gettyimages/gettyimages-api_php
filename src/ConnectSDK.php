@@ -39,9 +39,9 @@ namespace GettyImages\Connect {
         private $credentials = null;
 
         /** @ignore */
-        private $connectBaseUri = "https://connect.gettyimages.com/v3";
+        private $connectBaseUri = "https://api.gettyimages.com/v3";
 
-        private $authEndpoint = "https://connect.gettyimages.com/oauth2/token";
+        private $authEndpoint = "https://api.gettyimages.com/oauth2/token";
 
         /**
          * Constructor for ConnectSDK
