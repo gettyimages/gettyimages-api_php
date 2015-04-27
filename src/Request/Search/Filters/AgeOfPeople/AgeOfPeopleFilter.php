@@ -3,6 +3,7 @@
 namespace GettyImages\Connect\Request\Search\Filters\AgeOfPeople {
 
     abstract class AgeOfPeopleFilter {
+        
         public static function Newborn() {
             return new SpecificAgeFilter("newborn");
         }

@@ -10,6 +10,9 @@ namespace GettyImages\Connect\Request\Search {
     use GettyImages\Connect\Request\Search\Filters\Orientation\OrientationFilter;
     use GettyImages\Connect\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
     use GettyImages\Connect\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;        
+    use GettyImages\Connect\Request\Search\Filters\Ethnicity\EthnicityFilter;
+    use GettyImages\Connect\Request\Search\Filters\FileType\FileTypeFilter;
+    use GettyImages\Connect\Request\Search\Filters\Composition\CompositionFilter;
 
     /**
      * Provides Image Search specific behavior
@@ -76,8 +79,8 @@ namespace GettyImages\Connect\Request\Search {
         public function withPageSize($pageSize) {
             $this->requestDetails["page_size"] = $pageSize;
             return $this;
-        }      
-        
+        }
+
         /**
          * Adds the specific request field to the results
          */
@@ -86,18 +89,22 @@ namespace GettyImages\Connect\Request\Search {
             return $this;
         }
 
-        public function withProductType($type) {
-            $this->appendArrayValueToRequestDetails("product_types", $type);
+        /**
+         * @param ProductTypeFilter $productType
+         * @throws Exception
+         * @return $this
+         */
+        public function withProductType($productType) {
+            $this->appendArrayValueToRequestDetails("product_types", $productType);
             return $this;
         }
 
         /**
          * @param OrientationFilter $orientation
-         * @internal param \Orientation|\use $orientationName use values from Orientation::
+         * @throws Exception
          * @return $this
          */
         public function withOrientation(OrientationFilter $orientation) {
-
             $this->appendArrayValueToRequestDetails("orientations",$orientation->getValue());
             return $this;
         }
@@ -108,7 +115,6 @@ namespace GettyImages\Connect\Request\Search {
          * @return $this
          */
         public function withLicenseModel(LicenseModelFilter $licenseModel) {
-
             $this->appendArrayValueToRequestDetails("license_models",$licenseModel->getValue());
             return $this;
         }
@@ -133,12 +139,113 @@ namespace GettyImages\Connect\Request\Search {
         }
 
         /**
+         * @param $ethnicity
+         * @throws Exception
+         * @return $this
+         */
+        public function withEthnicity(EthnicityFilter $ethnicity) {
+            $this->appendArrayValueToRequestDetails("ethnicity",$ethnicity->getValue());
+            return $this;
+        }
+
+        /**
          * @param $locations
          * @return $this
          */
         public function withSpecificLocations($locations) {
             $this->requestDetails["specific_locations"] = $locations;
-
+            return $this;
+        }
+        
+        /**
+         * @param $people
+         * @return $this
+         */
+        public function withSpecificPeople($people) {
+            $this->requestDetails["specific_people"] = $people;
+            return $this;
+        }        
+        
+        /**
+         * @param $artists
+         * @return $this
+         */
+        public function withArtists($artists) {
+            $this->requestDetails["artists"] = $artists;
+            return $this;
+        }        
+        
+        /**
+         * @param $composition
+         * @return $this
+         */
+        public function withComposition(CompositionFilter $compositions) {
+            $this->appendArrayValueToRequestDetails("compositions",$compositions->getValue());
+            return $this;
+        }
+        
+        /**
+         * @param $fileType
+         * @throws Exception
+         * @return $this
+         */
+        public function withFileType(FileTypeFilter $fileType) {
+            $this->appendArrayValueToRequestDetails("file_types",$fileType->getValue());
+            return $this;
+        }
+        
+        /**
+         * @param $collectionCode
+         * @return $this
+         */
+        public function withCollectionCode($collectionCode) {
+            $this->requestDetails["collection_codes"] = $collectionCode;
+            $this->requestDetails["collections_filter_type"] = "include";
+            return $this;
+        }
+        
+        /**
+         * @param $collectionCode
+         * @return $this
+         */
+        public function withoutCollectionCode($collectionCode) {
+            $this->requestDetails["collection_codes"] = $collectionCode;
+            $this->requestDetails["collections_filter_type"] = "exclude";
+            return $this;
+        }
+        
+        /**
+         * @param $keywordId
+         * @throws Exception
+         * @return $this
+         */
+        public function withKeywordId($keywordId) {
+            if (!is_int($keywordId) || $keywordId<0) {
+                throw new InvalidArgumentException('withKeywordId function only accepts positive integers. Input was: '.$keywordId); 
+            }
+            $this->requestDetails["keyword_ids"] = $keywordId;
+            return $this;
+        }        
+        
+        /**
+         * Scopes response down to only prestige curated content
+         */
+        public function withOnlyPrestigeContent()
+        {
+            $this->requestDetails["prestige_content_only"] = "true";
+            return $this;
+        }
+        
+       /**
+         * @param $eventId
+         * @throws Exception
+         * @return $this
+         */
+        public function withEventId($eventId) {
+            if (!is_int($eventId) || $eventId<0) {
+                throw new InvalidArgumentException('withEventId function only accepts positive integers. Input was: '.$eventId); 
+            }
+            $this->requestDetails["event_ids"] = $eventId;
             return $this;
         }
         
@@ -158,7 +265,7 @@ namespace GettyImages\Connect\Request\Search {
         public function withAgeOfPeople(AgeOfPeopleFilter $age) {
             $this->appendArrayValueToRequestDetails("age_of_people",$age->getValue());
             return $this;
-        }
+        }             
         
         /**
          * @param $order
