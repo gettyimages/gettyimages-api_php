@@ -6,7 +6,7 @@
  * Time: 11:33 AM
  */
 
-namespace GettyImages\Connect\Request\Search\Filters\GraphicalStyle;
+namespace GettyImages\Api\Request\Search\Filters\GraphicalStyle;
 
 class IllustrationGraphicalStyleFilter extends GraphicalStyleFilter {
     public function getValue()

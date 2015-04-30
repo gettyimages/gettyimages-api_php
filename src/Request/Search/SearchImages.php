@@ -3,16 +3,16 @@
  * Contains the implementations of Image Searching
  */
 
-namespace GettyImages\Connect\Request\Search {
+namespace GettyImages\Api\Request\Search {
     use Exception;
-    use GettyImages\Connect\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
-    use GettyImages\Connect\Request\Search\Filters\LicenseModel\LicenseModelFilter;
-    use GettyImages\Connect\Request\Search\Filters\Orientation\OrientationFilter;
-    use GettyImages\Connect\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
-    use GettyImages\Connect\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;        
-    use GettyImages\Connect\Request\Search\Filters\Ethnicity\EthnicityFilter;
-    use GettyImages\Connect\Request\Search\Filters\FileType\FileTypeFilter;
-    use GettyImages\Connect\Request\Search\Filters\Composition\CompositionFilter;
+    use GettyImages\Api\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
+    use GettyImages\Api\Request\Search\Filters\LicenseModel\LicenseModelFilter;
+    use GettyImages\Api\Request\Search\Filters\Orientation\OrientationFilter;
+    use GettyImages\Api\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
+    use GettyImages\Api\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;        
+    use GettyImages\Api\Request\Search\Filters\Ethnicity\EthnicityFilter;
+    use GettyImages\Api\Request\Search\Filters\FileType\FileTypeFilter;
+    use GettyImages\Api\Request\Search\Filters\Composition\CompositionFilter;
 
     /**
      * Provides Image Search specific behavior

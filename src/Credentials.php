@@ -1,14 +1,14 @@
 <?php
 
-namespace GettyImages\Connect {
+namespace GettyImages\Api {
 
-    use GettyImages\Connect\Exception\CredentialValidationException;
-    use GettyImages\Connect\Exception\UnknownCredentialTypeException;
-    use GettyImages\Connect\Request\Oauth2;
-    use GettyImages\Connect\Request\WebHelper;
+    use GettyImages\Api\Exception\CredentialValidationException;
+    use GettyImages\Api\Exception\UnknownCredentialTypeException;
+    use GettyImages\Api\Request\Oauth2;
+    use GettyImages\Api\Request\WebHelper;
 
     /**
-     *  Provides token management for the Connect SDK.
+     *  Provides token management for the GettyImages API SDK.
      *
      */
     class Credentials {
@@ -29,7 +29,7 @@ namespace GettyImages\Connect {
         private $endpointUri = null;
 
         /**
-         * Creates an instance of your Connect credentials either through explicitly setting of them or
+         * Creates an instance of your GettyImages credentials either through explicitly setting of them or
          * implicitly pulling them from the environment.
          *
          * @param string $endpointUri The uri where the oauth2 endpoint is.

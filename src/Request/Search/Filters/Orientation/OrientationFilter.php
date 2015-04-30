@@ -6,7 +6,7 @@
  * Time: 10:45 AM
  */
 
-namespace GettyImages\Connect\Request\Search\Filters\Orientation {
+namespace GettyImages\Api\Request\Search\Filters\Orientation {
 
     require_once('HorizontalOrientationFilter.php');
     require_once('PanoramicHorizontalOrientationFilter.php');

@@ -6,7 +6,7 @@
  * Time: 11:44 AM
  */
 
-namespace GettyImages\Connect\Request\Search\Filters\EditorialSegment {
+namespace GettyImages\Api\Request\Search\Filters\EditorialSegment {
 
     require_once("EntertainmentEditorialSegment.php");
     require_once("NewsEditorialSegment.php");

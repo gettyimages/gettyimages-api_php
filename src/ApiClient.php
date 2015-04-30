@@ -1,6 +1,6 @@
 <?php
 /**
- * Connect SDK by Getty Images.
+ * GettyImages API SDK by Getty Images.
  * Provides an interface to Getty Images connect api.
  *
  * The goal of the SDK is to simplify credential management and provide a reusable library
@@ -12,7 +12,7 @@
  *
  */
 
-namespace GettyImages\Connect {
+namespace GettyImages\Api {
     require_once("Request/FluentRequest.php");
     require_once("Credentials.php");
     require_once("Request/Collections.php");
@@ -22,24 +22,25 @@ namespace GettyImages\Connect {
     require_once("Request/Images.php");
     require_once("Request/Search/Search.php");
 
-    use GettyImages\Connect\Request\Search\Search;
-    use GettyImages\Connect\Request\Download;
-    use GettyImages\Connect\Request\Images;
-    use GettyImages\Connect\Request\Collections;
-    use GettyImages\Connect\Request\Countries;
+    use GettyImages\Api\Request\Search\Search;
+    use GettyImages\Api\Request\Download;
+    use GettyImages\Api\Request\Images;
+    use GettyImages\Api\Request\Collections;
+    use GettyImages\Api\Request\Countries;
+    use GettyImages\Api\Crendentials;
 
     /**
-     * ConnectSDK
+     * GettyImages API SDK - GettyImages_Client
      *
      * Provides a code api for interacting with Getty Images REST services @ http://api.gettyimages.com.
      */
-    class ConnectSDK {
+    class GettyImages_Client {
 
         /** @ignore */
         private $credentials = null;
 
         /** @ignore */
-        private $connectBaseUri = "https://api.gettyimages.com/v3";
+        private $apiBaseUri = "https://api.gettyimages.com/v3";
 
         private $authEndpoint = "https://api.gettyimages.com/oauth2/token";
 
@@ -78,7 +79,7 @@ namespace GettyImages\Connect {
          * @return Search A search request object initially configured with credentials
          */
         public function Search() {
-            $searchObj = new Search($this->credentials,$this->connectBaseUri);
+            $searchObj = new Search($this->credentials,$this->apiBaseUri);
 
             return $searchObj;
         }
@@ -92,7 +93,7 @@ namespace GettyImages\Connect {
          * @return Images
          */
         public function Images() {
-            $imagesObj = new Images($this->credentials,$this->connectBaseUri);
+            $imagesObj = new Images($this->credentials,$this->apiBaseUri);
 
             return $imagesObj;
         }
@@ -106,18 +107,18 @@ namespace GettyImages\Connect {
          * @return Download
          */
         public function Download() {
-            $downloadObj = new Download($this->credentials,$this->connectBaseUri);
+            $downloadObj = new Download($this->credentials,$this->apiBaseUri);
 
             return $downloadObj;
         }
 
         public function Collections() {
-            $collectionsObj = new Collections($this->credentials,$this->connectBaseUri);
+            $collectionsObj = new Collections($this->credentials,$this->apiBaseUri);
             return $collectionsObj;
         }
 
         public function Countries() {
-            $countriesObj = new Countries($this->credentials,$this->connectBaseUri);
+            $countriesObj = new Countries($this->credentials,$this->apiBaseUri);
             return $countriesObj;
         }
 

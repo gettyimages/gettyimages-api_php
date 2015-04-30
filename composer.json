@@ -15,6 +15,11 @@
           "name": "Mark Pitman",
           "email": "mark.pitman@gettyimages.com",
           "role": "Developer"
+        },
+        {
+          "name": "Jeff Gustafson",
+          "email": "jeffgoo@gmail.com",
+          "role": "Software Design Engineer"
         }
     ],
     "support": {
@@ -31,7 +36,7 @@
     },
     "autoload" : {
         "psr-4" : {
-            "GettyImages\\Connect\\": "src/"
+            "GettyImages\\Api\\": "src/"
         }
     }
 }

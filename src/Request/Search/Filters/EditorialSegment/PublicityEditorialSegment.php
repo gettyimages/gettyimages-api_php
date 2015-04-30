@@ -6,7 +6,7 @@
  * Time: 4:00 PM
  */
 
-namespace GettyImages\Connect\Request\Search\Filters\EditorialSegment;
+namespace GettyImages\Api\Request\Search\Filters\EditorialSegment;
 
 
 class PublicityEditorialSegmentFilter extends EditorialSegmentFilter{

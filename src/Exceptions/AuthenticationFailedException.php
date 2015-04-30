@@ -1,10 +1,10 @@
 <?php
 /**
- * Exceptions thrown by the Connect SDK and supporting classes
+ * Exceptions thrown by the GettyImages API Client SDK and supporting classes
  *
  */
 
-namespace GettyImages\Connect\Exception {
+namespace GettyImages\Api\Exception {
 
 
     /**

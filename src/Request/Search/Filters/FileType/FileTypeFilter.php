@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\Connect\Request\Search\Filters\FileType {
+namespace GettyImages\Api\Request\Search\Filters\FileType {
 
     abstract class FileTypeFilter {
 

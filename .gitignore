@@ -4,8 +4,7 @@ build/**
 vendor/
 .idea
 composer.lock
-composer.phar
-ConnectSDK.phar
+*.phar
 .codio
 README_codio.md
 

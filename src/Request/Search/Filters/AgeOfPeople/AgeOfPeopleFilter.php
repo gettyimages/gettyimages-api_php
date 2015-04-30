@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\Connect\Request\Search\Filters\AgeOfPeople {
+namespace GettyImages\Api\Request\Search\Filters\AgeOfPeople {
 
     abstract class AgeOfPeopleFilter {
         

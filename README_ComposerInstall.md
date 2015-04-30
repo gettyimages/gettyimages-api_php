@@ -11,7 +11,7 @@ Create composer.json with these contents
 
     {
       "require": {
-	       "gettyimages/connect_sdk": "dev-master"
+	       "gettyimages/apiclient": "dev-master"
       }
     }
 
@@ -23,17 +23,17 @@ Create your .php file
 
     <?php
       require 'vendor/autoload.php';
-      use GettyImages\Connect\ConnectSDK;
+      use GettyImages\Api\GettyImages_Client;
 
       $apiKey = "myApiKey";
       $apiSecret = "myApiSecret";
 
-      $sdk = new ConnectSDK($apiKey,$apiSecret);
+      $client = new GettyImages_Client($apiKey,$apiSecret);
 
-      $response = $sdk->Search()->Images()->withPhrase("dog")->execute();
+      $response = $client->Search()->Images()->withPhrase("dog")->execute();
 
       var_dump($response);
 
 ### Already established Project
 
-    composer require gettyimages/connect_sdk
+    composer require gettyimages/apiclient

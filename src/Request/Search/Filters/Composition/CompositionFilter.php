@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\Connect\Request\Search\Filters\Composition {
+namespace GettyImages\Api\Request\Search\Filters\Composition {
 
     abstract class CompositionFilter {
         public static function Abstract_() {
