@@ -1,11 +1,11 @@
 <?php
 
-namespace GettyImages\ApiClient {
+namespace GettyImages\Api {
 
-    use GettyImages\ApiClient\Exception\CredentialValidationException;
-    use GettyImages\ApiClient\Exception\UnknownCredentialTypeException;
-    use GettyImages\ApiClient\Request\Oauth2;
-    use GettyImages\ApiClient\Request\WebHelper;
+    use GettyImages\Api\Exception\CredentialValidationException;
+    use GettyImages\Api\Exception\UnknownCredentialTypeException;
+    use GettyImages\Api\Request\Oauth2;
+    use GettyImages\Api\Request\WebHelper;
 
     /**
      *  Provides token management for the GettyImages API SDK.

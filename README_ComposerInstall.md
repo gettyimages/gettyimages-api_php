@@ -23,7 +23,7 @@ Create your .php file
 
     <?php
       require 'vendor/autoload.php';
-      use GettyImages\ApiClient\GettyImages_Client;
+      use GettyImages\Api\GettyImages_Client;
 
       $apiKey = "myApiKey";
       $apiSecret = "myApiSecret";

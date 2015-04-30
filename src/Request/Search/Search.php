@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\ApiClient\Request\Search {
+namespace GettyImages\Api\Request\Search {
     //Require Filters
     require_once("Filters/Ethnicity/EthnicityFilter.php");
     require_once("Filters/EditorialSegment/EditorialSegmentFilter.php");
@@ -17,8 +17,8 @@ namespace GettyImages\ApiClient\Request\Search {
     require_once("SearchImagesCreative.php");
     require_once("SearchImagesEditorial.php");
 
-    use GettyImages\ApiClient\Request\FluentRequest;
-    use GettyImages\ApiClient\Request\WebHelper;
+    use GettyImages\Api\Request\FluentRequest;
+    use GettyImages\Api\Request\WebHelper;
 
     /**
      * Provides the basic infrastructure for building up a Search Request.

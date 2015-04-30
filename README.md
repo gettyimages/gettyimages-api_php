@@ -29,12 +29,12 @@ If everything is setup on your machine where PHP will run, you can most likely r
 
     Build.sh
 
-This will put ApiClient.phar in a build folder. Then you can use the package as you would any other phar.
+This will put GettyImagesApi.phar in a build folder. Then you can use the package as you would any other phar.
 
 The build does a few things for you automatically
 1. Determines if you have composer.phar and will retrieve it if you don't have it
 1. Runs composer install to get dependencies that are outlined in the composer.json file
-1. Then produces the phar file in ./build/ApiClient.phar
+1. Then produces the phar file in ./build/GettyImagesApi.phar
 
 ## Manually Installing PHP libraries
 

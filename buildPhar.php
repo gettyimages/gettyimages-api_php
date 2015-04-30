@@ -5,12 +5,12 @@ use Phine\Phar\Builder;
 use Phine\Phar\Stub;
 
 // create a new Phar instance
-$builder = Builder::create('./build/ApiClient.phar');
+$builder = Builder::create('./build/GettyImagesApi.phar');
 
 $builder->buildFromDirectory('./src');
 $builder->setStub(
     Stub::create()
-        ->addRequire('ApiClient.php')
-        ->mapPhar("ApiClient.phar")
+        ->addRequire('GettyImagesApi.php')
+        ->mapPhar("GettyImagesApi.phar")
         ->selfExtracting()
         ->getStub());

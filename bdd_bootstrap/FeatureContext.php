@@ -4,12 +4,12 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 
 include __DIR__."/../src/ApiClient.php";
 
-use GettyImages\ApiClient\GettyImages_Client;
-use GettyImages\ApiClient\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
-use GettyImages\ApiClient\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
-use GettyImages\ApiClient\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;
-use GettyImages\ApiClient\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
-use GettyImages\ApiClient\Request\Search\Filters\Ethnicity\EthinicityFilter;
+use GettyImages\Api\GettyImages_Client;
+use GettyImages\Api\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
+use GettyImages\Api\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
+use GettyImages\Api\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;
+use GettyImages\Api\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
+use GettyImages\Api\Request\Search\Filters\Ethnicity\EthinicityFilter;
 
 /**
  * Features context.
@@ -643,7 +643,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAnOrientation($orientation)
     {
         $orientation = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\Orientation\OrientationFilter',
+                        '\GettyImages\Api\Request\Search\Filters\Orientation\OrientationFilter',
                         $orientation);
 
         $searchObj = $this->deferredSearch->withOrientation($orientation);
@@ -656,7 +656,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyALicenseModel($licenseModel)
     {
         $licenseModelToGet = self::parseStringToStaticType(
-                                '\GettyImages\ApiClient\Request\Search\Filters\LicenseModel\LicenseModelFilter',
+                                '\GettyImages\Api\Request\Search\Filters\LicenseModel\LicenseModelFilter',
                                 $licenseModel);
 
         $searchObj = $this->deferredSearch->withLicenseModel($licenseModelToGet);
@@ -728,7 +728,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyEntertainmentEditorialSegment($editorialSegment)
     {
         $edSeg = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter',
+                        '\GettyImages\Api\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter',
                         $editorialSegment);
 
         $search = $this->deferredSearch->withEditorialSegment($edSeg);
@@ -741,7 +741,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyaGraphicalStyle($graphicalStyle) {
 
         $edSeg = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter',
+                        '\GettyImages\Api\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter',
                         $graphicalStyle);
 
         $searchObject = $this->deferredSearch->withGraphicalStyle($edSeg);
@@ -843,7 +843,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAnEthnicity($ethnicity)                                                                                                                                                                                                          
     {              
         $ethnicityType = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\Ethnicity\EthnicityFilter',
+                        '\GettyImages\Api\Request\Search\Filters\Ethnicity\EthnicityFilter',
                         $ethnicity);
         
         $response = $this->deferredSearch->withEthnicity($ethnicityType);
@@ -855,7 +855,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAStillLifeComposition($composition)                                                                                                                                                                                              
     {   
         $compositionType = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\Composition\CompositionFilter',
+                        '\GettyImages\Api\Request\Search\Filters\Composition\CompositionFilter',
                         $composition);
         
         $response = $this->deferredSearch->withComposition($compositionType);
@@ -867,17 +867,23 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAKeywordId()                                                                                                                                                                                                    
     {                                                                                                                                                                                                                                                     
         $response = $this->deferredSearch->withKeywordId(62361);
-    }    
-    
+    }        
+
+    /**                                                                                                                                                                                                  
+     * @Given /^I specify (\w+) file type$/                                                                                                                                                                   
+     */                                                                                                                                                                                                  
+    public function givenISelectAFileType($fileType)                                                                                                                                                               
+    {       
+        $this->downloadParameters["fileType"] = $fileType;
+    }
+
     /**                                                                                                                                                                                                  
      * @When /^I specify a (\w+) file type$/                                                                                                                                                                   
      */                                                                                                                                                                                                  
-    public function iSpecifyAFileType($fileType)                                                                                                                                                               
-    {        
-        $this->downloadParameters["fileType"] = $fileType;
-
+    public function whenISpecifyAFileType($fileType)                                                                                                                                                               
+    {       
         $fileTypeEnum = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\FileType\FileTypeFilter',
+                        '\GettyImages\Api\Request\Search\Filters\FileType\FileTypeFilter',
                         $fileType);
         
         $response = $this->deferredSearch->withFileType($fileTypeEnum);
@@ -889,16 +895,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAProductType($productType)
     {                                                                                                                                 
         $response = $this->deferredSearch->withProductType($productType);
-    }    
-    
-    /**                                                                                                                                                                                                  
-     * @When /^I specify a one number of people$/                                                                                                                                                   
-     */                                                                                                                                                                                                  
-    //public function iSpecifyAOneNumberOfPeopleInImage($number)                                                                                                                                                  
-    //{                                                                                                                                                                                                    
-    //    iSpecifyANumberOfPeopleInImage($number);
-    //}                                                                                                                                                                                                    
-              
+    }     
     
     /**                                                                                                                                                                                                                                    
      * @When /^I specify a (\w+) number of people in image$/
@@ -907,7 +904,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {         
         //none,one,two,group
         $set = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter',
+                        '\GettyImages\Api\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter',
                         $number);
 
         $searchObject = $this->deferredSearch->withNumberOfPeople($set);
@@ -919,7 +916,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAgeOfPeople($age)
     {
         $ageType = self::parseStringToStaticType(
-                        '\GettyImages\ApiClient\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter',
+                        '\GettyImages\Api\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter',
                         $age);
         
         $searchObject = $this->deferredSearch->withAgeOfPeople($ageType);                                                                                                                                                                                                 

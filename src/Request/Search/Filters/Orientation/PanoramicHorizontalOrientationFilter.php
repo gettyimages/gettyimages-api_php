@@ -6,7 +6,7 @@
  * Time: 11:19 AM
  */
 
-namespace GettyImages\ApiClient\Request\Search\Filters\Orientation;
+namespace GettyImages\Api\Request\Search\Filters\Orientation;
 
 class PanoramicHorizontalOrientationFilter extends OrientationFilter {
 

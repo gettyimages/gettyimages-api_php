@@ -3,7 +3,7 @@
  * FluentRequest.php
  */
 
-namespace GettyImages\ApiClient\Request {
+namespace GettyImages\Api\Request {
 
     /**
      * FluentRequest

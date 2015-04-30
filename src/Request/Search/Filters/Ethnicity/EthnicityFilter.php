@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\ApiClient\Request\Search\Filters\Ethnicity {
+namespace GettyImages\Api\Request\Search\Filters\Ethnicity {
 
     abstract class EthnicityFilter {
         public static function Black() {

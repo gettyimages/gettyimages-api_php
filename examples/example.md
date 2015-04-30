@@ -1,8 +1,8 @@
 		<?php
 
-		include __DIR__.'/build/ApiClient.phar';
+		include __DIR__.'/build/GettyImagesApi.phar';
 
-		use GettyImages\ApiClient\GettyImages_Client;
+		use GettyImages\Api\GettyImages_Client;
 
 		$apiKey = "myApiKey";
 		$apiSecret = "myApiSecret";

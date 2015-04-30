@@ -4,7 +4,7 @@
  *
  */
 
-namespace GettyImages\ApiClient\Request {
+namespace GettyImages\Api\Request {
 
     /**
      * Images
