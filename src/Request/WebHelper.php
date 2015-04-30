@@ -3,7 +3,7 @@
  * Provides general helpers around curl
  */
 
-namespace GettyImages\Connect\Request {
+namespace GettyImages\ApiClient\Request {
 
     /**
      * @ignore
@@ -88,7 +88,7 @@ namespace GettyImages\Connect\Request {
          */
         private static function getCurlDefaults($options) {
 
-            $userAgent = "ConnectSDK/1.0.1-beta (". php_uname("s")." ".php_uname("r")."; PHP ". phpversion() . ")";
+            $userAgent = "GettyImagesApi/1.0.1-beta (". php_uname("s")." ".php_uname("r")."; PHP ". phpversion() . ")";
 
             $defaults = array(
                 CURLOPT_HEADER => 1,
@@ -100,12 +100,12 @@ namespace GettyImages\Connect\Request {
                 CURLOPT_USERAGENT => $userAgent
             );
 
-            if(getenv("ConnectSDK_UseProxy") != null) {
-                $defaults[CURLOPT_PROXY] = getenv("ConnectSDK_UseProxy");
+            if(getenv("GettyImagesApi_UseProxy") != null) {
+                $defaults[CURLOPT_PROXY] = getenv("GettyImagesApi_UseProxy");
             }
 
-            if(getenv("ConnectSDK_IgnoreSSLValidation") != null) {
-                if(getenv("ConnectSDK_IgnoreSSLValidation") == TRUE) {
+            if(getenv("GettyImagesApi_IgnoreSSLValidation") != null) {
+                if(getenv("GettyImagesApi_IgnoreSSLValidation") == TRUE) {
                     $defaults[CURLOPT_SSL_VERIFYHOST] = 0;
                     $defaults[CURLOPT_SSL_VERIFYPEER] = 0;
                 }

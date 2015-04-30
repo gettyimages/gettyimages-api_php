@@ -1,8 +1,8 @@
 <?php
 
-namespace GettyImages\Connect\Request\Search {
+namespace GettyImages\ApiClient\Request\Search {
 
-    use GettyImages\Connect\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
+    use GettyImages\ApiClient\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
 
     class SearchImagesEditorial extends SearchImages {
 

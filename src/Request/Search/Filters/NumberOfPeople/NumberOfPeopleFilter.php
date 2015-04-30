@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\Connect\Request\Search\Filters\NumberOfPeople {
+namespace GettyImages\ApiClient\Request\Search\Filters\NumberOfPeople {
 
     abstract class NumberOfPeopleFilter {
         public static function None() {

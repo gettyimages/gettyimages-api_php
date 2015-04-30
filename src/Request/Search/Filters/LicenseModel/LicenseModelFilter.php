@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\Connect\Request\Search\Filters\LicenseModel {
+namespace GettyImages\ApiClient\Request\Search\Filters\LicenseModel {
     require_once("RightsManagedLicenseModel.php");
     require_once("RoyaltyFreeLicenseModel.php");
 

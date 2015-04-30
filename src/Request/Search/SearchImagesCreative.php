@@ -6,7 +6,7 @@
  * Time: 10:42 AM
  */
 
-namespace GettyImages\Connect\Request\Search {
+namespace GettyImages\ApiClient\Request\Search {
 
     class SearchImagesCreative extends SearchImages {
 

@@ -5,7 +5,7 @@
  * Date: 9/18/14
  * Time: 7:26 AM
  */
-namespace GettyImages\Connect\Exception {
+namespace GettyImages\ApiClient\Exception {
     /**
      *    Thrown to signify credentials failed configuration validation
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\Connect\Request\Search {
+namespace GettyImages\ApiClient\Request\Search {
     //Require Filters
     require_once("Filters/Ethnicity/EthnicityFilter.php");
     require_once("Filters/EditorialSegment/EditorialSegmentFilter.php");
@@ -17,8 +17,8 @@ namespace GettyImages\Connect\Request\Search {
     require_once("SearchImagesCreative.php");
     require_once("SearchImagesEditorial.php");
 
-    use GettyImages\Connect\Request\FluentRequest;
-    use GettyImages\Connect\Request\WebHelper;
+    use GettyImages\ApiClient\Request\FluentRequest;
+    use GettyImages\ApiClient\Request\WebHelper;
 
     /**
      * Provides the basic infrastructure for building up a Search Request.
@@ -72,6 +72,26 @@ namespace GettyImages\Connect\Request\Search {
             }
 
             return $response["body"];
+        }
+
+
+        /**
+         * @param $startDate
+         * @return $this
+         */
+        public function withStartDate($startDate) {
+            $this->requestDetails["start_date"] = $startDate;
+            return $this;
+        }
+
+
+        /**
+         * @param $endDate
+         * @return $this
+         */
+        public function withEndDate($endDate) {
+            $this->requestDetails["end_date"] = $endDate;
+            return $this;
         }
     }
 }

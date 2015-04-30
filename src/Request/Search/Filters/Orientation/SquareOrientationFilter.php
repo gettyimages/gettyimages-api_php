@@ -6,7 +6,7 @@
  * Time: 11:21 AM
  */
 
-namespace GettyImages\Connect\Request\Search\Filters\Orientation;
+namespace GettyImages\ApiClient\Request\Search\Filters\Orientation;
 
 class SquareOrientationFilter extends OrientationFilter {
 

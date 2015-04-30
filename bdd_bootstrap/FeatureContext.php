@@ -2,14 +2,14 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-include __DIR__."/../src/ConnectSDK.php";
+include __DIR__."/../src/ApiClient.php";
 
-use GettyImages\Connect\ConnectSDK;
-use GettyImages\Connect\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
-use GettyImages\Connect\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
-use GettyImages\Connect\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;
-use GettyImages\Connect\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
-use GettyImages\Connect\Request\Search\Filters\Ethnicity\EthinicityFilter;
+use GettyImages\ApiClient\GettyImages_Client;
+use GettyImages\ApiClient\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
+use GettyImages\ApiClient\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
+use GettyImages\ApiClient\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;
+use GettyImages\ApiClient\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
+use GettyImages\ApiClient\Request\Search\Filters\Ethnicity\EthinicityFilter;
 
 /**
  * Features context.
@@ -48,7 +48,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
    */
   public function __construct()
   {
-    $environment = getenv("ConnectSDK_test_Environment");
+    $environment = getenv("GettyImagesApi_TargetEnvironment");
     If(!$environment) {
       $environment = "production";
     }
@@ -56,7 +56,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     $this->environment = $environment;
   }
 
-  public function getConnectBaseURI() {
+  public function getGettyImagesApiBaseURI() {
     if($this->environment == "production") {
       return "https://api.gettyimages.com/v3";
     }
@@ -81,7 +81,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function aRefreshToken()
     {
-        $this->refreshToken = $this->getEnvValueAndThrowIfNotSet("ConnectSDK_test_ResourceOwner_refreshToken");
+        $this->refreshToken = $this->getEnvValueAndThrowIfNotSet("GettyImagesApi_RefreshToken");
     }
 
     /**
@@ -97,10 +97,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function givenIHaveAnAPIKey()
     {
-        $envToGetkeyFrom = "ConnectSDK_test_ResourceOwner_clientkey";
+        $envToGetkeyFrom = "GettyImagesApi_ApiKey";
 
         if($this->useSandboxCredentials) {
-            $envToGetkeyFrom = "ConnectSDK_test_SandboxApiKey";
+            $envToGetkeyFrom = "GettyImagesApi_SandboxApiKey";
         }
 
         $this->apiKey = $this->getEnvValueAndThrowIfNotSet($envToGetkeyFrom);
@@ -111,10 +111,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function givenIHaveAnAPISecret()
     {
-        $envToGetkeyFrom = "ConnectSDK_test_ResourceOwner_clientsecret";
+        $envToGetkeyFrom = "GettyImagesApi_ApiSecret";
 
         if($this->useSandboxCredentials) {
-            $envToGetkeyFrom = "ConnectSDK_test_SandboxApiSecret";
+            $envToGetkeyFrom = "GettyImagesApi_SandboxApiSecret";
         }
 
         $this->apiSecret = $this->getEnvValueAndThrowIfNotSet($envToGetkeyFrom);
@@ -133,7 +133,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function givenAUsername()
     {
-        $envToGetKeyFrom = "ConnectSDK_test_ResourceOwner_username";
+        $envToGetKeyFrom = "GettyImagesApi_UserName";
 
         if($this->useSandboxCredentials) {
             throw new \Exception("Currently configured for sandbox credentials, should not be sending in a username");
@@ -147,7 +147,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function givenAPassword()
     {
-        $envToGetKeyFrom = "ConnectSDK_test_ResourceOwner_password";
+        $envToGetKeyFrom = "GettyImagesApi_UserPassword";
 
         if($this->useSandboxCredentials) {
             throw new \Exception("Currently configured for sandbox credentials, should not be sending in a password");
@@ -356,7 +356,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @Then /^the url for the sandbox image is returned$/
      */
     public function theUrlForTheSandboxImageIsReturned() {
-        $expectedResponseURL = $this->getConnectBaseURI() . "/sandboxdownloads/getty_images_large.jpg";
+        $expectedResponseURL = $this->getGettyImagesApiBaseURI() . "/sandboxdownloads/getty_images_large.jpg";
         $downloadResponse = json_decode($this->downloadResponse,true);
 
         $this->assertAreEqual($downloadResponse,
@@ -643,7 +643,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAnOrientation($orientation)
     {
         $orientation = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\Orientation\OrientationFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\Orientation\OrientationFilter',
                         $orientation);
 
         $searchObj = $this->deferredSearch->withOrientation($orientation);
@@ -656,7 +656,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyALicenseModel($licenseModel)
     {
         $licenseModelToGet = self::parseStringToStaticType(
-                                '\GettyImages\Connect\Request\Search\Filters\LicenseModel\LicenseModelFilter',
+                                '\GettyImages\ApiClient\Request\Search\Filters\LicenseModel\LicenseModelFilter',
                                 $licenseModel);
 
         $searchObj = $this->deferredSearch->withLicenseModel($licenseModelToGet);
@@ -728,7 +728,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyEntertainmentEditorialSegment($editorialSegment)
     {
         $edSeg = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter',
                         $editorialSegment);
 
         $search = $this->deferredSearch->withEditorialSegment($edSeg);
@@ -741,7 +741,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyaGraphicalStyle($graphicalStyle) {
 
         $edSeg = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter',
                         $graphicalStyle);
 
         $searchObject = $this->deferredSearch->withGraphicalStyle($edSeg);
@@ -806,13 +806,29 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
     
     /**                                                                                                                               
-     * @When I specify an event id                                                                                                     
+     * @When /^I specify (an|a) event id$/
      */                                                                                                                               
-    public function iSearchForAnEventId()                                                                                                
+    public function iSearchForAnEventId($ignore)                                                                                                
     {    
         $response = $this->deferredSearch->withEventId(550100521);   
     }
-                                                                                                                                      
+              
+    /**
+     * @When I specify an end date
+     */
+    public function iSpecifyAnEndDate()
+    {
+        $response = $this->deferredSearch->withEndDate("2014-12-31");
+    }
+
+    /**
+     * @When I specify an start date
+     */
+    public function iSpecifyAnStartDate()
+    {
+        $response = $this->deferredSearch->withStartDate("2014-01-01");
+    }
+
     /**                                                                                                                               
      * @When I specify I want only prestige images                                                                                    
      */                                                                                                                               
@@ -827,7 +843,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAnEthnicity($ethnicity)                                                                                                                                                                                                          
     {              
         $ethnicityType = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\Ethnicity\EthnicityFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\Ethnicity\EthnicityFilter',
                         $ethnicity);
         
         $response = $this->deferredSearch->withEthnicity($ethnicityType);
@@ -839,7 +855,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAStillLifeComposition($composition)                                                                                                                                                                                              
     {   
         $compositionType = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\Composition\CompositionFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\Composition\CompositionFilter',
                         $composition);
         
         $response = $this->deferredSearch->withComposition($compositionType);
@@ -861,7 +877,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->downloadParameters["fileType"] = $fileType;
 
         $fileTypeEnum = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\FileType\FileTypeFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\FileType\FileTypeFilter',
                         $fileType);
         
         $response = $this->deferredSearch->withFileType($fileTypeEnum);
@@ -891,7 +907,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {         
         //none,one,two,group
         $set = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter',
                         $number);
 
         $searchObject = $this->deferredSearch->withNumberOfPeople($set);
@@ -903,7 +919,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iSpecifyAgeOfPeople($age)
     {
         $ageType = self::parseStringToStaticType(
-                        '\GettyImages\Connect\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter',
+                        '\GettyImages\ApiClient\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter',
                         $age);
         
         $searchObject = $this->deferredSearch->withAgeOfPeople($ageType);                                                                                                                                                                                                 
@@ -941,13 +957,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @return ConnectSDK|null
+     * @return ApiClient|null
      */
     private function getSDK() {
         $context = $this;
 
         if(is_null($context->sdk)) {
-          $context->sdk = new ConnectSDK($context->apiKey,$context->apiSecret,$context->username,$context->password,$context->refreshToken);
+          $context->sdk = new GettyImages_Client($context->apiKey,$context->apiSecret,$context->username,$context->password,$context->refreshToken);
           return $context->sdk;
         }
 

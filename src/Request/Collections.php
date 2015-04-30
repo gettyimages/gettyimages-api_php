@@ -1,6 +1,6 @@
 <?php
 
-namespace GettyImages\Connect\Request {
+namespace GettyImages\ApiClient\Request {
 
     class Collections extends FluentRequest {
 

@@ -1,13 +1,13 @@
 		<?php
 
-		include __DIR__.'/build/ConnectSDK.phar';
+		include __DIR__.'/build/ApiClient.phar';
 
-		use GettyImages\Connect\ConnectSDK;
+		use GettyImages\ApiClient\GettyImages_Client;
 
 		$apiKey = "myApiKey";
 		$apiSecret = "myApiSecret";
 
-		$sdk = new ConnectSDK($apiKey,$apiSecret);
+		$sdk = new GettyImages_Client($apiKey,$apiSecret);
 
 		$response = $sdk->Search()->Images()->withPhrase("dog")->execute();
 

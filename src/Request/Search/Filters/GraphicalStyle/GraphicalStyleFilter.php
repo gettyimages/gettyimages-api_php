@@ -6,7 +6,7 @@
  * Time: 10:50 AM
  */
 
-namespace GettyImages\Connect\Request\Search\Filters\GraphicalStyle {
+namespace GettyImages\ApiClient\Request\Search\Filters\GraphicalStyle {
     require_once("FineArtGraphicalStyle.php");
     require_once("IllustrationGraphicalStyle.php");
     require_once("PhotographyGraphicalStyle.php");
