@@ -88,7 +88,7 @@ namespace GettyImages\Api\Request {
          */
         private static function getCurlDefaults($options) {
 
-            $userAgent = "GettyImagesApi/1.0.1-beta (". php_uname("s")." ".php_uname("r")."; PHP ". phpversion() . ")";
+            $userAgent = "GettyImagesApiSdk/2.0.0 (". php_uname("s")." ".php_uname("r")."; PHP ". phpversion() . ")";
 
             $defaults = array(
                 CURLOPT_HEADER => 1,
