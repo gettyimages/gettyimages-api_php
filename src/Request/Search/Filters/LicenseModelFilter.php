@@ -1,8 +1,5 @@
 <?php
-
 namespace GettyImages\Api\Request\Search\Filters\LicenseModel {
-    require_once("RightsManagedLicenseModel.php");
-    require_once("RoyaltyFreeLicenseModel.php");
 
     abstract class LicenseModelFilter {
         public static function RightsManaged() {
@@ -15,4 +12,18 @@ namespace GettyImages\Api\Request\Search\Filters\LicenseModel {
 
         public abstract function getValue();
     }
+
+    class RightsManagedLicenseModelFilter extends LicenseModelFilter 
+    {
+        function getValue() {
+            return "rightsmanaged";
+        }
+    }   
+
+    class RoyaltyFreeLicenseModelFilter extends LicenseModelFilter 
+    {
+        public function getValue() {
+            return "royaltyfree";
+        }
+    }  
 }

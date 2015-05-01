@@ -1,15 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Owner
- * Date: 9/17/14
- * Time: 10:50 AM
- */
-
 namespace GettyImages\Api\Request\Search\Filters\GraphicalStyle {
-    require_once("FineArtGraphicalStyle.php");
-    require_once("IllustrationGraphicalStyle.php");
-    require_once("PhotographyGraphicalStyle.php");
 
     abstract class GraphicalStyleFilter  {
 
@@ -27,5 +17,25 @@ namespace GettyImages\Api\Request\Search\Filters\GraphicalStyle {
 
         abstract function getValue();
     }
-}
 
+    class FineArtGraphicalStyleFilter extends GraphicalStyleFilter {
+        function getValue()
+        {
+            return "fine_art";
+        }
+    }
+
+    class IllustrationGraphicalStyleFilter extends GraphicalStyleFilter {
+        public function getValue()
+        {
+            return "illustration";
+        }
+    }
+
+    class PhotographyGraphicalStyleFilter extends GraphicalStyleFilter {
+        function getValue()
+        {
+            return "photography";
+        }
+    }    
+}

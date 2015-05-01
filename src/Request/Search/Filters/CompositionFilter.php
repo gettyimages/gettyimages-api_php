@@ -65,9 +65,7 @@ namespace GettyImages\Api\Request\Search\Filters\Composition {
 
         public abstract function getValue(); 
     }
-    
-    //////////////////////////////////////////////////////////////
-    
+
     class AbstractCompositionFilter extends CompositionFilter {
         public function getValue() {
             return "abstract";            
