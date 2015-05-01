@@ -1,5 +1,5 @@
 <?php
-namespace GettyImages\Api\Request\Search\Filters\Orientation {
+namespace GettyImages\Api\Request\Search\Filters {
 
     abstract class OrientationFilter {
         public static function Horizontal() {

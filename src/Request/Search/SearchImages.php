@@ -5,14 +5,14 @@
 
 namespace GettyImages\Api\Request\Search {
     use Exception;
-    use GettyImages\Api\Request\Search\Filters\GraphicalStyle\GraphicalStyleFilter;
-    use GettyImages\Api\Request\Search\Filters\LicenseModel\LicenseModelFilter;
-    use GettyImages\Api\Request\Search\Filters\Orientation\OrientationFilter;
-    use GettyImages\Api\Request\Search\Filters\NumberOfPeople\NumberOfPeopleFilter;
-    use GettyImages\Api\Request\Search\Filters\AgeOfPeople\AgeOfPeopleFilter;        
-    use GettyImages\Api\Request\Search\Filters\Ethnicity\EthnicityFilter;
-    use GettyImages\Api\Request\Search\Filters\FileType\FileTypeFilter;
-    use GettyImages\Api\Request\Search\Filters\Composition\CompositionFilter;
+    use GettyImages\Api\Request\Search\Filters\GraphicalStyleFilter;
+    use GettyImages\Api\Request\Search\Filters\LicenseModelFilter;
+    use GettyImages\Api\Request\Search\Filters\OrientationFilter;
+    use GettyImages\Api\Request\Search\Filters\NumberOfPeopleFilter;
+    use GettyImages\Api\Request\Search\Filters\AgeOfPeopleFilter;
+    use GettyImages\Api\Request\Search\Filters\EthnicityFilter;
+    use GettyImages\Api\Request\Search\Filters\FileTypeFilter;
+    use GettyImages\Api\Request\Search\Filters\CompositionFilter;
 
     /**
      * Provides Image Search specific behavior

@@ -1,5 +1,5 @@
 <?php
-namespace GettyImages\Api\Request\Search\Filters\LicenseModel {
+namespace GettyImages\Api\Request\Search\Filters {
 
     abstract class LicenseModelFilter {
         public static function RightsManaged() {

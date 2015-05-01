@@ -2,7 +2,7 @@
 
 namespace GettyImages\Api\Request\Search {
 
-    use GettyImages\Api\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
+    use GettyImages\Api\Request\Search\Filters\EditorialSegmentFilter;
 
     class SearchImagesEditorial extends SearchImages {
 
