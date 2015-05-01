@@ -2,7 +2,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-include __DIR__."/../src/ApiClient.php";
+include __DIR__."/../build/GettyImagesApi.phar";
 
 use GettyImages\Api\GettyImages_Client;
 use GettyImages\Api\Request\Search\Filters\EditorialSegment\EditorialSegmentFilter;
@@ -954,9 +954,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @return ApiClient|null
+     * @return GettyImages_Client|null
      */
-    private function getSDK() {
+    private function getSDK() {        
         $context = $this;
 
         if(is_null($context->sdk)) {

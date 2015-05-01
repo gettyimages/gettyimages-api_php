@@ -19,7 +19,7 @@
 Please refer to README_ComposerInstall.md
 
 ## Quick Build
-If everything is setup on your machine where PHP will run, you can most likely run BuildSDK.bat or BuildGettyImagesApiClient.sh to automatically build the phar. If something fails please read the error messages, PHP can have a finicky setup if you've never tried to use it to build a package before.
+If everything is setup on your machine where PHP will run, you can most likely run BuildSDK.bat or Build.sh to automatically build the phar. If something fails please read the error messages, PHP can have a finicky setup if you've never tried to use it to build a package before.
 
 ### Windows
 

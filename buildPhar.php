@@ -10,7 +10,7 @@ $builder = Builder::create('./build/GettyImagesApi.phar');
 $builder->buildFromDirectory('./src');
 $builder->setStub(
     Stub::create()
-        ->addRequire('GettyImagesApi.php')
+        ->addRequire('GettyImages_Client.php')
         ->mapPhar("GettyImagesApi.phar")
         ->selfExtracting()
         ->getStub());
