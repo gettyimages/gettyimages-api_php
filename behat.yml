@@ -2,3 +2,13 @@
 default:
   autoload:
     '': %paths.base%/bdd_bootstrap
+  suites:
+    default:
+      contexts: 
+        - FeatureContext
+        - AuthenticationContext
+        - CollectionsContext
+        - CountriesContext
+        - DownloadsContext
+        - ImagesContext
+        - ImageSearchContext
