@@ -1,0 +1,6 @@
+language: php
+php: 
+  - 5.4
+before_install: "git submodule update --init"
+before_script: "./Build.sh"
+script: "php ./vendor/behat/behat/bin/behat"
