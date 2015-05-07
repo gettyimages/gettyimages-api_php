@@ -1,11 +1,23 @@
 <?php
 
-namespace GettyImages\Api\Request {
+namespace GettyImages\Api\Request\Download  {
 
-    class Download extends FluentRequest {
+    use GettyImages\Api\Request\WebHelper;
 
-        protected function getRoute() {
-            return "downloads/images";
+    class DownloadVideo extends Download {
+
+        /**
+         * @ignore
+         */
+        protected $route = "downloads/videos";
+
+        /**
+         * Gets the route configuration of the current search
+         *
+         * @return string The relative route for this request type
+         */
+        public function getRoute() {
+            return $this->route;
         }
 
         public function withId($assetId) {
@@ -13,18 +25,14 @@ namespace GettyImages\Api\Request {
             return $this;
         }
 
-        public function withHeight($height) {
-            $this->requestDetails["height"] = $height;
-            return $this;
-        }
-        
-        public function withFileType($fileType) {
-            $this->requestDetails["file_type"] = $fileType;
+        public function withSize($size) {
+            $this->requestDetails["size"] = $size;
             return $this;
         }
 
         public function execute() {
 
+printf("executing DownloadVideo");
             $assetId = $this->requestDetails["id"];
             unset($this->requestDetails["id"]);
 
@@ -49,8 +57,8 @@ namespace GettyImages\Api\Request {
                     $headerLookupLen = strlen($headerValueToLookup);
 
                     if(substr($headerValue, 0, $headerLookupLen) === $headerValueToLookup) {
-                        $imageDownloadUrl = substr($headerValue, $headerLookupLen);
-                        return $imageDownloadUrl;
+                        $videoDownloadUrl = substr($headerValue, $headerLookupLen);
+                        return $videoDownloadUrl;
                     }
                 }
             } else {

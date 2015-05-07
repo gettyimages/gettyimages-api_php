@@ -28,6 +28,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
   public $imageDetailsResponse = null;
   public $imageDetailParameters = array();
   public $imageIdToDownload = "165375606";
+  public $videoIdToDownload = "543827309";
   public $downloadParameters = array();
   public $downloadResponse = null;
   public $sdk = null;
@@ -223,6 +224,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function aPixelHeight()                                                                                                                                                    
     {                                
         $this->downloadParameters["height"] = 2277;                                                                                                                                        
+    }
+
+    /**
+     * @Given a download size
+     */
+    public function aDownloadSize()
+    {                                
+        $this->downloadParameters["size"] = "palcm"; 
     }
 
     /**
@@ -434,6 +443,29 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->assertTrue(is_a($response,'\Exception',true), "Expected Response Object to be an exception");
     }
 
+    /**
+     * @Then I receive not authorized message
+     */
+    public function iReceiveNotAuthorizedMessage(){
+        $response = null;
+
+        if (!is_null($this->downloadResponse)) {
+            $response = $this->downloadResponse;
+        };
+
+        $this->assertTrue(strpos($response, "401"));
+    }
+
+    /**
+     * @Then the url for the video is returned
+     */
+    public function theUrlForTheVideoIsReturned(){
+        $downloadResponse = json_decode($this->downloadResponse,true);
+        var_dump($downloadResponse);
+
+        $this->assertTrue(strpos($downloadResponse["uri"], "https://delivery.gettyimages.com/xa/".$this->videoIdToDownload) === 0,"Download Response was not pointing to correct location");
+    }
+
 
     /**
      * @When /^I ask the sdk for an authentication token$/
@@ -499,6 +531,28 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $response = $downloadSdk->withId($imageIdToDownload)->execute();
             $context->downloadResponse = $response;
         } catch (Exception $e) {
+            $context->downloadResponse = $e;
+        }
+    }
+
+    /**
+     * @When I request for any video to be downloaded
+     */
+    public function iRequestForAnyVideoToBeDownloaded()
+    {   $context = $this;
+        $downloadSdk = $this->getSDK()->Download()->Video();
+
+        if (array_key_exists("size", $context->downloadParameters)) {
+            $downloadSdk = $downloadSdk->withSize($context->downloadParameters["size"]);
+        }
+
+        try {
+            $videoIdToDownload = $context->videoIdToDownload;
+            $response = $downloadSdk->withId($videoIdToDownload)->execute();
+            $context->downloadResponse = $response;
+            var_dump($context->downloadResponse);
+        } catch (Exception $e) {
+            echo "The exception code is: " . $e->getMessage();
             $context->downloadResponse = $e;
         }
     }
@@ -666,6 +720,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $searchObj = $this->deferredSearch->withLicenseModel($licenseModelToGet);
         $this->deferredSearch = $searchObj;
     }
+
 
     private static function parseStringToStaticType($className,$value) {
         $reflector = new ReflectionClass($className);
