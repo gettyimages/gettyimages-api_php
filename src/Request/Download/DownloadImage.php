@@ -2,6 +2,8 @@
 
 namespace GettyImages\Api\Request\Download  {
 
+    use GettyImages\Api\Request\WebHelper;
+
     class DownloadImage extends Download {
 
         /**

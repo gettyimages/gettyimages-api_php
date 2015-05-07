@@ -32,7 +32,6 @@ namespace GettyImages\Api\Request\Download  {
 
         public function execute() {
 
-printf("executing DownloadVideo");
             $assetId = $this->requestDetails["id"];
             unset($this->requestDetails["id"]);
 

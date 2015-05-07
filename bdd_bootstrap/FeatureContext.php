@@ -516,7 +516,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iRequestForAnyImageToBeDownloaded()
     {
         $context = $this;
-        $downloadSdk = $this->getSDK()->Download();
+        $downloadSdk = $this->getSDK()->Download()->Image();
 
         if (array_key_exists("fileType", $context->downloadParameters)) {
             $downloadSdk = $downloadSdk->withFileType($context->downloadParameters["fileType"]);
@@ -550,9 +550,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $videoIdToDownload = $context->videoIdToDownload;
             $response = $downloadSdk->withId($videoIdToDownload)->execute();
             $context->downloadResponse = $response;
-            var_dump($context->downloadResponse);
         } catch (Exception $e) {
-            echo "The exception code is: " . $e->getMessage();
             $context->downloadResponse = $e;
         }
     }

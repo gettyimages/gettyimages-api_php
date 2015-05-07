@@ -47,7 +47,6 @@ namespace GettyImages\Api\Request {
             $options[CURLOPT_URL] = $endpoint;
 
             $result = self::execute($options);
-            var_dump($result);
 
             return $result;
         }
