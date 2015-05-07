@@ -24,15 +24,6 @@ abstract class SharedCredentials {
     protected $username = null;
     protected $password = null;
     protected $refreshToken = null;
-  public $videoIdToDownload = "543827309";
-     * @Given a download size
-     */
-    public function aDownloadSize()
-    {                                
-        $this->downloadParameters["size"] = "palcm"; 
-    }
-
-    /**
   
     function setApiKey($apiKey) {
         $this->apiKey = $apiKey;
@@ -82,55 +73,11 @@ abstract class SharedCredentials {
             throw new \Exception($errorMessage);
         }
     }
-    /**
-     * @Then I receive not authorized message
-     */
-    public function iReceiveNotAuthorizedMessage(){
-        $response = null;
-
-        if (!is_null($this->downloadResponse)) {
-            $response = $this->downloadResponse;
-        };
-
-        $this->assertTrue(strpos($response, "401"));
-    }
-
-    /**
-     * @Then the url for the video is returned
-     */
-    public function theUrlForTheVideoIsReturned(){
-        $downloadResponse = json_decode($this->downloadResponse,true);
-        var_dump($downloadResponse);
-
-        $this->assertTrue(strpos($downloadResponse["uri"], "https://delivery.gettyimages.com/xa/".$this->videoIdToDownload) === 0,"Download Response was not pointing to correct location");
-    }
-
 }
 
 class FeatureContext implements Context, SnippetAcceptingContext {
     private $availableContexts;
     protected $useSandboxCredentials = false;
-     * @When I request for any video to be downloaded
-     */
-    public function iRequestForAnyVideoToBeDownloaded()
-    {   $context = $this;
-        $downloadSdk = $this->getSDK()->Download()->Video();
-
-        if (array_key_exists("size", $context->downloadParameters)) {
-            $downloadSdk = $downloadSdk->withSize($context->downloadParameters["size"]);
-        }
-
-        try {
-            $videoIdToDownload = $context->videoIdToDownload;
-            $response = $downloadSdk->withId($videoIdToDownload)->execute();
-            $context->downloadResponse = $response;
-        } catch (Exception $e) {
-            $context->downloadResponse = $e;
-        }
-    }
-
-    /**
-
 
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
