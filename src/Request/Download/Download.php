@@ -26,7 +26,6 @@ namespace GettyImages\Api\Request\Download {
         public function Image() {
             $newDownloadObject = new DownloadImage($this->credentials,$this->endpointUri, $this->requestDetails);
 
-printf("executing DownloadImage");
             return $newDownloadObject;
         }
         
@@ -38,7 +37,6 @@ printf("executing DownloadImage");
         public function Video() {
             $newDownloadObject = new DownloadVideo($this->credentials,$this->endpointUri, $this->requestDetails);
 
-printf("executing DownloadVideo");
             return $newDownloadObject;
         }
     }

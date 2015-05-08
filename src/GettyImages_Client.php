@@ -108,7 +108,6 @@ namespace GettyImages\Api {
          */
         public function Download() {
             $downloadObj = new Download($this->credentials,$this->apiBaseUri);
-            printf("executing Download");
 
             return $downloadObj;
         }

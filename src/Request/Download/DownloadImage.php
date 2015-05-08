@@ -9,7 +9,7 @@ namespace GettyImages\Api\Request\Download  {
         /**
          * @ignore
          */
-        protected $route = "downloads/images/";
+        protected $route = "downloads/images";
 
         /**
          * Gets the route configuration of the current search
@@ -37,7 +37,6 @@ namespace GettyImages\Api\Request\Download  {
 
         public function execute() {
 
-printf("executing DownloadImage");
             $assetId = $this->requestDetails["id"];
             unset($this->requestDetails["id"]);
 
