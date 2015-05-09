@@ -1,6 +1,8 @@
-# Initial Setup
+# Getty Images API SDK - PHP
+[![Build Status](https://travis-ci.org/gettyimages/gettyimages-api_php.svg?branch=master)](https://travis-ci.org/gettyimages/gettyimages-api_php)
 
-## Assumptions
+## Initial Setup
+### Assumptions
 * You have PHP >=5.4 setup
 
 ### PHP.ini settings to build the code
