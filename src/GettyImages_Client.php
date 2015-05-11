@@ -20,11 +20,13 @@ namespace GettyImages\Api {
     require_once("Request/WebHelper.php");
     require_once("Request/Download/Download.php");
     require_once("Request/Images.php");
+    require_once("Request/Videos.php");
     require_once("Request/Search/Search.php");
 
     use GettyImages\Api\Request\Search\Search;
     use GettyImages\Api\Request\Download\Download;
     use GettyImages\Api\Request\Images;
+    use GettyImages\Api\Request\Videos;
     use GettyImages\Api\Request\Collections;
     use GettyImages\Api\Request\Countries;
     use GettyImages\Api\Crendentials;
@@ -96,6 +98,20 @@ namespace GettyImages\Api {
             $imagesObj = new Images($this->credentials,$this->apiBaseUri);
 
             return $imagesObj;
+        }
+
+        /**
+         * Images
+         *
+         * Provides the start of the Videos Request. Use this for getting details
+         * for known video id's
+         *
+         * @return Videos
+         */
+        public function Videos() {
+            $videosObj = new Videos($this->credentials,$this->apiBaseUri);
+
+            return $videosObj;
         }
 
         /**

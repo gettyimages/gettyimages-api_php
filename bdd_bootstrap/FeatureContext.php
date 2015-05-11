@@ -89,7 +89,8 @@ class FeatureContext implements Context, SnippetAcceptingContext {
             'CountriesContext',
             'DownloadsContext',
             'ImagesContext', 
-            'ImageSearchContext');
+            'ImageSearchContext',
+            'VideosContext');
 
         $this->availableContexts = array();
 
@@ -101,6 +102,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
     /**
      * @Given /^I have an apikey$/
+     * @Given an api key
      */
     function givenIHaveAnAPIKey() {
 
@@ -119,6 +121,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
     /**
      * @Given an apisecret
+     * @Given an api secret
      */
     function anApisecret() {
 
@@ -137,6 +140,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
     /**
      * @Given /^a username$/
+     * @Given a user name
      */
     public function givenAUsername()
     {
@@ -155,6 +159,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
     /**
      * @Given /^a password$/
+     * @Given a user password
      */
     public function givenAPassword()
     {

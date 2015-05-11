@@ -82,7 +82,6 @@ class ImagesContext extends SharedCredentials implements Context, SnippetAccepti
      */
     public function iGetJsonBackThatHasMyImageDetails() {
         $response = json_decode($this->imageDetailsResponse,true);
-
         $expectedImageId = $this->imageDetailParameters["imageId"];
 
         $this->assertTrue(count($response["images"] > 0));

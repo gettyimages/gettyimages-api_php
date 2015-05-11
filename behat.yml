@@ -12,3 +12,4 @@ default:
         - DownloadsContext
         - ImagesContext
         - ImageSearchContext
+        - VideosContext
