@@ -1,11 +1,23 @@
 <?php
 
-namespace GettyImages\Api\Request {
+namespace GettyImages\Api\Request\Download  {
 
-    class Download extends FluentRequest {
+    use GettyImages\Api\Request\WebHelper;
 
-        protected function getRoute() {
-            return "downloads/images";
+    class DownloadImage extends Download {
+
+        /**
+         * @ignore
+         */
+        protected $route = "downloads/images";
+
+        /**
+         * Gets the route configuration of the current search
+         *
+         * @return string The relative route for this request type
+         */
+        public function getRoute() {
+            return $this->route;
         }
 
         public function withId($assetId) {

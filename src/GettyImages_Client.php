@@ -18,12 +18,12 @@ namespace GettyImages\Api {
     require_once("Request/Collections.php");
     require_once("Request/Countries.php");
     require_once("Request/WebHelper.php");
-    require_once("Request/Download.php");
+    require_once("Request/Download/Download.php");
     require_once("Request/Images.php");
     require_once("Request/Search/Search.php");
 
     use GettyImages\Api\Request\Search\Search;
-    use GettyImages\Api\Request\Download;
+    use GettyImages\Api\Request\Download\Download;
     use GettyImages\Api\Request\Images;
     use GettyImages\Api\Request\Collections;
     use GettyImages\Api\Request\Countries;
@@ -101,8 +101,8 @@ namespace GettyImages\Api {
         /**
          * Download
          *
-         * Provides the start of the Images endpoint. Use this for getting details
-         * for known image id's
+         * Provides the start of the Download request. Use this for downloading
+         * for a known image Id
          *
          * @return Download
          */
