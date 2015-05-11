@@ -78,7 +78,7 @@ abstract class SharedCredentials {
 class FeatureContext implements Context, SnippetAcceptingContext {
     private $availableContexts;
     protected $useSandboxCredentials = false;
-
+    
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
     {
@@ -87,7 +87,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
         $subContexts = array('AuthenticationContext', 
             'CollectionsContext', 
             'CountriesContext',
-            'DownloadsContext', 
+            'DownloadsContext',
             'ImagesContext', 
             'ImageSearchContext');
 
@@ -171,6 +171,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
         }
     }
 
+    
     private function getEnvValueAndThrowIfNotSet($envKey) {
         if(!getenv($envKey)) {
             throw new \Exception("Environment var: ".$envKey." was not found in the environment");
