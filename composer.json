@@ -8,19 +8,9 @@
     "homepage": "http://developer.gettyimages.com",
     "authors": [
         {
-            "name": "Casey MacPherson",
-            "email": "casey.macpherson@gettyimages.com",
-            "role" : "Developer"
-        },
-        {
-          "name": "Mark Pitman",
-          "email": "mark.pitman@gettyimages.com",
-          "role": "Developer"
-        },
-        {
-          "name": "Jeff Gustafson",
-          "email": "jeffgoo@gmail.com",
-          "role": "Software Design Engineer"
+            "name": "Getty Images, Inc.",
+            "email": "developersupport@gettyimages.com",
+            "role" : "Developer
         }
     ],
     "support": {
