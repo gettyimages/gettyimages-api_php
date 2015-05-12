@@ -10,6 +10,7 @@ namespace GettyImages\Api\Request\Search {
     require_once("Filters/NumberOfPeopleFilter.php");
     require_once("Filters/AgeOfPeopleFilter.php");
     require_once("Filters/FileTypeFilter.php");
+    require_once("Filters/FormatFilter.php");
     require_once("Filters/CompositionFilter.php");
 
     //Require Other Search Types
@@ -17,8 +18,16 @@ namespace GettyImages\Api\Request\Search {
     require_once("SearchImagesCreative.php");
     require_once("SearchImagesEditorial.php");
 
+    require_once("SearchVideos.php");
+    require_once("SearchVideosCreative.php");
+    require_once("SearchVideosEditorial.php");
+
     use GettyImages\Api\Request\FluentRequest;
     use GettyImages\Api\Request\WebHelper;
+
+    use Exception;
+    use GettyImages\Api\Request\Search\Filters\AgeOfPeopleFilter;
+    use GettyImages\Api\Request\Search\Filters\LicenseModelFilter;    
 
     /**
      * Provides the basic infrastructure for building up a Search Request.
@@ -41,6 +50,16 @@ namespace GettyImages\Api\Request\Search {
          */
         public function Images() {
             $newSearchObject = new SearchImages($this->credentials,$this->endpointUri, $this->requestDetails);
+            return $newSearchObject;
+        }
+
+        /**
+         * Creates a search configured for Videos.
+         *
+         * @return SearchVideos SearchVideos object;
+         */
+        public function Videos() {
+            $newSearchObject = new SearchVideos($this->credentials,$this->endpointUri, $this->requestDetails);
             return $newSearchObject;
         }
 
@@ -74,6 +93,41 @@ namespace GettyImages\Api\Request\Search {
             return $response["body"];
         }
 
+        /**
+         * @param $phrase
+         * @return $this
+         */
+        public function withPhrase($phrase) {
+            $this->requestDetails["phrase"] = $phrase;
+
+            return $this;
+        }
+
+        /**
+         * @param $pageNum
+         * @return $this
+         */
+        public function withPage($pageNum) {
+            $this->requestDetails["page"] = $pageNum;
+            return $this;
+        }
+
+        /**
+         * @param $pageSize
+         * @return $this
+         */
+        public function withPageSize($pageSize) {
+            $this->requestDetails["page_size"] = $pageSize;
+            return $this;
+        }
+
+        /**
+         * Adds the specific request field to the results
+         */
+        public function withResponseField($fieldName) {
+            $this->appendArrayValueToRequestDetails("fields",$fieldName);
+            return $this;
+        }
 
         /**
          * @param $startDate
@@ -84,13 +138,88 @@ namespace GettyImages\Api\Request\Search {
             return $this;
         }
 
-
         /**
          * @param $endDate
          * @return $this
          */
         public function withEndDate($endDate) {
             $this->requestDetails["end_date"] = $endDate;
+            return $this;
+        }
+
+        /**
+         * @param $age
+         * @return $this
+         */
+        public function withAgeOfPeople(AgeOfPeopleFilter $age) {
+            $this->appendArrayValueToRequestDetails("age_of_people",$age->getValue());
+            return $this;
+        }
+
+        /**
+         * @param $collectionCode
+         * @return $this
+         */
+        public function withCollectionCode($collectionCode) {
+            $this->requestDetails["collection_codes"] = $collectionCode;
+            $this->requestDetails["collections_filter_type"] = "include";
+            return $this;
+        }
+        
+        /**
+         * @param $collectionCode
+         * @return $this
+         */
+        public function withoutCollectionCode($collectionCode) {
+            $this->requestDetails["collection_codes"] = $collectionCode;
+            $this->requestDetails["collections_filter_type"] = "exclude";
+            return $this;
+        }
+        
+        /**
+         * @param string $val
+         * @return $this
+         */
+        public function withExcludeNudity($val = "true") {
+            $this->requestDetails["exclude_nudity"] = $val;
+            return $this;
+        }
+
+        /**
+         * @param ProductTypeFilter $productType
+         * @throws Exception
+         * @return $this
+         */
+        public function withProductType($productType) {
+            $this->appendArrayValueToRequestDetails("product_types", $productType);
+            return $this;
+        }
+
+        /**
+         * @param $people
+         * @return $this
+         */
+        public function withSpecificPeople($people) {
+            $this->requestDetails["specific_people"] = $people;
+            return $this;
+        }
+
+        /**
+         * @param $order
+         * @return $this
+         */
+        public function withSortOrder($order) {
+            $this->requestDetails["sort_order"] = $order;
+            return $this;
+        }
+
+        /**
+         * @param $licenseModel
+         * @throws Exception
+         * @return $this
+         */
+        public function withLicenseModel(LicenseModelFilter $licenseModel) {
+            $this->appendArrayValueToRequestDetails("license_models",$licenseModel->getValue());
             return $this;
         }
     }

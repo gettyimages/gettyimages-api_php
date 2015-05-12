@@ -3,8 +3,8 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-class CollectionsContext extends SharedCredentials implements Context, SnippetAcceptingContext
-{
+class CollectionsContext extends BaseContext {
+  
     protected $collectionsResponse = null;
 
     /**
@@ -12,7 +12,7 @@ class CollectionsContext extends SharedCredentials implements Context, SnippetAc
      */
     public function iRetrieveCollections()
     {
-        $sdk = $this->getSDK();
+        $sdk = $this->sharedContext->getSDK();
 
         try {
           $this->collectionsResponse = $sdk->Collections()->execute();

@@ -6,10 +6,12 @@ default:
     default:
       contexts: 
         - FeatureContext
+        - SharedContext
         - AuthenticationContext
         - CollectionsContext
         - CountriesContext
         - DownloadsContext
-        - ImagesContext
         - ImageSearchContext
+        - ImagesContext
         - VideosContext
+        - VideoSearchContext

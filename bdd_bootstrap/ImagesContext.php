@@ -3,8 +3,8 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-class ImagesContext extends SharedCredentials implements Context, SnippetAcceptingContext
-{
+class ImagesContext extends BaseContext {
+    
 	protected $imageDetailParameters = array();
 	protected $imageDetailsFields = array();
 	protected $imageDetailsResponse = null;
@@ -39,7 +39,7 @@ class ImagesContext extends SharedCredentials implements Context, SnippetAccepti
      */                                                                                                                                                                               
     function iRetrieveDetailsForTheImage()                                                                                                                                     
     {
-        $sdk = $this->getSDK();
+        $sdk = $this->sharedContext->getSDK();
 
         $imageId = $this->imageDetailParameters["imageId"];
         $imageFields = $this->imageDetailsFields;
@@ -61,7 +61,7 @@ class ImagesContext extends SharedCredentials implements Context, SnippetAccepti
      */                                                                                                                                                                               
     public function iRetrieveDetailsForTheImages()                                                                                                                                    
     { 
-        $sdk = $this->getSDK();
+        $sdk = $this->sharedContext->getSDK();
         
         $imageIds = $this->imageDetailParameters["imageIds"];
         $imageFields = $this->imageDetailsFields;

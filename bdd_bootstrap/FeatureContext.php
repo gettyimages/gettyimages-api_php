@@ -7,62 +7,18 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 include __DIR__."/../build/GettyImagesApi.phar";
 
 use GettyImages\Api\GettyImages_Client;
-use GettyImages\Api\Request\Search\Filters\GraphicalStyleFilter;
-use GettyImages\Api\Request\Search\Filters\LicenseModelFilter;
-use GettyImages\Api\Request\Search\Filters\OrientationFilter;
-use GettyImages\Api\Request\Search\Filters\NumberOfPeopleFilter;
-use GettyImages\Api\Request\Search\Filters\AgeOfPeopleFilter;
-use GettyImages\Api\Request\Search\Filters\EditorialSegmentFilter;
-use GettyImages\Api\Request\Search\Filters\EthnicityFilter;
-use GettyImages\Api\Request\Search\Filters\FileTypeFilter;
-use GettyImages\Api\Request\Search\Filters\CompositionFilter;
 
-abstract class SharedCredentials {
-    protected $apiKey;
-    protected $apiSecret;
-    protected $sdk = null;
-    protected $username = null;
-    protected $password = null;
-    protected $refreshToken = null;
-  
-    function setApiKey($apiKey) {
-        $this->apiKey = $apiKey;
+abstract class BaseContext implements Context, SnippetAcceptingContext {
+    protected $sharedContext = null;
+
+    /** @BeforeScenario */
+    public function gatherContexts(BeforeScenarioScope $scope) {
+
+        $environment = $scope->getEnvironment();
+        $this->sharedContext = $environment->getContext('SharedContext');
     }
 
-    function setApiSecret($apiSecret) {
-        $this->apiSecret = $apiSecret;
-    }
-
-    function setUsername($username) {
-        $this->username = $username;
-    }
-
-    function setPassword($password) {
-        $this->password = $password;
-    }
-
-    /**
-     * @return GettyImages_Client|null
-     */
-    function getSDK() {        
-        $context = $this;
-
-        if(is_null($context->sdk)) {
-          
-          $context->sdk = new GettyImages_Client(
-            $context->apiKey,
-            $context->apiSecret,
-            $context->username,
-            $context->password,
-            $context->refreshToken);
-
-          return $context->sdk;
-        }
-
-        return $context->sdk;
-    }
-
-    function assertTrue($bool, $message = NULL) {
+    public function assertTrue($bool, $message = NULL) {
         if(!$bool) {
             $errorMessage = "Error: Expected True but was False\n";
 
@@ -73,32 +29,71 @@ abstract class SharedCredentials {
             throw new \Exception($errorMessage);
         }
     }
-}
 
-class FeatureContext implements Context, SnippetAcceptingContext {
-    private $availableContexts;
-    protected $useSandboxCredentials = false;
+    public static function parseStringToStaticType($className,$value) {
     
-    /** @BeforeScenario */
-    public function gatherContexts(BeforeScenarioScope $scope)
-    {
-        $environment = $scope->getEnvironment();
+        $reflector = new ReflectionClass($className);
+        $methodName = self::MapKnownIllegalValuesToLegalMethodName($value);        
+        if ($reflector->hasMethod($methodName)) {
+            $method = $reflector->getMethod($methodName);
+            if ($method->isStatic()) {
+                $staticResult = $method->invoke(null);
 
-        $subContexts = array('AuthenticationContext', 
-            'CollectionsContext', 
-            'CountriesContext',
-            'DownloadsContext',
-            'ImagesContext', 
-            'ImageSearchContext',
-            'VideosContext');
-
-        $this->availableContexts = array();
-
-        foreach ($subContexts as $subContext) {
-            array_push($this->availableContexts, $environment->getContext($subContext));
+                return $staticResult;
+            }
         }
+
+        return false;
     }
 
+    public static function MapKnownIllegalValuesToLegalMethodName($name)    
+    {                
+        $legalNameMap  = array(
+            '0-1_months' => 'ZeroToOne_Months',
+            '2-5_months' => 'TwoToFive_Months',
+            '6-11_months' => 'SixToEleven_Months',
+            '12-17_months' => 'TwelveToSeventeen_Months',
+            '18-23_months' => 'EighteenToTwentyThree_Months',
+            '2-3_years' => 'TwoToThree_Years',
+            '4-5_years' => 'FourToFive_Years',
+            '6-7_years' => 'SixToSeven_Years',
+            '8-9_years' => 'EightToNine_Years',
+            '10-11_years' => 'TenToEleven_Years',
+            '12-13_years' => 'TwelveToThirteen_Years',
+            '14-15_years' => 'FourteenToFifteen_Years',
+            '16-17_years' => 'SixteenToSeventeen_Years',
+            '18-19_years' => 'EighteenToNineteen_Years',
+            '20-24_years' => 'TwentyToTwentyFour_Years',
+            '20-29_years' => 'TwentyToTwentyNine_Years',
+            '25-29_years' => 'TwentyFiveToTwentyNine_Years',
+            '30-34_years' => 'ThirtyToThirtyFour_Years',
+            '30-39_years' => 'ThirtyToThirtyNine_Years',
+            '35-39_years' => 'ThirtyFiveToThirtyNine_Years',
+            '40-44_years' => 'FortyToFortyFour_Years',
+            '40-49_years' => 'FortyToFortyNine_Years',
+            '45-49_years' => 'FortyFiveToFortyNine_Years',
+            '50-54_years' => 'FiftyToFiftyFour_Years',
+            '50-59_years' => 'FiftyToFiftyNine_Years',
+            '55-59_years' => 'FiftyFiveToFiftyNine_Years',
+            '60-64_years' => 'SixtyToSixtyFour_Years',
+            '60-69_years' => 'SixtyToSixtyNine_Years',
+            '65-69_years' => 'SixtyFiveToSixtyNine_Years',
+            '70-79_years' => 'SeventyToSeventyNine_Years',
+            '80-89_years' => 'EightyToEightyNine_Years',
+            '90_plus_years' => 'NinetyPlus_Years',
+            '100_over' => 'OneHundredAndOver_Years',
+            'abstract' => 'Abstract_'
+        );
+        
+        if (!array_key_exists($name, $legalNameMap)) return $name;
+        
+        return $legalNameMap[$name];
+    }
+}
+
+class FeatureContext extends BaseContext {
+
+    protected $useSandboxCredentials = false;
 
     /**
      * @Given /^I have an apikey$/
@@ -114,9 +109,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
         $apiKey = $this->getEnvValueAndThrowIfNotSet($envToGetkeyFrom);
 
-        foreach ($this->availableContexts as $subContext) {
-            $subContext->setApiKey($apiKey);
-        }
+        $this->sharedContext->setApiKey($apiKey);
     }
 
     /**
@@ -133,9 +126,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
         $apiSecret = $this->getEnvValueAndThrowIfNotSet($envToGetkeyFrom);
 
-        foreach ($this->availableContexts as $subContext) {
-            $subContext->setApiSecret($apiSecret);
-        }
+        $this->sharedContext->setApiSecret($apiSecret);
     }
 
     /**
@@ -152,9 +143,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
         $username = $this->getEnvValueAndThrowIfNotSet($envToGetKeyFrom);
 
-        foreach ($this->availableContexts as $subContext) {
-            $subContext->setUsername($username);
-        }
+        $this->sharedContext->setUsername($username);
     }
 
     /**
@@ -171,12 +160,18 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 
         $password = $this->getEnvValueAndThrowIfNotSet($envToGetKeyFrom);
 
-        foreach ($this->availableContexts as $subContext) {
-            $subContext->setPassword($password);
-        }
+        $this->sharedContext->setPassword($password);
     }
 
-    
+    /**
+     * @Then the status is success
+     */
+    public function theStatusIsSuccess()
+    {
+        $response = json_decode($this->sharedContext->sharedContextInfo['response'],true);
+        
+    }
+
     private function getEnvValueAndThrowIfNotSet($envKey) {
         if(!getenv($envKey)) {
             throw new \Exception("Environment var: ".$envKey." was not found in the environment");

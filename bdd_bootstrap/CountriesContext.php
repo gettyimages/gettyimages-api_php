@@ -3,8 +3,8 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-class CountriesContext extends SharedCredentials implements Context, SnippetAcceptingContext
-{
+class CountriesContext extends BaseContext {
+    
 	protected $countriesResponse = null;
 
 	/**
@@ -12,7 +12,7 @@ class CountriesContext extends SharedCredentials implements Context, SnippetAcce
      */
     public function iRetrieveCountries()
     {
-        $sdk = $this->getSDK();
+        $sdk = $this->sharedContext->getSDK();
         
         try {
             $this->countriesResponse = $sdk->Countries()->execute();
