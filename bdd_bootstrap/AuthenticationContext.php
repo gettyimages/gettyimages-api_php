@@ -3,8 +3,10 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-class AuthenticationContext extends SharedCredentials implements Context, SnippetAcceptingContext
-{
+use GettyImages\Api\GettyImages_Client;
+
+class AuthenticationContext  extends BaseContext {
+
     protected $accessTokenResponse = null;
     protected $refreshToken = null;
 
@@ -13,7 +15,23 @@ class AuthenticationContext extends SharedCredentials implements Context, Snippe
      */
     public function aRefreshToken()
     {
-        $this->refreshToken = $this->getEnvValueAndThrowIfNotSet("GettyImagesApi_RefreshToken");
+        //$this->refreshToken = $this->getEnvValueAndThrowIfNotSet("GettyImagesApi_RefreshToken");
+
+        $envToGetKeyFrom = "GettyImagesApi_UserName";
+        $username = $this->getEnvValueAndThrowIfNotSet($envToGetKeyFrom);
+
+        $envToGetKeyFrom = "GettyImagesApi_UserPassword";
+        $password = $this->getEnvValueAndThrowIfNotSet($envToGetKeyFrom);
+
+        $sdk = new GettyImages_Client(
+            $this->sharedContext->apiKey,
+            $this->sharedContext->apiSecret,
+            $username,
+            $password,
+            null);
+
+        $this->accessTokenResponse = $sdk->getAccessToken();
+        $this->refreshToken = $this->accessTokenResponse['refresh_token'];
     }
 
 
@@ -22,8 +40,8 @@ class AuthenticationContext extends SharedCredentials implements Context, Snippe
      */
     public function iAskTheSdkForAnAuthenticationToken()
     {
-        $sdk = $this->getSDK();
-
+        $sdk = $this->sharedContext->getSDK();
+        
         $response = $sdk->getAccessToken();
 
         $this->accessTokenResponse = $response;
@@ -35,8 +53,7 @@ class AuthenticationContext extends SharedCredentials implements Context, Snippe
      */
     public function iRequestAnAccessToken()
     {
-        $sdk = $this->getSDK();
-
+        $sdk = $this->sharedContext->getSDK();
         $this->accessTokenResponse = $sdk->getAccessToken();
     }
 

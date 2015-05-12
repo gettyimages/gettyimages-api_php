@@ -5,11 +5,12 @@
 
 namespace GettyImages\Api\Request\Search {
     use Exception;
+    
     use GettyImages\Api\Request\Search\Filters\GraphicalStyleFilter;
     use GettyImages\Api\Request\Search\Filters\LicenseModelFilter;
     use GettyImages\Api\Request\Search\Filters\OrientationFilter;
     use GettyImages\Api\Request\Search\Filters\NumberOfPeopleFilter;
-    use GettyImages\Api\Request\Search\Filters\AgeOfPeopleFilter;
+    
     use GettyImages\Api\Request\Search\Filters\EthnicityFilter;
     use GettyImages\Api\Request\Search\Filters\FileTypeFilter;
     use GettyImages\Api\Request\Search\Filters\CompositionFilter;
@@ -53,43 +54,6 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $phrase
-         * @return $this
-         */
-        public function withPhrase($phrase) {
-            $this->requestDetails["phrase"] = $phrase;
-
-            return $this;
-        }
-
-        /**
-         * @param $pageNum
-         * @return $this
-         */
-        public function withPage($pageNum) {
-            $this->requestDetails["page"] = $pageNum;
-
-            return $this;
-        }
-
-        /**
-         * @param $pageSize
-         * @return $this
-         */
-        public function withPageSize($pageSize) {
-            $this->requestDetails["page_size"] = $pageSize;
-            return $this;
-        }
-
-        /**
-         * Adds the specific request field to the results
-         */
-        public function withResponseField($fieldName) {
-            $this->appendArrayValueToRequestDetails("fields",$fieldName);
-            return $this;
-        }
-
-        /**
          * @param ProductTypeFilter $productType
          * @throws Exception
          * @return $this
@@ -116,15 +80,6 @@ namespace GettyImages\Api\Request\Search {
          */
         public function withLicenseModel(LicenseModelFilter $licenseModel) {
             $this->appendArrayValueToRequestDetails("license_models",$licenseModel->getValue());
-            return $this;
-        }
-
-        /**
-         * @param string $val
-         * @return $this
-         */
-        public function withExcludeNudity($val = "true") {
-            $this->requestDetails["exclude_nudity"] = $val;
             return $this;
         }
 
@@ -164,7 +119,7 @@ namespace GettyImages\Api\Request\Search {
         public function withSpecificPeople($people) {
             $this->requestDetails["specific_people"] = $people;
             return $this;
-        }        
+        }
         
         /**
          * @param $artists
@@ -193,27 +148,7 @@ namespace GettyImages\Api\Request\Search {
             $this->appendArrayValueToRequestDetails("file_types",$fileType->getValue());
             return $this;
         }
-        
-        /**
-         * @param $collectionCode
-         * @return $this
-         */
-        public function withCollectionCode($collectionCode) {
-            $this->requestDetails["collection_codes"] = $collectionCode;
-            $this->requestDetails["collections_filter_type"] = "include";
-            return $this;
-        }
-        
-        /**
-         * @param $collectionCode
-         * @return $this
-         */
-        public function withoutCollectionCode($collectionCode) {
-            $this->requestDetails["collection_codes"] = $collectionCode;
-            $this->requestDetails["collections_filter_type"] = "exclude";
-            return $this;
-        }
-        
+                
         /**
          * @param $keywordId
          * @throws Exception
@@ -258,25 +193,6 @@ namespace GettyImages\Api\Request\Search {
             return $this;
         }
         
-        /**
-         * @param $age
-         * @return $this
-         */
-        public function withAgeOfPeople(AgeOfPeopleFilter $age) {
-            $this->appendArrayValueToRequestDetails("age_of_people",$age->getValue());
-            return $this;
-        }             
-        
-        /**
-         * @param $order
-         * @return $this
-         */
-        public function withSortOrder($order) {
-            $this->requestDetails["sort_order"] = $order;
-
-            return $this;
-        }
-
         /**
          * @return $this
          */

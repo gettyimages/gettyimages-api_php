@@ -3,7 +3,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-class DownloadsContext extends SharedCredentials implements Context, SnippetAcceptingContext {
+class DownloadsContext extends BaseContext {
 
     protected $downloadParameters = array();
 
@@ -52,7 +52,7 @@ class DownloadsContext extends SharedCredentials implements Context, SnippetAcce
     public function iRequestForAnyImageToBeDownloaded()
     {
         $context = $this;
-        $downloadSdk = $this->getSDK()->Download()->Image();
+        $downloadSdk = $this->sharedContext->getSDK()->Download()->Image();
 
         if (array_key_exists("fileType", $context->downloadParameters)) {
             $downloadSdk = $downloadSdk->withFileType($context->downloadParameters["fileType"]);
@@ -77,7 +77,7 @@ class DownloadsContext extends SharedCredentials implements Context, SnippetAcce
     public function iRequestForAnyVideoToBeDownloaded()
     {
         $context = $this;
-        $downloadSdk = $this->getSDK()->Download()->Video();
+        $downloadSdk = $this->sharedContext->getSDK()->Download()->Video();
         
         if (array_key_exists("size", $context->downloadParameters)) {
             $downloadSdk = $downloadSdk->withSize($context->downloadParameters["size"]);
