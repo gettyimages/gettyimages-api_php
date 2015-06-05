@@ -11,7 +11,7 @@ Create composer.json with these contents
 
     {
       "require": {
-	       "gettyimages/apiclient": "dev-master"
+	       "gettyimages/gettyimages-api": "dev-master"
       }
     }
 
@@ -36,4 +36,4 @@ Create your .php file
 
 ### Already established Project
 
-    composer require gettyimages/apiclient
+    composer require gettyimages/gettyimages-api
