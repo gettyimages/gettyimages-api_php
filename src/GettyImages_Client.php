@@ -17,6 +17,7 @@ namespace GettyImages\Api {
     require_once("Credentials.php");
     require_once("Request/Collections.php");
     require_once("Request/Countries.php");
+    require_once("Request/Events.php");
     require_once("Request/WebHelper.php");
     require_once("Request/Download/Download.php");
     require_once("Request/Images.php");
@@ -25,6 +26,7 @@ namespace GettyImages\Api {
 
     use GettyImages\Api\Request\Search\Search;
     use GettyImages\Api\Request\Download\Download;
+    use GettyImages\Api\Request\Events;
     use GettyImages\Api\Request\Images;
     use GettyImages\Api\Request\Videos;
     use GettyImages\Api\Request\Collections;
@@ -126,6 +128,16 @@ namespace GettyImages\Api {
             $downloadObj = new Download($this->credentials,$this->apiBaseUri);
 
             return $downloadObj;
+        }
+
+        /**
+        * Events
+        * 
+        * Provides the start for the Events request. 
+        */
+        public function Events() {
+            $eventsObj = new Events($this->credentials,$this->apiBaseUri);
+            return $eventsObj;
         }
 
         public function Collections() {

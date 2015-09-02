@@ -88,13 +88,21 @@ abstract class BaseContext implements Context, SnippetAcceptingContext {
         if (!array_key_exists($name, $legalNameMap)) return $name;
         
         return $legalNameMap[$name];
-    }
+    } 
 }
 
 class FeatureContext extends BaseContext {
 
     protected $useSandboxCredentials = false;
 
+    /**
+     * @Given /^I specify field (\w+)$/
+     */
+    public function givenISpecifyField($fieldName)
+    {
+        array_push($this->sharedContext->requestFields,$fieldName);
+    } 
+    
     /**
      * @Given /^I have an apikey$/
      * @Given an api key

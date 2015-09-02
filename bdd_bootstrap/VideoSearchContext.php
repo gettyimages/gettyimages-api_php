@@ -135,7 +135,7 @@ class VideoSearchContext extends BaseContext {
     public function videoSearchResultsAreReturned() {
         $response = json_decode($this->searchResponse,true);
         $this->assertTrue(array_key_exists('videos', $response));
-        $this->assertTrue(count($response['videos']) > 0, 'Expected list of IDs was not in the response' );
+        $this->assertTrue(count($response['videos']) > 0, 'Videos was empty' );
     }
 
     /**

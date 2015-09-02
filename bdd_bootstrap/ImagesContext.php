@@ -6,7 +6,6 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 class ImagesContext extends BaseContext {
     
 	protected $imageDetailParameters = array();
-	protected $imageDetailsFields = array();
 	protected $imageDetailsResponse = null;
   
 	/**
@@ -23,15 +22,7 @@ class ImagesContext extends BaseContext {
     public function iHaveAListOfImageIdsIWantDetailsOn()                                                                                                                              
     {            
         $this->imageDetailParameters["imageIds"] = array("482383805","183559345");                                                                                                                                                
-    }
-
-    /**
-     * @Given /^I specify field (\w+)$/
-     */
-    public function givenISpecifyField($fieldName)
-    {
-        array_push($this->imageDetailsFields,$fieldName);
-    }    
+    } 
 
     /**                                                                                                                                                                               
      * @When I retrieve details for the image        
@@ -42,7 +33,7 @@ class ImagesContext extends BaseContext {
         $sdk = $this->sharedContext->getSDK();
 
         $imageId = $this->imageDetailParameters["imageId"];
-        $imageFields = $this->imageDetailsFields;
+        $imageFields = $this->sharedContext->requestFields;
 
 		$sdk = $sdk->Images()->withId($imageId);
 
@@ -64,12 +55,12 @@ class ImagesContext extends BaseContext {
         $sdk = $this->sharedContext->getSDK();
         
         $imageIds = $this->imageDetailParameters["imageIds"];
-        $imageFields = $this->imageDetailsFields;
+        $requestFields = $this->sharedContext->requestFields;
         
         $sdk = $sdk->Images()->withIds($imageIds);
 
-        for($i = 0; $i < count($imageFields); ++$i) {
-            $sdk = $sdk->withResponseField($imageFields[$i]);
+        for($i = 0; $i < count($requestFields); ++$i) {
+            $sdk = $sdk->withResponseField($requestFields[$i]);
         }
 
         $response = $sdk->execute();

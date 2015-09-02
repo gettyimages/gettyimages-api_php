@@ -1,7 +1,7 @@
 {
     "name": "gettyimages/gettyimages-api",
     "description": "Getty Images API SDK - PHP",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "minimum-stability": "stable",
     "license": "MIT",
     "keywords": ["images","getty","gettyimages","photo","photos","search","creative","artist","embed"],

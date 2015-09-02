@@ -15,6 +15,8 @@ class SharedContext implements Context, SnippetAcceptingContext {
     public $refreshToken = null;
 
     public $sharedContextInfo = array();
+
+    public $requestFields = array();
     
     function setApiKey($apiKey) {
         $this->apiKey = $apiKey;
