@@ -3,15 +3,74 @@ default:
   autoload:
     '': %paths.base%/bdd_bootstrap
   suites:
-    default:
-      contexts: 
-        - FeatureContext
-        - SharedContext
-        - AuthenticationContext
-        - CollectionsContext
-        - CountriesContext
-        - DownloadsContext
-        - ImageSearchContext
-        - ImagesContext
-        - VideosContext
-        - VideoSearchContext
+    authentication_feature:
+        paths:
+            - features/authentication.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - AuthenticationContext
+    collections_feature:
+        paths:
+            - features/collections.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - CollectionsContext
+    countries_feature:
+        paths:
+            - features/countries.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - CountriesContext
+    events_feature:
+        paths:
+            - features/Events.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - EventsContext
+    image_downloads_feature:
+        paths:
+            - features/image-download.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - DownloadsContext
+    image_search_feature:
+        paths:
+            - features/ImageSearch.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - ImageSearchContext
+    images_feature:
+        paths:
+            - features/images.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - ImagesContext
+    videos_feature:
+        paths:
+            - features/videos.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - VideosContext
+    video_download_feature:
+        paths:
+            - features/video-download.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - VideosContext
+            - DownloadsContext
+    video_search_feature:
+        paths:
+            - features/video-search.feature
+        contexts:
+            - FeatureContext
+            - SharedContext
+            - VideoSearchContext
