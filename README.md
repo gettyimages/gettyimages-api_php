@@ -1,6 +1,7 @@
 # Getty Images API SDK - PHP
-[![Build Status](https://travis-ci.org/gettyimages/gettyimages-api_php.svg?branch=master)](https://travis-ci.org/gettyimages/gettyimages-api_php)
-[![Code Climate](https://codeclimate.com/github/gettyimages/gettyimages-api_php/badges/gpa.svg)](https://codeclimate.com/github/gettyimages/gettyimages-api_php)
+
+The SDK's have been deprecated and are no longer being maintained as of November 2016.
+
 ## Introduction
 This SDK makes using the Getty Images [API](http://developers.gettyimages.com) easy. It handles credential management, makes HTTP requests and is written with a fluent style in mind. The [API Documentation](https://github.com/gettyimages/gettyimages-api) is located on Github.
 
