@@ -2,7 +2,7 @@
 
 # Deprecated
 
-As of November 2016, we will no longer be improving or maintaining this SDK. The API is still alive and under active feature development. Current documentation can be found at [developers.gettyimages.com/api/docs/](http://developers.gettyimages.com/docs/).
+As of November 2016, we will no longer be improving or maintaining this SDK. The API is still alive and under active feature development. Current documentation can be found at [developers.gettyimages.com/docs/](http://developers.gettyimages.com/docs/).
 SDK source code remains open source, providing a technology example of interaction with the Getty Images API. We will no longer take pull requests for this repository.
 
 
