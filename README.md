@@ -2,9 +2,8 @@
 
 # Deprecated
 
-As of November 2016, we will no longer be improving or maintaining the language-specific SDKs. The API is still alive and under active feature development. Current documentation can be found at [developers.gettyimages.com/api/docs/](http://developers.gettyimages.com/api/docs/).
-SDK source code remains open source, providing a technology example of interaction with the Getty Images API. We will no longer take pull requests for these repositories, but feel free to fork them for your own modifications.
----
+As of November 2016, we will no longer be improving or maintaining this SDK. The API is still alive and under active feature development. Current documentation can be found at [developers.gettyimages.com/api/docs/](http://developers.gettyimages.com/api/docs/).
+SDK source code remains open source, providing a technology example of interaction with the Getty Images API. We will no longer take pull requests for this repository.
 
 
 ## Introduction
@@ -34,11 +33,11 @@ If everything is setup on your machine where PHP will run, you can most likely r
 
 ### Windows
 
-    Build.bat
+    build.bat
 
 ### *nix / OSX
 
-    Build.sh
+    ./build.sh
 
 This will put GettyImagesApi.phar in a build folder. Then you can use the package as you would any other phar.
 
@@ -85,15 +84,11 @@ The sdk does support using a proxy directly as well as ignoring ssl validation e
     $env:GettyImagesApi_UseProxy="127.0.0.0:8888"
 
 ## Tests
-### To get BDD scenarios for running the tests
-The Git repository contains a submodule which requires some special handling to get setup properly. This is because we share our scenario files across all our SDKs. To update the submodule:
-
-    git submodule update --init
 
 ### Running BDD Scenarios
-The API team at Getty Images uses [Behavior Driven Development](http://en.wikipedia.org/wiki/Behavior-driven_development) (BDD). We think it's a great way to develop software and want to spread the word. The test project contains scenarios written in the [Gherkin language](https://github.com/cucumber/gherkin/wiki).
+The test project contains scenarios written in the [Gherkin language](https://github.com/cucumber/gherkin/wiki).
 
-If you'd like to run the SDK through it's passes using your credentials, you can do this by creating the following environment variables prior to executing the behat infrastructure
+If you'd like to run the SDK through it's paces using your credentials, you can do this by creating the following environment variables prior to executing the behat infrastructure
 
 #### Credential Environment Variables
 
