@@ -4,30 +4,10 @@
  */
 
 namespace GettyImages\Api\Request\Search {
-    //Require Filters
-    require_once("Filters/EthnicityFilter.php");
-    require_once("Filters/EditorialSegmentFilter.php");
-    require_once("Filters/GraphicalStyleFilter.php");
-    require_once("Filters/LicenseModelFilter.php");
-    require_once("Filters/OrientationFilter.php");
-    require_once("Filters/NumberOfPeopleFilter.php");
-    require_once("Filters/AgeOfPeopleFilter.php");
-    require_once("Filters/FileTypeFilter.php");
-    require_once("Filters/FormatFilter.php");
-    require_once("Filters/CompositionFilter.php");
 
     use GettyImages\Api\Request\FluentRequest;
     use GettyImages\Api\Request\WebHelper;
     use Exception;
-    
-    use GettyImages\Api\Request\Search\Filters\GraphicalStyleFilter;
-    use GettyImages\Api\Request\Search\Filters\LicenseModelFilter;
-    use GettyImages\Api\Request\Search\Filters\OrientationFilter;
-    use GettyImages\Api\Request\Search\Filters\NumberOfPeopleFilter;
-    
-    use GettyImages\Api\Request\Search\Filters\EthnicityFilter;
-    use GettyImages\Api\Request\Search\Filters\FileTypeFilter;
-    use GettyImages\Api\Request\Search\Filters\CompositionFilter;
 
     /**
      * Provides Image Search specific behavior
@@ -55,7 +35,8 @@ namespace GettyImages\Api\Request\Search {
         //ACCEPT LANG
 
         /**
-         * @param $age
+         * @param $ages An array of ages by which to filter.
+         * @throws Exception
          * @return $this
          */
         public function withAgeOfPeople($ages) {
@@ -64,7 +45,8 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $artists
+         * @param $artists An array of artists by which to filter.
+         * @throws Exception
          * @return $this
          */
         public function withArtists($artists) {
@@ -73,7 +55,8 @@ namespace GettyImages\Api\Request\Search {
         } 
 
         /**
-         * @param $collectionCodes
+         * @param $collectionCodes An array of collection codes by which to filter.
+         * @throws Exception
          * @return $this
          */
         public function withCollectionCodes($collectionCodes) {
@@ -99,10 +82,11 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $composition
+         * @param $compositions An array of compostitions by which to filter.
+         * @throws Exception
          * @return $this
          */
-        public function withComposition($compositions) {
+        public function withCompositions($compositions) {
             $this->addArrayOfValuesToRequestDetails("compositions",$compositions);
             return $this;
         }
@@ -116,7 +100,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $ethnicity
+         * @param $ethnicities An array of ethnicities by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -126,7 +110,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $eventId
+         * @param $eventIds An array of event ids by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -149,6 +133,7 @@ namespace GettyImages\Api\Request\Search {
          *
          * @param array $fields An array of field names to include in the response.
          * this list isn't exclusive, default fields are always returned.
+         * @throws Exception
          * @return $this
          */
         public function withFields(array $fields) {
@@ -157,7 +142,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $fileType
+         * @param $fileTypes An array of file types by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -167,7 +152,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $graphicalStyle
+         * @param $graphicalStyles An array of graphical styles by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -177,7 +162,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $keywordId
+         * @param $keywordIds An array of keyword ids by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -187,7 +172,7 @@ namespace GettyImages\Api\Request\Search {
         } 
 
         /**
-         * @param $licenseModel
+         * @param $licenseModels An array of license models by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -207,7 +192,8 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $set
+         * @param $people An array of numbers of people in image by which to filter.
+         * @throws Exception
          * @return $this
          */
         public function withNumberOfPeople($people) {
@@ -216,7 +202,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param OrientationFilter $orientation
+         * @param $orientations An array of orientations by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -256,14 +242,14 @@ namespace GettyImages\Api\Request\Search {
         /**
          * Scopes response down to only prestige curated content
          */
-        public function withOnlyPrestigeContent()
+        public function withPrestigeContentOnly()
         {
             $this->requestDetails["prestige_content_only"] = "true";
             return $this;
         }
 
         /**
-         * @param ProductTypeFilter $productType
+         * @param $productTypes An array of product types by which to filter.
          * @throws Exception
          * @return $this
          */
@@ -282,7 +268,8 @@ namespace GettyImages\Api\Request\Search {
         }
         
         /**
-         * @param $people
+         * @param $people An array of people by which to filter.
+         * @throws Exception
          * @return $this
          */
         public function withSpecificPeople($people) {

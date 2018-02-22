@@ -73,7 +73,7 @@ namespace GettyImages\Api\Request {
             if(!is_array($values)) {
                 throw new \Exception("Values " . $values . " is not an array");
             }
-            if(strpos($field, 'id') === false && !is_int($values[0])) {
+            if(strpos($field, 'id') === false ) {
                 $values = array_map('strtolower', $values);
             }
             if(!array_key_exists($field,$this->requestDetails) || is_null($this->requestDetails[$field])) {

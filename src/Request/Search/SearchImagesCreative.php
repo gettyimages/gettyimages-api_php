@@ -8,6 +8,10 @@
 
 namespace GettyImages\Api\Request\Search {
 
+    use GettyImages\Api\Request\FluentRequest;
+    use GettyImages\Api\Request\WebHelper;
+    use Exception;
+
     class SearchImagesCreative extends FluentRequest {
 
         /**
@@ -24,46 +28,66 @@ namespace GettyImages\Api\Request\Search {
             return $this->route;
         }
 
+        protected function getMethod() {
+            return "get";
+        }
+
         //ACCEPT LANG
 
         /**
-         * @param $age
+         * @param $ages An array of ages by which to filter.
+         * @throws Exception
          * @return $this
          */
-        public function withAgeOfPeople(AgeOfPeopleFilter $age) {
-            $this->appendArrayValueToRequestDetails("age_of_people",$age->getValue());
+        public function withAgeOfPeople($ages) {
+            $this->addArrayOfValuesToRequestDetails("age_of_people",$ages);
             return $this;
         }
 
         /**
-         * @param $artists
+         * @param $artists An array of artists by which to filter.
+         * @throws Exception
          * @return $this
          */
         public function withArtists($artists) {
-            $this->requestDetails["artists"] = $artists;
+            $this->addArrayOfValuesToRequestDetails("artists",$artists);
             return $this;
         } 
 
         /**
-         * @param $collectionCode
+         * @param $collectionCodes An array of collection codes by which to filter.
+         * @throws Exception
          * @return $this
          */
-        public function withCollectionCode($collectionCode) {
-            $this->requestDetails["collection_codes"] = $collectionCode;
-            $this->requestDetails["collections_filter_type"] = "include";
+        public function withCollectionCodes($collectionCodes) {
+            $this->addArrayOfValuesToRequestDetails("collection_codes",$collectionCodes);
             return $this;
         }
 
-        //COLLECTION TYPE
-
-        //COLOR
-
         /**
-         * @param $composition
+         * @param $filter
          * @return $this
          */
-        public function withComposition(CompositionFilter $compositions) {
-            $this->appendArrayValueToRequestDetails("compositions",$compositions->getValue());
+        public function withCollectionFilterType(CollectionFilter $filter) {
+            $this->requestDetails["collections_filter_type"] = $filter->getValue();
+            return $this;
+        }
+
+        /**
+         * @return $this
+         */
+        public function withColor($color) {
+            $this->requestDetails["color"] = $color;
+            return $this;
+        }
+
+        /**
+         * @param $compositions An array of compositions by which to filter.
+         * @throws Exception
+         * @return $this
+         */
+        public function withCompositions($compositions) {
+            $this->addArrayOfValuesToRequestDetails("compositions",$compositions);
             return $this;
         }
 
@@ -76,12 +100,12 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param $ethnicity
+         * @param $ethnicities An array of ethnicities by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withEthnicity(EthnicityFilter $ethnicity) {
-            $this->appendArrayValueToRequestDetails("ethnicity",$ethnicity->getValue());
+        public function withEthnicity($ethnicities) {
+            $this->addArrayOfValuesToRequestDetails("ethnicity",$ethnicities);
             return $this;
         }
 
@@ -99,74 +123,81 @@ namespace GettyImages\Api\Request\Search {
          *
          * @param array $fields An array of field names to include in the response.
          * this list isn't exclusive, default fields are always returned.
+         * @throws Exception
          * @return $this
          */
-        public function Fields(array $fields) {
-            $this->requestDetails["fields"] = $fields;
+        public function withFields(array $fields) {
+            $this->addArrayOfValuesToRequestDetails("fields", $fields);
             return $this;
         }
 
         /**
-         * @param $fileType
+         * @param $fileTypes An array of file types by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withFileType(FileTypeFilter $fileType) {
-            $this->appendArrayValueToRequestDetails("file_types",$fileType->getValue());
+        public function withFileTypes($fileTypes) {
+            $this->addArrayOfValuesToRequestDetails("file_types",$fileTypes);
             return $this;
         }
 
         /**
-         * @param $graphicalStyle
+         * @param $graphicalStyles An array of graphical styles by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withGraphicalStyle(GraphicalStyleFilter $graphicalStyle) {
-            $this->appendArrayValueToRequestDetails("graphical_styles",$graphicalStyle->getValue());
+        public function withGraphicalStyles($graphicalStyles) {
+            $this->addArrayOfValuesToRequestDetails("graphical_styles",$graphicalStyles);
             return $this;
         }
 
         /**
-         * @param $keywordId
+         * @param $keywordIds An array of keyword ids by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withKeywordId($keywordId) {
-            if (!is_int($keywordId) || $keywordId<0) {
-                throw new InvalidArgumentException('withKeywordId function only accepts positive integers. Input was: '.$keywordId); 
-            }
-            $this->requestDetails["keyword_ids"] = $keywordId;
+        public function withKeywordIds($keywordIds) {
+            $this->addArrayOfValuesToRequestDetails("keyword_ids",$keywordIds);
             return $this;
         } 
 
         /**
-         * @param $licenseModel
+         * @param $licenseModels An array of license models by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withLicenseModel(LicenseModelFilter $licenseModel) {
-            $this->appendArrayValueToRequestDetails("license_models",$licenseModel->getValue());
+        public function withLicenseModels($licenseModels) {
+            $this->addArrayOfValuesToRequestDetails("license_models",$licenseModels);
             return $this;
         }
 
-        //MINIMUM SIZE
-
-        /**
-         * @param $set
-         * @return $this
-         */
-        public function withNumberOfPeople(NumberOfPeopleFilter $people) {
-            $this->appendArrayValueToRequestDetails("number_of_people",$people->getValue());
-            return $this;
-        }
-
-        /**
-         * @param OrientationFilter $orientation
+           /**
+         * @param $minimumSize
          * @throws Exception
          * @return $this
          */
-        public function withOrientation(OrientationFilter $orientation) {
-            $this->appendArrayValueToRequestDetails("orientations",$orientation->getValue());
+        public function withMinimumSize($minimumSize) {
+            $this->requestDetails["minimum_size"] = $minimumSize;
+            return $this;
+        }
+
+        /**
+         * @param $people An array of numbers of people in image by which to filter.
+         * @throws Exception
+         * @return $this
+         */
+        public function withNumberOfPeople($people) {
+            $this->addArrayOfValuesToRequestDetails("number_of_people",$people);
+            return $this;
+        }
+
+        /**
+         * @param $orientations An array of orientations by which to filter.
+         * @throws Exception
+         * @return $this
+         */
+        public function withOrientations($orientations) {
+            $this->addArrayOfValuesToRequestDetails("orientations",$orientations);
             return $this;
         }
 
@@ -201,19 +232,19 @@ namespace GettyImages\Api\Request\Search {
         /**
          * Scopes response down to only prestige curated content
          */
-        public function withOnlyPrestigeContent()
+        public function withPrestigeContentOnly()
         {
             $this->requestDetails["prestige_content_only"] = "true";
             return $this;
         }
 
         /**
-         * @param ProductTypeFilter $productType
+         * @param $productTypes An array of product types by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withProductType($productType) {
-            $this->appendArrayValueToRequestDetails("product_types", $productType);
+        public function withProductTypes($productTypes) {
+            $this->addArrayOfValuesToRequestDetails("product_types", $productTypes);
             return $this;
         }
 

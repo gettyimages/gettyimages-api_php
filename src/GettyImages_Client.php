@@ -23,8 +23,12 @@ namespace GettyImages\Api {
     require_once("Request/Images/Images.php");
     require_once("Request/Videos/Videos.php");
     require_once("Request/Search/SearchImages.php");
+    require_once("Request/Search/SearchImagesCreative.php");
+    require_once("Request/Search/SearchImagesEditorial.php");
 
     use GettyImages\Api\Request\Search\SearchImages;
+    use GettyImages\Api\Request\Search\SearchImagesCreative;
+    use GettyImages\Api\Request\Search\SearchImagesEditorial;
     use GettyImages\Api\Request\Download\Download;
     use GettyImages\Api\Request\Events;
     use GettyImages\Api\Request\Images\Images;
@@ -210,6 +214,14 @@ namespace GettyImages\Api {
             return $searchImagesObj;
         }
 
+        public function SearchImagesCreative() {
+            $searchImagesCreativeObj = new SearchImagesCreative($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchImagesCreativeObj;
+        }
 
+        public function SearchImagesEditorial() {
+            $searchImagesEditorialObj = new SearchImagesEditorial($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchImagesEditorialObj;
+        }
     }
 }
