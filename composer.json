@@ -18,11 +18,18 @@
         "source": "https://github.com/gettyimages/gettyimages-api_php"
     },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "gettyimages/gettyimages-api": "dev-test_branch",
+        "php-http/curl-client": "^1.7",
+        "guzzlehttp/psr7": "^1.4",
+        "php-http/message": "^1.6",
+        "php-http/discovery": "^1.4",
+        "php-di/php-di": "^5.4"
     },
     "require-dev" : {
         "phine/phar": "~1.0",
-        "behat/behat": "~3.0.6"
+        "behat/behat": "~3.0.6",
+        "phpunit/phpunit": "^7"
     },
     "autoload" : {
         "psr-4" : {

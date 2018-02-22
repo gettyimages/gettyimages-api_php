@@ -72,5 +72,12 @@ namespace GettyImages\Api\Request {
 
             return $route;
         }
+
+        /**
+         * @access private
+         */
+        public function getMethod() {
+            return "get";
+        }
     }
 }

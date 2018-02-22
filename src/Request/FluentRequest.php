@@ -24,25 +24,32 @@ namespace GettyImages\Api\Request {
          */
         protected $credentials = null;
 
+        protected $authHeader;
+
         /**
          * The root endpoint for Connect
          * @access private
          */
         protected $endpointUri = null;
 
+        protected $container;
+
         /**
          *
          * @param mixed $credentials
          * @param string $endpointUri
+         * @param mixed $container
          * @param string[] $requestParams Optional search request details if you already know what you want.
          */
-        public function __construct(&$credentials, $endpointUri, array $requestParams = null) {
+        public function __construct(&$credentials, $endpointUri, $container, array $requestParams = null) {
             $this->credentials = $credentials;
 
             $this->endpointUri = $endpointUri;
             if(!is_null($requestParams)) {
                 $this->requestDetails = $requestParams;
             }
+
+            $this->container = $container;
         }
 
         /**
@@ -62,16 +69,52 @@ namespace GettyImages\Api\Request {
             array_push($this->requestDetails[$field],strtolower($value));
         }
 
+        protected function addArrayOfValuesToRequestDetails($field,$values) {
+            if(!is_array($values)) {
+                throw new \Exception("Values " . $values . " is not an array");
+            }
+            if(strpos($field, 'id') === false && !is_int($values[0])) {
+                $values = array_map('strtolower', $values);
+            }
+            if(!array_key_exists($field,$this->requestDetails) || is_null($this->requestDetails[$field])) {
+                $this->requestDetails[$field] = $values;
+            }
+            else { 
+                $this->requestDetails[$field] = array_unique(array_merge($this->requestDetails[$field], $values));
+            }
+        }
+
         /**
          * Perform the request against the api
          */
         public function execute() {
             $endpointUrl = $this->endpointUri."/".$this->getRoute();
+            $method = $this->getMethod();
 
-            $response = WebHelper::getJsonWebRequest($endpointUrl,
-                $this->requestDetails,
-                array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
-                    "Authorization: ".$this->credentials->getAuthorizationHeaderValue())));
+            if (!$this->authHeader)
+            {
+                $this->authHeader = array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
+                                        "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
+            }
+
+            $webHelper = new WebHelper($this->container);
+            
+            switch ($method) {
+                case "get":
+                    $response = $webHelper->get($endpointUrl,
+                                                $this->requestDetails,
+                                                $this->authHeader);
+                    break;
+                case "post":
+                    $response = $webHelper->postWithNoBody($endpointUrl,
+                                                $this->requestDetails,
+                                                array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
+                                                    "Authorization: ".$this->credentials->getAuthorizationHeaderValue())));
+                    break;
+                default:
+                    throw new \Exception("No appropriate HTTP method found for this request.");
+            }
+            
 
             if($response["http_code"] != 200) {
                 throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
@@ -80,6 +123,7 @@ namespace GettyImages\Api\Request {
             return $response["body"];
         }
 
+        
         /**
          * @return string
          */

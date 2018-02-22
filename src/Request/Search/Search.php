@@ -71,26 +71,28 @@ namespace GettyImages\Api\Request\Search {
          * @return string Json package of the search results
          */
         public function execute() {
-            $endpointUrl = $this->endpointUri."/".$this->getRoute();
+            // $endpointUrl = $this->endpointUri."/".$this->getRoute();
 
             if(!$this->credentials->getAuthorizationHeaderValue()) {
-                $authHeader = array(CURLOPT_HTTPHEADER =>
+                $this->authHeader = array(CURLOPT_HTTPHEADER =>
                                     array("Api-Key:".$this->credentials->getApiKey()));
-            } else {
-                $authHeader = array(CURLOPT_HTTPHEADER =>
-                                    array("Api-Key:".$this->credentials->getApiKey(),
-                                          "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
             }
+            // } else {
+            //     $authHeader = array(CURLOPT_HTTPHEADER =>
+            //                         array("Api-Key:".$this->credentials->getApiKey(),
+            //                               "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
+            // }
 
-            $response = WebHelper::getJsonWebRequest($endpointUrl,
-                                                     $this->requestDetails,
-                                                     $authHeader);
+            // $response = WebHelper::getJsonWebRequest($endpointUrl,
+            //                                          $this->requestDetails,
+            //                                          $authHeader);
 
-            if($response["http_code"] != 200) {
-                throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
-            }
+            // if($response["http_code"] != 200) {
+            //     throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
+            // }
 
-            return $response["body"];
+            // return $response["body"];
+            parent::execute();
         }
 
         /**

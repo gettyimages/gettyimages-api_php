@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Provides general helpers around curl
  */
@@ -9,13 +10,16 @@ namespace GettyImages\Api\Request {
      * @ignore
      */
     class WebHelper {
-        public static function getJsonWebRequest($endpoint, $params = NULL, array $options = array()) {
-            $json_response = self::curl_get($endpoint, $params, $options);
+        protected $container;
 
-            return $json_response;
+        /**
+         * @param mixed $container
+         */
+        public function __construct($container) {
+            $this->container = $container;
         }
 
-        public static function postFormEncodedWebRequest($endpoint,array $data, array $options = array()) {
+        public function postFormEncodedWebRequest($endpoint,array $data, array $options = array()) {
 
             $data = http_build_query($data);
             $defaults = array(
@@ -28,12 +32,12 @@ namespace GettyImages\Api\Request {
             $defaults[CURLOPT_URL] = $endpoint;
             $defaults[CURLOPT_POSTFIELDS] = $data;
 
-            $result = self::execute(($options + $defaults));
+            $result = $this->execute(($options + $defaults));
 
             return $result;
         }
 
-        public static function postWithNoBody($endpoint, $queryParams, array $options = array()) {
+        public function postWithNoBody($endpoint, $queryParams, array $options = array()) {
 
             $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
 
@@ -58,11 +62,11 @@ namespace GettyImages\Api\Request {
          * @param array $options for cURL
          * @return string
          */
-        public static function curl_get($url, array $requestParams = NULL, array $options = array()) {
+        public function get($url, array $requestParams = NULL, array $options = array()) {
             $url = $url. (strpos($url, '?') === FALSE ? '?' : ''). self::BuildQueryParams($requestParams);
             $options[CURLOPT_URL] = $url;
 
-            $result = self::execute($options);
+            $result = $this->execute($options);
 
             return $result;
         }
@@ -116,34 +120,11 @@ namespace GettyImages\Api\Request {
         /**
          * @ignore
          */
-        private static function execute(array $options) {
-
-            $options = self::getCurlDefaults($options);
+        private function execute(array $options) {
             
-            $ch = curl_init();
-            curl_setopt_array($ch, $options);
-            $response = curl_exec($ch);
+            $options = self::getCurlDefaults($options);
 
-            $error = curl_error($ch);
-            $result = array( 'header' => '',
-                'body' => '',
-                'curl_error' => '',
-                'http_code' => '',
-                'last_url' => '',
-                'debugInfo' => '');
-            if ( $error != "" )
-            {
-                $result['curl_error'] = $error;
-                return $result;
-            }
-
-            $header_size = curl_getinfo($ch,CURLINFO_HEADER_SIZE);
-            $result['header'] = substr($response, 0, $header_size);
-            $result['body'] = substr( $response, $header_size );
-            $result['http_code'] = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-            $result['last_url'] = curl_getinfo($ch,CURLINFO_EFFECTIVE_URL);
-            curl_close($ch);
-            return $result;
+            return $this->container->get('ICurler')->execute($options);
         }
 
     }

@@ -12,7 +12,7 @@ namespace GettyImages\Api\Request\Search {
     /**
      * Provides Video Search specific behavior
      */
-    class SearchVideos extends Search {
+    class SearchVideos extends Fl {
 
         /**
          * @ignore
@@ -28,26 +28,54 @@ namespace GettyImages\Api\Request\Search {
             return $this->route;
         }
 
+        //ACCEPT LANG
+
         /**
-         * Will create a search configuration that support creative only video searching
-         *
-         * @internal param \GettyImages\SDK\string|string $phrase optionally provide a search phrase, shortcut to calling Phrase()
-         * @return SearchVideos Configured for a creative search
+         * @param $age
+         * @return $this
          */
-        public function Creative() {
-            return new SearchVideosCreative($this->credentials,$this->endpointUri,$this->requestDetails);
+        public function withAgeOfPeople(AgeOfPeopleFilter $age) {
+            $this->appendArrayValueToRequestDetails("age_of_people",$age->getValue());
+            return $this;
         }
 
         /**
-         * Will create a search configuration that support editorial only video searching
-         *
-         * @return SearchVideos Configured for a editorial image search
+         * @param $collectionCode
+         * @return $this
          */
-        public function Editorial() {
-            return new SearchVideosEditorial($this->credentials,$this->endpointUri, $this->requestDetails);
+        public function withCollectionCode($collectionCode) {
+            $this->requestDetails["collection_codes"] = $collectionCode;
+            $this->requestDetails["collections_filter_type"] = "include";
+            return $this;
+        }
+
+        //COLLECTION TYPE
+
+        //EDITORIALVIDEOTYPE
+
+
+        /**
+         * @param string $val
+         * @return $this
+         */
+        public function withExcludeNudity($val = "true") {
+            $this->requestDetails["exclude_nudity"] = $val;
+            return $this;
         }
 
         /**
+         * Will set the search request to only return the fields provided.
+         *
+         * @param array $fields An array of field names to include in the response.
+         * this list isn't exclusive, default fields are always returned.
+         * @return $this
+         */
+        public function Fields(array $fields) {
+            $this->requestDetails["fields"] = $fields;
+            return $this;
+        }
+
+                /**
          * @param $formatFilter
          * @return $this
          */
@@ -56,6 +84,86 @@ namespace GettyImages\Api\Request\Search {
             $this->appendArrayValueToRequestDetails("format_available",$formatFilter->getValue());
             return $this;
         }
+
+        //FRAMERATE
+
+        /**
+         * @param $keywordId
+         * @throws Exception
+         * @return $this
+         */
+        public function withKeywordId($keywordId) {
+            if (!is_int($keywordId) || $keywordId<0) {
+                throw new InvalidArgumentException('withKeywordId function only accepts positive integers. Input was: '.$keywordId); 
+            }
+            $this->requestDetails["keyword_ids"] = $keywordId;
+            return $this;
+        } 
+
+        /**
+         * @param $licenseModel
+         * @throws Exception
+         * @return $this
+         */
+        public function withLicenseModel(LicenseModelFilter $licenseModel) {
+            $this->appendArrayValueToRequestDetails("license_models",$licenseModel->getValue());
+            return $this;
+        }
+
+        /**
+         * @param $pageNum
+         * @return $this
+         */
+        public function withPage($pageNum) {
+            $this->requestDetails["page"] = $pageNum;
+            return $this;
+        }
+
+        /**
+         * @param $pageSize
+         * @return $this
+         */
+        public function withPageSize($pageSize) {
+            $this->requestDetails["page_size"] = $pageSize;
+            return $this;
+        }
+
+        /**
+         * @param $phrase
+         * @return $this
+         */
+        public function withPhrase($phrase) {
+            $this->requestDetails["phrase"] = $phrase;
+
+            return $this;
+        }
+
+        /**
+         * @param ProductTypeFilter $productType
+         * @throws Exception
+         * @return $this
+         */
+        public function withProductType($productType) {
+            $this->appendArrayValueToRequestDetails("product_types", $productType);
+            return $this;
+        }
+
+        /**
+         * @param $order
+         * @return $this
+         */
+        public function withSortOrder($order) {
+            $this->requestDetails["sort_order"] = $order;
+            return $this;
+        }
         
+        /**
+         * @param $people
+         * @return $this
+         */
+        public function withSpecificPeople($people) {
+            $this->requestDetails["specific_people"] = $people;
+            return $this;
+        }
     }
 }

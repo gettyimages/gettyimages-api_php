@@ -7,6 +7,10 @@ namespace GettyImages\Api\Request {
         protected function getRoute() {
             return "collections";
         }
+
+        protected function getMethod() {
+            return "get";
+        }
     }
 
 }
