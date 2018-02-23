@@ -5,14 +5,14 @@
 
 namespace GettyImages\Api\Request\Search {
     
+    use GettyImages\Api\Request\FluentRequest;
+    use GettyImages\Api\Request\WebHelper;
     use Exception;
-    use GettyImages\Api\Request\Search\Filters\AgeOfPeopleFilter;
-    use GettyImages\Api\Request\Search\Filters\FormatFilter;
     
     /**
      * Provides Video Search specific behavior
      */
-    class SearchVideos extends Fl {
+    class SearchVideos extends FluentRequest {
 
         /**
          * @ignore
@@ -28,31 +28,50 @@ namespace GettyImages\Api\Request\Search {
             return $this->route;
         }
 
+        protected function getMethod() {
+            return "get";
+        }
+
         //ACCEPT LANG
 
         /**
-         * @param $age
+         * @param array $ages An array of ages by which to filter.
+         * @throws Exception
          * @return $this
          */
-        public function withAgeOfPeople(AgeOfPeopleFilter $age) {
-            $this->appendArrayValueToRequestDetails("age_of_people",$age->getValue());
+        public function withAgeOfPeople(array $ages) {
+            $this->addArrayOfValuesToRequestDetails("age_of_people",$ages);
             return $this;
         }
 
         /**
-         * @param $collectionCode
+         * @param array $collectionCodes An array of collection codes by which to filter.
+         * @throws Exception
          * @return $this
          */
-        public function withCollectionCode($collectionCode) {
-            $this->requestDetails["collection_codes"] = $collectionCode;
-            $this->requestDetails["collections_filter_type"] = "include";
+        public function withCollectionCodes(array $collectionCodes) {
+            $this->addArrayOfValuesToRequestDetails("collection_codes",$collectionCodes);
             return $this;
         }
 
-        //COLLECTION TYPE
+        /**
+         * @param string $filter
+         * @return $this
+         */
+        public function withCollectionFilterType(string $filter) {
+            $this->requestDetails["collections_filter_type"] = $filter;
+            return $this;
+        }
 
-        //EDITORIALVIDEOTYPE
-
+        /**
+         * @param array $videoTypes An array of video types by which to filter.
+         * @throws Exception
+         * @return $this
+         */
+        public function withEditorialVideoTypes(array $videoTypes) {
+            $this->addArrayOfValuesToRequestDetails("editorial_video_types",$videoTypes);
+            return $this;
+        }
 
         /**
          * @param string $val
@@ -68,101 +87,107 @@ namespace GettyImages\Api\Request\Search {
          *
          * @param array $fields An array of field names to include in the response.
          * this list isn't exclusive, default fields are always returned.
-         * @return $this
-         */
-        public function Fields(array $fields) {
-            $this->requestDetails["fields"] = $fields;
-            return $this;
-        }
-
-                /**
-         * @param $formatFilter
-         * @return $this
-         */
-        public function withFormatFilter(FormatFilter $formatFilter) {
-
-            $this->appendArrayValueToRequestDetails("format_available",$formatFilter->getValue());
-            return $this;
-        }
-
-        //FRAMERATE
-
-        /**
-         * @param $keywordId
          * @throws Exception
          * @return $this
          */
-        public function withKeywordId($keywordId) {
-            if (!is_int($keywordId) || $keywordId<0) {
-                throw new InvalidArgumentException('withKeywordId function only accepts positive integers. Input was: '.$keywordId); 
-            }
-            $this->requestDetails["keyword_ids"] = $keywordId;
+        public function withFields(array $fields) {
+            $this->addArrayOfValuesToRequestDetails("fields", $fields);
+            return $this;
+        }
+
+        /**
+         * @param string $format
+         * @return $this
+         */
+        public function withAvailableFormat(string $format) {
+            $this->requestDetails["format_available"] = strtolower($format);
+            return $this;
+        }
+
+        /**
+         * @param array $frameRates An array of frame rates by which to filter.
+         * @throws Exception
+         * @return $this
+         */
+        public function withFrameRates(array $frameRates) {
+            $this->addArrayOfValuesToRequestDetails("frame_rates",$frameRates);
             return $this;
         } 
 
         /**
-         * @param $licenseModel
+         * @param array $keywordIds An array of keyword ids by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withLicenseModel(LicenseModelFilter $licenseModel) {
-            $this->appendArrayValueToRequestDetails("license_models",$licenseModel->getValue());
+        public function withKeywordIds(array $keywordIds) {
+            $this->addArrayOfValuesToRequestDetails("keyword_ids",$keywordIds);
+            return $this;
+        } 
+
+        /**
+         * @param array $licenseModels An array of license models by which to filter.
+         * @throws Exception
+         * @return $this
+         */
+        public function withLicenseModels(array $licenseModels) {
+            $this->addArrayOfValuesToRequestDetails("license_models",$licenseModels);
             return $this;
         }
 
         /**
-         * @param $pageNum
+         * @param int $pageNum
          * @return $this
          */
-        public function withPage($pageNum) {
+        public function withPage(int $pageNum) {
             $this->requestDetails["page"] = $pageNum;
             return $this;
         }
 
         /**
-         * @param $pageSize
+         * @param int $pageSize
          * @return $this
          */
-        public function withPageSize($pageSize) {
+        public function withPageSize(int $pageSize) {
             $this->requestDetails["page_size"] = $pageSize;
             return $this;
         }
 
         /**
-         * @param $phrase
+         * @param string $phrase
          * @return $this
          */
-        public function withPhrase($phrase) {
+        public function withPhrase(string $phrase) {
             $this->requestDetails["phrase"] = $phrase;
 
             return $this;
         }
 
         /**
-         * @param ProductTypeFilter $productType
+         * @param array $productTypes An array of product types by which to filter.
          * @throws Exception
          * @return $this
          */
-        public function withProductType($productType) {
-            $this->appendArrayValueToRequestDetails("product_types", $productType);
+        public function withProductTypes(array $productTypes) {
+            $this->addArrayOfValuesToRequestDetails("product_types", $productTypes);
             return $this;
         }
 
         /**
-         * @param $order
+         * @param string $order
          * @return $this
          */
-        public function withSortOrder($order) {
+        public function withSortOrder(string $order) {
             $this->requestDetails["sort_order"] = $order;
             return $this;
         }
         
         /**
-         * @param $people
+         * @param array $people An array of people by which to filter.
+         * @throws Exception
          * @return $this
          */
-        public function withSpecificPeople($people) {
-            $this->requestDetails["specific_people"] = $people;
+        public function withSpecificPeople(array $people) {
+            $this->addArrayOfValuesToRequestDetails("specific_people", $people);
             return $this;
         }
     }

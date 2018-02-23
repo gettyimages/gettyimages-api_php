@@ -19,20 +19,32 @@ namespace GettyImages\Api {
     require_once("Request/Countries.php");
     require_once("Request/Events.php");
     require_once("Request/WebHelper.php");
-    require_once("Request/Download/Download.php");
+    require_once("Request/Downloads/Downloads.php");
     require_once("Request/Images/Images.php");
+    require_once("Request/Images/ImagesSimilar.php");
     require_once("Request/Videos/Videos.php");
+    require_once("Request/Videos/VideosSimilar.php");
     require_once("Request/Search/SearchImages.php");
     require_once("Request/Search/SearchImagesCreative.php");
     require_once("Request/Search/SearchImagesEditorial.php");
+    require_once("Request/Search/SearchVideos.php");
+    require_once("Request/Search/SearchVideosCreative.php");
+    require_once("Request/Search/SearchVideosEditorial.php");
+    require_once("Request/Search/SearchEvents.php");
 
     use GettyImages\Api\Request\Search\SearchImages;
     use GettyImages\Api\Request\Search\SearchImagesCreative;
     use GettyImages\Api\Request\Search\SearchImagesEditorial;
-    use GettyImages\Api\Request\Download\Download;
+    use GettyImages\Api\Request\Search\SearchVideos;
+    use GettyImages\Api\Request\Search\SearchVideosCreative;
+    use GettyImages\Api\Request\Search\SearchVideosEditorial;
+    use GettyImages\Api\Request\Search\SearchEvents;
+    use GettyImages\Api\Request\Downloads\Downloads;
     use GettyImages\Api\Request\Events;
     use GettyImages\Api\Request\Images\Images;
+    use GettyImages\Api\Request\Images\ImagesSimilar;
     use GettyImages\Api\Request\Videos\Videos;
+    use GettyImages\Api\Request\Videos\VideosSimilar;
     use GettyImages\Api\Request\Collections;
     use GettyImages\Api\Request\Countries;
     use GettyImages\Api\Crendentials;
@@ -136,22 +148,10 @@ namespace GettyImages\Api {
             return $authenticationResponse;
         }
 
-        // /**
-        //  *  Search
-        //  *
-        //  * @return Search A search request object initially configured with credentials
-        //  */
-        // public function Search() {
-        //     $searchObj = new Search($this->credentials,$this->apiBaseUri,$this->container);
-
-        //     return $searchObj;
-        // }
-
         /**
          * Images
          *
-         * Provides the start of the Images Request. Use this for getting details
-         * for known image id's
+         * Get metadata for images
          *
          * @return Images
          */
@@ -162,10 +162,22 @@ namespace GettyImages\Api {
         }
 
         /**
-         * Images
+         * ImagesSimilar
          *
-         * Provides the start of the Videos Request. Use this for getting details
-         * for known video id's
+         * Get similar images
+         *
+         * @return ImagesSimilar
+         */
+        public function ImagesSimilar() {
+            $imagesSimilarObj = new ImagesSimilar($this->credentials,$this->apiBaseUri,$this->container);
+
+            return $imagesSimilarObj;
+        }
+
+        /**
+         * Videos
+         *
+         * Get metadata for videos
          *
          * @return Videos
          */
@@ -176,15 +188,27 @@ namespace GettyImages\Api {
         }
 
         /**
+         * VideosSimilar
+         *
+         * Get similar videos
+         *
+         * @return VideosSimilar
+         */
+        public function VideosSimilar() {
+            $videosSimilarObj = new VideosSimilar($this->credentials,$this->apiBaseUri,$this->container);
+
+            return $videosSimilarObj;
+        }
+
+        /**
          * Download
          *
-         * Provides the start of the Download request. Use this for downloading
-         * for a known image Id
+         * Returns information about a customer's downloaded assets
          *
-         * @return Download
+         * @return Downloads
          */
-        public function Download() {
-            $downloadObj = new Download($this->credentials,$this->apiBaseUri,$this->container);
+        public function Downloads() {
+            $downloadObj = new Downloads($this->credentials,$this->apiBaseUri,$this->container);
 
             return $downloadObj;
         }
@@ -192,36 +216,119 @@ namespace GettyImages\Api {
         /**
         * Events
         * 
-        * Provides the start for the Events request. 
+        * Get metadata fro events 
         */
         public function Events() {
             $eventsObj = new Events($this->credentials,$this->apiBaseUri,$this->container);
             return $eventsObj;
         }
 
+        /**
+         * Collections
+         *
+         * Get collections applicable for the customer
+         *
+         * @return Collections
+         */
         public function Collections() {
             $collectionsObj = new Collections($this->credentials,$this->apiBaseUri,$this->container);
             return $collectionsObj;
         }
 
+        /**
+         * Countries
+         *
+         * Get country codes and names
+         *
+         * @return Countries
+         */
         public function Countries() {
             $countriesObj = new Countries($this->credentials,$this->apiBaseUri,$this->container);
             return $countriesObj;
         }
 
+        /**
+         * SearchImages
+         *
+         * Search for both creative and editorial images
+         *
+         * @return SearchImages
+         */
         public function SearchImages() {
             $searchImagesObj = new SearchImages($this->credentials,$this->apiBaseUri,$this->container);
             return $searchImagesObj;
         }
 
+        /**
+         * SearchImagesCreative
+         *
+         * Search for creative Images
+         *
+         * @return SearchImagesCreative
+         */
         public function SearchImagesCreative() {
             $searchImagesCreativeObj = new SearchImagesCreative($this->credentials,$this->apiBaseUri,$this->container);
             return $searchImagesCreativeObj;
         }
 
+        /**
+         * SearchImagesEditorial
+         *
+         * Search for editorial images
+         *
+         * @return SearchImagesEditorial
+         */
         public function SearchImagesEditorial() {
             $searchImagesEditorialObj = new SearchImagesEditorial($this->credentials,$this->apiBaseUri,$this->container);
             return $searchImagesEditorialObj;
+        }
+
+        /**
+         * SearchVideos
+         *
+         * Search for both creative and editorial videos
+         *
+         * @return SearchVideos
+         */
+        public function SearchVideos() {
+            $searchVideosObj = new SearchVideos($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchVideosObj;
+        }
+
+        /**
+         * SearchVideosCreative
+         *
+         * Search for creative videos
+         *
+         * @return SearchVideosCreative
+         */
+        public function SearchVideosCreative() {
+            $searchVideosCreativeObj = new SearchVideosCreative($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchVideosCreativeObj;
+        }
+
+        /**
+         * SearchVideosEditorial
+         *
+         * Search for editorial videos
+         *
+         * @return SearchVideosEditorial
+         */
+        public function SearchVideosEditorial() {
+            $searchVideosEditorialObj = new SearchVideosEditorial($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchVideosEditorialObj;
+        }
+
+        /**
+         * SearchEvents
+         *
+         * Search for events
+         *
+         * @return SearchEvents
+         */
+        public function SearchEvents() {
+            $searchEventsObj = new SearchEvents($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchEventsObj;
         }
     }
 }

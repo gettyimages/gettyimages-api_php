@@ -1,43 +1,37 @@
 <?php
 /**
- * Images.php
+ * Videos.php
  *
  */
 
-namespace GettyImages\Api\Request\Images {
+namespace GettyImages\Api\Request\Videos {
 
     use GettyImages\Api\Request\FluentRequest;
     use GettyImages\Api\Request\WebHelper;
     use Exception;
     
     /**
-     * Images
+     * Videos
      *
-     * Provides the Images request.
+     * Provides the Videos request.
      */
-    class Images extends FluentRequest {
+    class VideosSimilar extends FluentRequest {
 
         /**
          * @access private
          */
-        private $imageIdsToLookup = array();
+        private $videoIdToLookup;
 
         /**
-         * @ignore
+         * @access private
          */
-        protected $route = "images/";
+        private $route = "videos/";
 
         /**
          * @access private
          */
         public function getRoute() {
-            $imageIds = $this->imageIdsToLookup;
-            
-            if(count($imageIds) == 1) {
-                $this->route = $this->route.implode(",", $imageIds);
-            } else {
-                $this->addArrayOfValuesToRequestDetails("ids", $imageIds);
-            }
+            $this->route = $this->route.$this->videoIdToLookup."/similar";
 
             return $this->route;
         }
@@ -49,25 +43,17 @@ namespace GettyImages\Api\Request\Images {
             return "get";
         }
 
-        
+
         /**
-         * @param array $imageIds
+         * @param string $videoId
          * @return $this
          */
-        public function withIds(array $imageIds) {
-            $this->imageIdsToLookup = $imageIds;
+        public function withId(string $videoId) {
+			$this->videoIdToLookup = $videoId;
+
             return $this;
         }
 
-        /**
-         * @param string $imageId
-         * @return $this
-         */
-        public function withId(string $imageId) {
-            array_push($this->imageIdsToLookup,$imageId);
-            return $this;
-        }
-        
         /**
          * Will set the search request to only return the fields provided.
          *
@@ -80,5 +66,23 @@ namespace GettyImages\Api\Request\Images {
             $this->addArrayOfValuesToRequestDetails("fields", $fields);
             return $this;
         }
-    }
+
+        /**
+         * @param int $pageNum
+         * @return $this
+         */
+        public function withPage(int $pageNum) {
+            $this->requestDetails["page"] = $pageNum;
+            return $this;
+        }
+
+        /**
+         * @param int $pageSize
+         * @return $this
+         */
+        public function withPageSize(int $pageSize) {
+            $this->requestDetails["page_size"] = $pageSize;
+            return $this;
+        }
+	}
 }

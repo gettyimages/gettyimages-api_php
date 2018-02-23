@@ -108,17 +108,32 @@ namespace GettyImages\Api\Request {
                 case "post":
                     $response = $webHelper->postWithNoBody($endpointUrl,
                                                 $this->requestDetails,
-                                                array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
-                                                    "Authorization: ".$this->credentials->getAuthorizationHeaderValue())));
+                                                $this->authHeader);
                     break;
                 default:
                     throw new \Exception("No appropriate HTTP method found for this request.");
             }
             
+            return $this->handleResponse($response);
+        }
 
-            if($response["http_code"] != 200) {
+        protected function handleResponse($response){
+            if($response["http_code"] != 200 && $response['http_code'] != 303) {
                 throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
             }
+
+            if($response["http_code"] == 303) {
+                $parsedHeaderArray = explode("\r\n", $response["header"]);
+                foreach ($parsedHeaderArray as $headerValue) {
+                    $headerValueToLookup = "Location: ";
+                    $headerLookupLen = strlen($headerValueToLookup);
+
+                    if(substr($headerValue, 0, $headerLookupLen) === $headerValueToLookup) {
+                        $imageDownloadUrl = substr($headerValue, $headerLookupLen);
+                        return $imageDownloadUrl;
+                    }
+                }
+            } 
 
             return $response["body"];
         }

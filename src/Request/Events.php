@@ -18,32 +18,10 @@ namespace GettyImages\Api\Request {
          */
         private $eventIdsToLookup = array();
 
-        public function withId($eventId) {
-            array_push($this->eventIdsToLookup,$eventId);
-            return $this;
-        }
-
-        public function withIds(array $eventIds) {
-            $this->eventIdsToLookup = $eventIds;
-            return $this;
-        }
-
         /**
-         * Will set the request to only return the fields provided.
-         *
-         * @param array $fields An array of field names to include in the response.
-         * this list isn't exclusive, default fields are always returned.
-         * @return $this
+         * @ignore
          */
-        public function Fields(array $fields) {
-            $this->requestDetails["fields"] = $fields;
-            return $this;
-        }
-
-        public function withResponseField($fieldName) {
-           $this->appendArrayValueToRequestDetails("fields",$fieldName);
-            return $this;
-        }
+        protected $route = "events/";
 
         /**
          * @access private
@@ -52,18 +30,49 @@ namespace GettyImages\Api\Request {
             $eventIds = $this->eventIdsToLookup;
             
             if(count($eventIds) == 1) {
-                $route = "events/".implode(",", $eventIds);
+                $this->route = $this->route.implode(",", $eventIds);
             } else if (count($eventIds) > 1) {
-                $route = "events/?ids=".implode(",", $eventIds);
-            } else {
-                $route = "events";
+                $this->addArrayOfValuesToRequestDetails("ids", $eventIds);
             }
 
-            return $route;
+            return $this->route;
         }
 
         public function getMethod() {
             return "get";
+        }
+
+        //ACCEPT LANG
+
+        /**
+         * @param int $eventId
+         * @return $this
+         */
+        public function withId(int $eventId) {
+            array_push($this->eventIdsToLookup,$eventId);
+            return $this;
+        }
+
+         /**
+         * @param array $eventIds
+         * @return $this
+         */
+        public function withIds(array $eventIds) {
+            $this->eventIdsToLookup = $eventIds;
+            return $this;
+        }
+
+        /**
+         * Will set the search request to only return the fields provided.
+         *
+         * @param array $fields An array of field names to include in the response.
+         * this list isn't exclusive, default fields are always returned.
+         * @throws Exception
+         * @return $this
+         */
+        public function withFields(array $fields) {
+            $this->addArrayOfValuesToRequestDetails("fields", $fields);
+            return $this;
         }
     }
 }

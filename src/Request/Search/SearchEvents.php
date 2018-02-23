@@ -1,58 +1,60 @@
 <?php
-/**
- * Images.php
- *
- */
 
-namespace GettyImages\Api\Request\Images {
+namespace GettyImages\Api\Request\Search {
 
     use GettyImages\Api\Request\FluentRequest;
     use GettyImages\Api\Request\WebHelper;
     use Exception;
-    
-    /**
-     * Images
-     *
-     * Provides the Images request.
-     */
-    class ImagesSimilar extends FluentRequest {
 
-        /**
-         * @access private
-         */
-        private $imageIdToLookup;
+    class SearchEvents extends FluentRequest {
 
         /**
          * @ignore
          */
-        protected $route = "images/";
+        protected $route = "search/events/";
 
         /**
-         * @access private
+         * Gets the route configuration of the current search
+         *
+         * @return string The relative route for this request type
          */
         public function getRoute() {
-            $this->route = $this->route.$this->imageIdToLookup."/similar";
-
             return $this->route;
         }
 
-        /**
-         * @access private
-         */
-        public function getMethod() {
+        protected function getMethod() {
             return "get";
         }
 
+        //ACCEPT LANG
 
         /**
-         * @param array $imageId
+         * @param string $dateFrom
          * @return $this
          */
-        public function withId($imageId) {
-            $this->imageIdToLookup = $imageId;
+        public function withDateFrom(string $dateFrom) {
+            $this->requestDetails["date_from"] = $dateFrom;
             return $this;
         }
-        
+
+        /**
+         * @param string $dateTo
+         * @return $this
+         */
+        public function withDateTo(string $dateTo) {
+            $this->requestDetails["date_to"] = $dateTo;
+            return $this;
+        }
+
+        /**
+         * @param string $editorialsegment
+         * @return $this
+         */
+        public function withEditorialSegment(string $editorialSegment) {
+            $this->requestDetails["editorial_segment"] = $editorialSegment;
+            return $this;
+        }
+
         /**
          * Will set the search request to only return the fields provided.
          *
@@ -81,6 +83,16 @@ namespace GettyImages\Api\Request\Images {
          */
         public function withPageSize(int $pageSize) {
             $this->requestDetails["page_size"] = $pageSize;
+            return $this;
+        }
+
+        /**
+         * @param string $phrase
+         * @return $this
+         */
+        public function withPhrase(string $phrase) {
+            $this->requestDetails["phrase"] = $phrase;
+
             return $this;
         }
     }
