@@ -1,16 +1,7 @@
 <?php
-/**
- * Events.php
- *
- */
 
 namespace GettyImages\Api\Request {
 
-    /**
-     * Events
-     *
-     * Provides the Events request.
-     */
     class Events extends FluentRequest {
     
         /**
@@ -23,10 +14,7 @@ namespace GettyImages\Api\Request {
          */
         protected $route = "events/";
 
-        /**
-         * @access private
-         */
-        public function getRoute() {
+        protected function getRoute() {
             $eventIds = $this->eventIdsToLookup;
             
             if(count($eventIds) == 1) {
@@ -38,11 +26,9 @@ namespace GettyImages\Api\Request {
             return $this->route;
         }
 
-        public function getMethod() {
+        protected function getMethod() {
             return "get";
         }
-
-        //ACCEPT LANG
 
         /**
          * @param int $eventId

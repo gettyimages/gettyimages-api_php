@@ -4,9 +4,9 @@ use PHPUnit\Framework\TestCase;
 use GettyImages\Api\GettyImages_Client;
 use GettyImages\Api\Curler\CurlerMock;
 
-final class SearchImagesEditorialTest extends TestCase
+final class SearchImagesTest extends TestCase
 {
-    public function testSearchImagesEditorialWithPhrase(): void
+    public function testSearchImagesWithPhrase(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -15,13 +15,13 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithAgeOfPeople(): void
+    public function testSearchImagesWithAgeOfPeople(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -32,14 +32,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withAgeOfPeople($people)->withPhrase("cat")->execute();
+        $search = $client->SearchImages()->withAgeOfPeople($people)->withPhrase("cat")->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("age_of_people=newborn%2C2-3_years%2C0-1_months", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithArtists(): void
+    public function testSearchImagesWithArtists(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -50,14 +50,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withArtists($artists)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withArtists($artists)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("artists=roman+makhmutov%2Clinda+raymond", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithCollectionCodes(): void
+    public function testSearchImagesWithCollectionCodes(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -68,28 +68,46 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withCollectionCodes($codes)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withCollectionCodes($codes)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("collection_codes=wri%2Carf", $curlerMock->options[CURLOPT_URL]);
     }
 
-    // public function testSearchImagesEditorialWithCollectionFilterType(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
+    public function testSearchImagesWithCollectionFilterType(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
 
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-    //     $search = $client->SearchImagesEditorial()->withArtists("abcd")->withArtists($artists2)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withCollectionFilterType("exclude")->execute();
 
-    //     $this->assertContains("countries", $curlerMock->options[CURLOPT_URL]);
-    // }
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("collections_filter_type=exclude", $curlerMock->options[CURLOPT_URL]);
+    }
 
-    public function testSearchImagesEditorialWithCompostitions(): void
+    public function testSearchImagesWithColor(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImages()->withPhrase("cat")->withColor("#002244")->execute();
+
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("color=%23002244", $curlerMock->options[CURLOPT_URL]);
+    }
+
+    public function testSearchImagesWithCompostitions(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -100,32 +118,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withCompositions($compositions)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withCompositions($compositions)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("compositions=candid%2Cfull_length", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithEditorialSegments(): void
-    {
-        $curlerMock = new CurlerMock();
-        $builder = new \DI\ContainerBuilder();
-        $container = $builder->build();
-        $container->set('ICurler', $curlerMock);
-
-        $edSegments = array("archival", "publicity");
-
-        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
-
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withEditorialSegments($edSegments)->execute();
-
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("editorial_segments=archival%2Cpublicity", $curlerMock->options[CURLOPT_URL]);
-    }
-
-    public function testSearchImagesEditorialWithEmbedContentOnly(): void
+    public function testSearchImagesWithEmbedContentOnly(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -134,48 +134,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withEmbedContentOnly()->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withEmbedContentOnly()->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("embed_content_only=true", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithEndDate(): void
-    {
-        $curlerMock = new CurlerMock();
-        $builder = new \DI\ContainerBuilder();
-        $container = $builder->build();
-        $container->set('ICurler', $curlerMock);
-
-        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
-
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withEndDate("2015-04-01")->execute();
-
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("end_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
-    }
-
-    public function testSearchImagesEditorialWithEntityUris(): void
-    {
-        $curlerMock = new CurlerMock();
-        $builder = new \DI\ContainerBuilder();
-        $container = $builder->build();
-        $container->set('ICurler', $curlerMock);
-
-        $uris = array("example_uri_1", "Example_uri_2");
-
-        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
-
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withEntityUris($uris)->execute();
-
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("entity_uris=example_uri_1%2Cexample_uri_2", $curlerMock->options[CURLOPT_URL]);
-    }
-
-    public function testSearchImagesEditorialWithEthnicity(): void
+    public function testSearchImagesWithEthnicity(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -186,14 +152,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withEthnicity($ethnicities)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withEthnicity($ethnicities)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("ethnicity=east_asian%2Cpacific_islander", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithEventIds(): void
+    public function testSearchImagesWithEventIds(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -204,14 +170,54 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withEventIds($ids)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withEventIds($ids)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("event_ids=518451%2C518452", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithExcludeNudity(): void
+    public function testSearchImagesWithEventIdsChainedDuplicates(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $ids = array(518451, 518452);
+
+        $ids2 = array(518451, 518452);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImages()->withPhrase("cat")->withEventIds($ids)->withEventIds($ids2)->execute();
+
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("event_ids=518451%2C518452", $curlerMock->options[CURLOPT_URL]);
+    }
+
+    public function testSearchImagesWithEventIdsChained(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $ids = array(518451, 518452);
+
+        $ids2 = array(518453, 518454);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImages()->withPhrase("cat")->withEventIds($ids)->withEventIds($ids2)->execute();
+
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("event_ids=518451%2C518452%2C518453%2C518454", $curlerMock->options[CURLOPT_URL]);
+    }
+
+    public function testSearchImagesWithExcludeNudity(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -220,14 +226,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withExcludeNudity()->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withExcludeNudity()->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("exclude_nudity=true", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithFields(): void
+    public function testSearchImagesWithFields(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -238,14 +244,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withFields($fields)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withFields($fields)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithFileTypes(): void
+    public function testSearchImagesWithFileTypes(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -256,14 +262,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withFileTypes($types)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withFileTypes($types)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("file_types=eps%2Cjpg", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithGraphicalStyles(): void
+    public function testSearchImagesWithGraphicalStyles(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -274,14 +280,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withGraphicalStyles($styles)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withGraphicalStyles($styles)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("graphical_styles=fine_art%2Cillustration", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithKeywordIds(): void
+    public function testSearchImagesWithKeywordIds(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -292,14 +298,32 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withKeywordIds($ids)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withKeywordIds($ids)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("keyword_ids=64284%2C67255", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithMinimumQuality(): void
+    public function testSearchImagesWithLicenseModels(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $models = array("rightsmanaged", "royaltyfree");
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImages()->withPhrase("cat")->withLicenseModels($models)->execute();
+
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("license_models=rightsmanaged%2Croyaltyfree", $curlerMock->options[CURLOPT_URL]);
+    }
+
+    public function testSearchImagesWithMinimumSize(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -308,30 +332,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withMinimumQuality(1)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withMinimumSize("small")->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("minimum_quality_rank=1", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("minimum_size=small", $curlerMock->options[CURLOPT_URL]);
     }
 
-    // public function testSearchImagesEditorialWithMinimumSize(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
-
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
-
-    //     $search = $client->SearchImagesEditorial()->withPhrase("cat")->withMinimumSize("small")->execute();
-
-    //     $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("minimum_size=small", $curlerMock->options[CURLOPT_URL]);
-    // }
-
-    public function testSearchImagesEditorialWithNumberOfPeople(): void
+    public function testSearchImagesWithNumberOfPeople(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -342,15 +350,14 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withNumberOfPeople($people)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withNumberOfPeople($people)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("number_of_people=group%2Cone", $curlerMock->options[CURLOPT_URL]);
     }
-
-    
-    public function testSearchImagesEditorialWithOrientations(): void
+  
+    public function testSearchImagesWithOrientations(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -361,15 +368,15 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withOrientations($orientations)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withOrientations($orientations)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("orientations=horizontal%2Csquare", $curlerMock->options[CURLOPT_URL]);
     }
 
     
-    public function testSearchImagesEditorialWithPage(): void
+    public function testSearchImagesWithPage(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -378,14 +385,15 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withPage(3)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withPage(3)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesEditorialWithPageSize(): void
+    
+    public function testSearchImagesWithPageSize(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -394,14 +402,32 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withPageSize(50)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withPageSize(50)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
+
     
-    public function testSearchImagesEditorialWithProductTypes(): void
+    public function testSearchImagesWithPrestigeContent(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImages()->withPhrase("cat")->withPrestigeContentOnly()->execute();
+
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("prestige_content_only=true", $curlerMock->options[CURLOPT_URL]);
+    }
+
+    
+    public function testSearchImagesWithProductTypes(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -412,32 +438,30 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withProductTypes($types)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withProductTypes($types)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("product_types=easyaccess%2Ceditorialsubscription", $curlerMock->options[CURLOPT_URL]);
     }
-
     
-    // public function testSearchImagesEditorialWithSortOrder(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
+    public function testSearchImagesWithSortOrder(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
 
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-    //     $search = $client->SearchImagesEditorial()->withPhrase("cat")->withSortOrder("newest")->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withSortOrder("newest")->execute();
 
-    //     $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
-    // }
-
-    
-    public function testSearchImagesEditorialWithSpecificPeople(): void
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
+    }
+   
+    public function testSearchImagesWithSpecificPeople(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -448,26 +472,10 @@ final class SearchImagesEditorialTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withSpecificPeople($people)->execute();
+        $search = $client->SearchImages()->withPhrase("cat")->withSpecificPeople($people)->execute();
 
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("search/images", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("specific_people=reggie+jackson", $curlerMock->options[CURLOPT_URL]);
-    }
-
-    public function testSearchImagesEditorialWithStartDate(): void
-    {
-        $curlerMock = new CurlerMock();
-        $builder = new \DI\ContainerBuilder();
-        $container = $builder->build();
-        $container->set('ICurler', $curlerMock);
-
-        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
-
-        $search = $client->SearchImagesEditorial()->withPhrase("cat")->withStartDate("2015-04-01")->execute();
-
-        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("start_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 }

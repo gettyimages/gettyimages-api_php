@@ -2,9 +2,10 @@
 
 namespace GettyImages\Api\Request\Downloads  {
 
+    use GettyImages\Api\Request\FluentRequest;
     use GettyImages\Api\Request\WebHelper;
 
-    class DownloadImage extends Download {
+    class DownloadImage extends FluentRequest {
 
         /**
          * @ignore
@@ -16,25 +17,18 @@ namespace GettyImages\Api\Request\Downloads  {
          */
         protected $imageIdToLookup;
 
-        public function __construct() {
+        public function __construct(&$credentials, $endpointUri, $container) {
             $this->requestDetails["auto_download"] = "false";
+            parent::__construct($credentials, $endpointUri, $container);
         }
 
-        /**
-         * Gets the route configuration of the current search
-         *
-         * @return string The relative route for this request type
-         */
-        public function getRoute() {
+        protected function getRoute() {
             $this->route = $this->route.$this->imageIdToLookup;
 
             return $this->route;
         }
 
-        /**
-         * @access private
-         */
-        public function getMethod() {
+        protected function getMethod() {
             return "post";
         }
 

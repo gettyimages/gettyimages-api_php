@@ -7,21 +7,13 @@ namespace GettyImages\Api\Request\Downloads {
 
     class Downloads extends FluentRequest {
 
-        /**
-         * @return string
-         */
         protected function getRoute() {
             return "downloads/";
         }
 
-        /**
-         * @access private
-         */
-        public function getMethod() {
+        protected function getMethod() {
             return "get";
         }
-
-        //ACCEPT LANG
 
         /**
          * @return $this
@@ -68,10 +60,10 @@ namespace GettyImages\Api\Request\Downloads {
         }
 
         /**
-         * @param $startDate
+         * @param string $startDate
          * @return $this
          */
-        public function withStartDate($startDate) {
+        public function withStartDate(string $startDate) {
             $this->requestDetails["start_date"] = $startDate;
             return $this;
         }

@@ -11,8 +11,6 @@ namespace GettyImages\Api\Request {
         protected function getMethod() {
             return "get";
         }
-
-        //ACCEPT LANG
     }
 
 }

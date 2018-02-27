@@ -4,9 +4,9 @@ use PHPUnit\Framework\TestCase;
 use GettyImages\Api\GettyImages_Client;
 use GettyImages\Api\Curler\CurlerMock;
 
-final class VideosSimilarSimilarTest extends TestCase
+final class ImagesSimilarTest extends TestCase
 {
-    public function testVideosSimilarEndpointWithId(): void
+    public function testImagesSimilarWithId(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -15,12 +15,12 @@ final class VideosSimilarSimilarTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->VideosSimilar()->WithId(12345)->execute();
+        $response = $client->ImagesSimilar()->WithId(12345)->execute();
 
-        $this->assertContains("videos/12345/similar", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("images/12345/similar", $curlerMock->options[CURLOPT_URL]);
     }  
     
-    public function testSingleEventWithFields(): void
+    public function testImagesSimilarWithFields(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -31,13 +31,13 @@ final class VideosSimilarSimilarTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->VideosSimilar()->WithId(12345)->withFields($fields)->execute();
+        $response = $client->ImagesSimilar()->WithId(12345)->withFields($fields)->execute();
 
-        $this->assertContains("videos/12345/similar", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("images/12345/similar", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSingleEventWithPage(): void
+    public function testImagesSimilarWithPage(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -46,13 +46,13 @@ final class VideosSimilarSimilarTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->VideosSimilar()->WithId(12345)->withPage(3)->execute();
+        $response = $client->ImagesSimilar()->WithId(12345)->withPage(3)->execute();
 
-        $this->assertContains("videos/12345/similar", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("images/12345/similar", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSingleEventWithPageSize(): void
+    public function testImagesSimilarWithPageSize(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -61,9 +61,9 @@ final class VideosSimilarSimilarTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->VideosSimilar()->WithId(12345)->withPageSize(50)->execute();
+        $response = $client->ImagesSimilar()->WithId(12345)->withPageSize(50)->execute();
 
-        $this->assertContains("videos/12345/similar", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("images/12345/similar", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
 }

@@ -57,19 +57,21 @@ final class SearchVideosTest extends TestCase
         $this->assertContains("collection_codes=wri%2Carf", $curlerMock->options[CURLOPT_URL]);
     }
 
-    // public function testSearchVideosWithCollectionFilterType(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
+    public function testSearchVideosWithCollectionFilterType(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
 
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-    //     $search = $client->SearchVideos()->withArtists("abcd")->withArtists($artists2)->execute();
+        $search = $client->SearchVideos()->withPhrase("cat")->withCollectionFilterType("exclude")->execute();
 
-    //     $this->assertContains("countries", $curlerMock->options[CURLOPT_URL]);
-    // }
+        $this->assertContains("search/videos", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("collections_filter_type=exclude", $curlerMock->options[CURLOPT_URL]);
+    }
 
     public function testSearchVideosWithEditorialVideoTypes(): void
     {
@@ -244,23 +246,21 @@ final class SearchVideosTest extends TestCase
         $this->assertContains("product_types=easyaccess%2Ceditorialsubscription", $curlerMock->options[CURLOPT_URL]);
     }
 
-    
-    // public function testSearchVideosWithSortOrder(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
+    public function testSearchVideosWithSortOrder(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
 
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-    //     $search = $client->SearchVideos()->withPhrase("cat")->withSortOrder("newest")->execute();
+        $search = $client->SearchVideos()->withPhrase("cat")->withSortOrder("newest")->execute();
 
-    //     $this->assertContains("search/videos", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
-    // }
-
+        $this->assertContains("search/videos", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
+    }
     
     public function testSearchVideosWithSpecificPeople(): void
     {

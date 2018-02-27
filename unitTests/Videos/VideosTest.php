@@ -4,9 +4,9 @@ use PHPUnit\Framework\TestCase;
 use GettyImages\Api\GettyImages_Client;
 use GettyImages\Api\Curler\CurlerMock;
 
-final class ImagesTest extends TestCase
+final class VideosTest extends TestCase
 {
-    public function testImagesEndpointWithId(): void
+    public function testVideosWithId(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -15,12 +15,12 @@ final class ImagesTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->Images()->WithId(12345)->execute();
+        $response = $client->Videos()->WithId(12345)->execute();
 
-        $this->assertContains("images/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("videos/12345", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testImagesEndpointWithIds(): void
+    public function testVideosWithIds(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -31,13 +31,13 @@ final class ImagesTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->Images()->WithIds($ids)->execute();
+        $response = $client->Videos()->WithIds($ids)->execute();
 
-        $this->assertContains("images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("videos", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
     }  
     
-    public function testSingleEventWithFields(): void
+    public function testVideosWithFields(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -48,9 +48,9 @@ final class ImagesTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->Images()->WithId(12345)->withFields($fields)->execute();
+        $response = $client->Videos()->WithId(12345)->withFields($fields)->execute();
 
-        $this->assertContains("images/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("videos/12345", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
     }
 }

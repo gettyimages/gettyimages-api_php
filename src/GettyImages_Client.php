@@ -20,6 +20,8 @@ namespace GettyImages\Api {
     require_once("Request/Events.php");
     require_once("Request/WebHelper.php");
     require_once("Request/Downloads/Downloads.php");
+    require_once("Request/Downloads/DownloadImage.php");
+    require_once("Request/Downloads/DownloadVideo.php");
     require_once("Request/Images/Images.php");
     require_once("Request/Images/ImagesSimilar.php");
     require_once("Request/Videos/Videos.php");
@@ -31,6 +33,7 @@ namespace GettyImages\Api {
     require_once("Request/Search/SearchVideosCreative.php");
     require_once("Request/Search/SearchVideosEditorial.php");
     require_once("Request/Search/SearchEvents.php");
+    require_once("Request/CustomRequest/CustomRequest.php");
 
     use GettyImages\Api\Request\Search\SearchImages;
     use GettyImages\Api\Request\Search\SearchImagesCreative;
@@ -40,6 +43,8 @@ namespace GettyImages\Api {
     use GettyImages\Api\Request\Search\SearchVideosEditorial;
     use GettyImages\Api\Request\Search\SearchEvents;
     use GettyImages\Api\Request\Downloads\Downloads;
+    use GettyImages\Api\Request\Downloads\DownloadImage;
+    use GettyImages\Api\Request\Downloads\DownloadVideo;
     use GettyImages\Api\Request\Events;
     use GettyImages\Api\Request\Images\Images;
     use GettyImages\Api\Request\Images\ImagesSimilar;
@@ -49,6 +54,7 @@ namespace GettyImages\Api {
     use GettyImages\Api\Request\Countries;
     use GettyImages\Api\Crendentials;
     use GettyImages\Api\Curler\ICurler;
+    use GettyImages\Api\Request\CustomRequest\CustomRequest;
 
     /**
      * GettyImages API SDK - GettyImages_Client
@@ -214,6 +220,32 @@ namespace GettyImages\Api {
         }
 
         /**
+         * DownloadImage
+         *
+         * Download an image
+         *
+         * @return DownloadImage
+         */
+        public function DownloadImage() {
+            $downloadImageObj = new DownloadImage($this->credentials,$this->apiBaseUri,$this->container);
+
+            return $downloadImageObj;
+        }
+
+        /**
+         * DownloadVideo
+         *
+         * Download a video
+         *
+         * @return DownloadVideo
+         */
+        public function DownloadVideo() {
+            $downloadVideoObj = new DownloadVideo($this->credentials,$this->apiBaseUri,$this->container);
+
+            return $downloadVideoObj;
+        }
+
+        /**
         * Events
         * 
         * Get metadata fro events 
@@ -329,6 +361,18 @@ namespace GettyImages\Api {
         public function SearchEvents() {
             $searchEventsObj = new SearchEvents($this->credentials,$this->apiBaseUri,$this->container);
             return $searchEventsObj;
+        }
+
+        /**
+         * CustomRequest
+         *
+         * Create a request that is not directly supported by this SDK
+         *
+         * @return CustomRequest
+         */
+        public function CustomRequest() {
+            $customRequestObj = new CustomRequest($this->credentials,$this->apiBaseUri,$this->container);
+            return $customRequestObj;
         }
     }
 }

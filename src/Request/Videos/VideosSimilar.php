@@ -1,20 +1,11 @@
 <?php
-/**
- * Videos.php
- *
- */
 
 namespace GettyImages\Api\Request\Videos {
 
     use GettyImages\Api\Request\FluentRequest;
     use GettyImages\Api\Request\WebHelper;
     use Exception;
-    
-    /**
-     * Videos
-     *
-     * Provides the Videos request.
-     */
+
     class VideosSimilar extends FluentRequest {
 
         /**
@@ -27,22 +18,15 @@ namespace GettyImages\Api\Request\Videos {
          */
         private $route = "videos/";
 
-        /**
-         * @access private
-         */
-        public function getRoute() {
+        protected function getRoute() {
             $this->route = $this->route.$this->videoIdToLookup."/similar";
 
             return $this->route;
         }
 
-        /**
-         * @access private
-         */
-        public function getMethod() {
+        protected function getMethod() {
             return "get";
         }
-
 
         /**
          * @param string $videoId

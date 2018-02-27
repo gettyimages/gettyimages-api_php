@@ -19,6 +19,12 @@ namespace GettyImages\Api\Request {
         public $requestDetails = array();
 
         /**
+         * Holds the data for body in request
+         * @access private
+         */
+        protected $data;
+
+        /**
          * Holds the credentials object
          * @access private
          */
@@ -35,7 +41,6 @@ namespace GettyImages\Api\Request {
         protected $container;
 
         /**
-         *
          * @param mixed $credentials
          * @param string $endpointUri
          * @param mixed $container
@@ -54,21 +59,9 @@ namespace GettyImages\Api\Request {
 
         /**
          * @param string $field The array field in request details to append the value to
-         * @param string $value The value to push
-         * @throws \Exception If the request details field is already initialized and is not an array
+         * @param array $values The values to add
+         * @throws \Exception If values is not an array an exception is thrown
          */
-        protected function appendArrayValueToRequestDetails($field,$value) {
-            if(!array_key_exists($field,$this->requestDetails) || is_null($this->requestDetails[$field])) {
-                $this->requestDetails[$field] = array();
-            }
-
-            if(!is_array($this->requestDetails[$field])) {
-                throw new \Exception("Request field " . $field . " is not an array");
-            }
-
-            array_push($this->requestDetails[$field],strtolower($value));
-        }
-
         protected function addArrayOfValuesToRequestDetails($field,$values) {
             if(!is_array($values)) {
                 throw new \Exception("Values " . $values . " is not an array");
@@ -88,7 +81,12 @@ namespace GettyImages\Api\Request {
          * Perform the request against the api
          */
         public function execute() {
-            $endpointUrl = $this->endpointUri."/".$this->getRoute();
+            $route = $this->getRoute();
+            if ($route === null)
+            {
+                throw new \Exception("No appropriate route found for this request.");
+            }
+            $endpointUrl = $this->endpointUri."/".$route;
             $method = $this->getMethod();
 
             if (!$this->authHeader)
@@ -106,9 +104,21 @@ namespace GettyImages\Api\Request {
                                                 $this->authHeader);
                     break;
                 case "post":
-                    $response = $webHelper->postWithNoBody($endpointUrl,
+                    $response = $webHelper->post($endpointUrl,
                                                 $this->requestDetails,
-                                                $this->authHeader);
+                                                $this->authHeader,
+                                                $this->data);
+                    break;
+                case "put":
+                    $response = $webHelper->put($endpointUrl,
+                                            $this->requestDetails,
+                                            $this->authHeader,
+                                            $this->data);
+                    break;
+                case "delete":
+                    $response = $webHelper->delete($endpointUrl,
+                                            $this->requestDetails,
+                                            $this->authHeader);
                     break;
                 default:
                     throw new \Exception("No appropriate HTTP method found for this request.");
@@ -118,7 +128,7 @@ namespace GettyImages\Api\Request {
         }
 
         protected function handleResponse($response){
-            if($response["http_code"] != 200 && $response['http_code'] != 303) {
+            if(($response["http_code"] < 200 || $response["http_code"] >= 300) && $response['http_code'] != 303) {
                 throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
             }
 

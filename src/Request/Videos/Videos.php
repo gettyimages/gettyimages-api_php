@@ -1,8 +1,4 @@
 <?php
-/**
- * Videos.php
- *
- */
 
 namespace GettyImages\Api\Request\Videos {
 
@@ -10,11 +6,6 @@ namespace GettyImages\Api\Request\Videos {
     use GettyImages\Api\Request\WebHelper;
     use Exception;
     
-    /**
-     * Videos
-     *
-     * Provides the Videos request.
-     */
     class Videos extends FluentRequest {
 
         /**
@@ -27,10 +18,7 @@ namespace GettyImages\Api\Request\Videos {
          */
         private $route = "videos/";
 
-        /**
-         * @access private
-         */
-        public function getRoute() {
+        protected function getRoute() {
             $videoIds = $this->videoIdsToLookup;
             
             if(count($videoIds) == 1) {
@@ -42,13 +30,9 @@ namespace GettyImages\Api\Request\Videos {
             return $this->route;
         }
 
-        /**
-         * @access private
-         */
-        public function getMethod() {
+        protected function getMethod() {
             return "get";
         }
-
 
         /**
          * @param array $videoIds

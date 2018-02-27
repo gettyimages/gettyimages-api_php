@@ -67,10 +67,6 @@ namespace GettyImages\Api {
                 throw new CredentialValidationException("Credentials were null");
             }
 
-            // if(array_key_exists("client_key",$credentials) && !is_null($credentials["client_key"])) {
-            //     $credentials["credential_type"] = "api-key";
-            // }
-
             if(array_key_exists("client_secret",$credentials) && !is_null($credentials["client_secret"])) {
                 $credentials["credential_type"] = "client_credentials";
             }

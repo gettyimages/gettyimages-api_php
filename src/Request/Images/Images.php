@@ -1,8 +1,4 @@
 <?php
-/**
- * Images.php
- *
- */
 
 namespace GettyImages\Api\Request\Images {
 
@@ -10,11 +6,6 @@ namespace GettyImages\Api\Request\Images {
     use GettyImages\Api\Request\WebHelper;
     use Exception;
     
-    /**
-     * Images
-     *
-     * Provides the Images request.
-     */
     class Images extends FluentRequest {
 
         /**
@@ -27,10 +18,7 @@ namespace GettyImages\Api\Request\Images {
          */
         protected $route = "images/";
 
-        /**
-         * @access private
-         */
-        public function getRoute() {
+        protected function getRoute() {
             $imageIds = $this->imageIdsToLookup;
             
             if(count($imageIds) == 1) {
@@ -42,14 +30,10 @@ namespace GettyImages\Api\Request\Images {
             return $this->route;
         }
 
-        /**
-         * @access private
-         */
-        public function getMethod() {
+        protected function getMethod() {
             return "get";
         }
-
-        
+       
         /**
          * @param array $imageIds
          * @return $this

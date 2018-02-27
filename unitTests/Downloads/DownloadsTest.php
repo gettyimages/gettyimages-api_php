@@ -4,9 +4,9 @@ use PHPUnit\Framework\TestCase;
 use GettyImages\Api\GettyImages_Client;
 use GettyImages\Api\Curler\CurlerMock;
 
-final class DownloadImageTest extends TestCase
+final class DownloadsTest extends TestCase
 {
-    public function testDownloadImageEndpoint(): void
+    public function testDownloads(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -15,12 +15,12 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->execute();
+        $response = $client->Downloads()->execute();
 
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageEndpointWithCompanyDownloadImage(): void
+    public function testDownloadsWithCompanyDownloads(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -29,13 +29,13 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->withCompanyDownloadImage()->execute();
+        $response = $client->Downloads()->withCompanyDownloads()->execute();
 
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("company_downloads=true", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageEndpointWithEndDate(): void
+    public function testDownloadsWithEndDate(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -44,13 +44,13 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->withEndDate("2015-04-01")->execute();
+        $response = $client->Downloads()->withEndDate("2015-04-01")->execute();
 
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("end_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageEndpointWithPage(): void
+    public function testDownloadsWithPage(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -59,13 +59,13 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->withPage(3)->execute();
+        $response = $client->Downloads()->withPage(3)->execute();
 
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageEndpointWithPageSize(): void
+    public function testDownloadsWithPageSize(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -74,13 +74,13 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->withPageSize(50)->execute();
+        $response = $client->Downloads()->withPageSize(50)->execute();
 
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageEndpointWithProductType(): void
+    public function testDownloadsWithProductType(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -89,13 +89,13 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->withProductType("easyaccess")->execute();
+        $response = $client->Downloads()->withProductType("easyaccess")->execute();
 
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("product_type=easyaccess", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageEndpointWithStartDate(): void
+    public function testDownloadsWithStartDate(): void
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -104,7 +104,7 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->withStartDate("2015-04-01")->execute();
+        $response = $client->Downloads()->withStartDate("2015-04-01")->execute();
 
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("start_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);

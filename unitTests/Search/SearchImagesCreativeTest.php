@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 use GettyImages\Api\GettyImages_Client;
 use GettyImages\Api\Curler\CurlerMock;
 
-final class SearchImagesCreativeCreativeTest extends TestCase
+final class SearchImagesCreativeTest extends TestCase
 {
     public function testSearchImagesCreativeWithPhrase(): void
     {
@@ -75,19 +75,21 @@ final class SearchImagesCreativeCreativeTest extends TestCase
         $this->assertContains("collection_codes=wri%2Carf", $curlerMock->options[CURLOPT_URL]);
     }
 
-    // public function testSearchImagesCreativeWithCollectionFilterType(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
+    public function testSearchImagesCreativeWithCollectionFilterType(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
 
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-    //     $search = $client->SearchImagesCreative()->withArtists("abcd")->withArtists($artists2)->execute();
+        $search = $client->SearchImagesCreative()->withPhrase("cat")->withCollectionFilterType("exclude")->execute();
 
-    //     $this->assertContains("countries", $curlerMock->options[CURLOPT_URL]);
-    // }
+        $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("collections_filter_type=exclude", $curlerMock->options[CURLOPT_URL]);
+    }
 
     public function testSearchImagesCreativeWithColor(): void
     {
@@ -263,21 +265,21 @@ final class SearchImagesCreativeCreativeTest extends TestCase
         $this->assertContains("license_models=rightsmanaged%2Croyaltyfree", $curlerMock->options[CURLOPT_URL]);
     }
 
-    // public function testSearchImagesCreativeWithMinimumSize(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
+    public function testSearchImagesCreativeWithMinimumSize(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
 
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-    //     $search = $client->SearchImagesCreative()->withPhrase("cat")->withMinimumSize("small")->execute();
+        $search = $client->SearchImagesCreative()->withPhrase("cat")->withMinimumSize("small")->execute();
 
-    //     $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("minimum_size=small", $curlerMock->options[CURLOPT_URL]);
-    // }
+        $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("minimum_size=small", $curlerMock->options[CURLOPT_URL]);
+    }
 
     public function testSearchImagesCreativeWithNumberOfPeople(): void
     {
@@ -387,19 +389,19 @@ final class SearchImagesCreativeCreativeTest extends TestCase
     }
 
     
-    // public function testSearchImagesCreativeWithSortOrder(): void
-    // {
-    //     $curlerMock = new CurlerMock();
-    //     $builder = new \DI\ContainerBuilder();
-    //     $container = $builder->build();
-    //     $container->set('ICurler', $curlerMock);
+    public function testSearchImagesCreativeWithSortOrder(): void
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
 
-    //     $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-    //     $search = $client->SearchImagesCreative()->withPhrase("cat")->withSortOrder("newest")->execute();
+        $search = $client->SearchImagesCreative()->withPhrase("cat")->withSortOrder("newest")->execute();
 
-    //     $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-    //     $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
-    // }
+        $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
+    }
 }

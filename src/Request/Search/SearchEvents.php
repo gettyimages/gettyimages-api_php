@@ -13,20 +13,13 @@ namespace GettyImages\Api\Request\Search {
          */
         protected $route = "search/events/";
 
-        /**
-         * Gets the route configuration of the current search
-         *
-         * @return string The relative route for this request type
-         */
-        public function getRoute() {
+        protected function getRoute() {
             return $this->route;
         }
 
         protected function getMethod() {
             return "get";
         }
-
-        //ACCEPT LANG
 
         /**
          * @param string $dateFrom

@@ -37,7 +37,15 @@ namespace GettyImages\Api\Request {
             return $result;
         }
 
-        public function postWithNoBody($endpoint, $queryParams, array $options = array()) {
+        /**
+         * Send a POST requst using cURL
+         * @param string $url to request
+         * @param array $queryParams values to send
+         * @param array $options for cURL
+         * @param array $data to add to body
+         * @return string
+         */
+        public function post($endpoint, $queryParams, array $options = array(), array $data = null) {
 
             $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
 
@@ -45,9 +53,40 @@ namespace GettyImages\Api\Request {
                 $options[CURLOPT_HTTPHEADER] = array();
             }
 
+            $data = json_encode($data);
+
             array_push($options[CURLOPT_HTTPHEADER],'Content-Type: application/json');
-            array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: 0');
+            array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: ' . strlen($data));
             $options[CURLOPT_POST] = 1;
+            $options[CURLOPT_POSTFIELDS] = $data;
+            $options[CURLOPT_URL] = $endpoint;
+
+            $result = self::execute($options);
+            return $result;
+        }
+
+         /**
+         * Send a PUT requst using cURL
+         * @param string $url to request
+         * @param array $queryParams values to send
+         * @param array $options for cURL
+         * @param array $data to add to body
+         * @return string
+         */
+        public function put($endpoint, $queryParams, array $options = array(), array $data = null) {
+
+            $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
+
+            if(!array_key_exists(CURLOPT_HTTPHEADER, $options)) {
+                $options[CURLOPT_HTTPHEADER] = array();
+            }
+
+            $data = json_encode($data);
+
+            array_push($options[CURLOPT_HTTPHEADER],'Content-Type: application/json');
+            array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: ' . strlen($data));
+            $options[CURLOPT_CUSTOMREQUEST] = 'PUT';
+            $options[CURLOPT_POSTFIELDS] = $data;
             $options[CURLOPT_URL] = $endpoint;
 
             $result = self::execute($options);
@@ -65,6 +104,23 @@ namespace GettyImages\Api\Request {
         public function get($url, array $requestParams = NULL, array $options = array()) {
             $url = $url. (strpos($url, '?') === FALSE ? '?' : ''). self::BuildQueryParams($requestParams);
             $options[CURLOPT_URL] = $url;
+
+            $result = $this->execute($options);
+
+            return $result;
+        }
+
+        /**
+         * Send a DELETE requst using cURL
+         * @param string $url to request
+         * @param array $requestParams values to send
+         * @param array $options for cURL
+         * @return string
+         */
+        public function delete($url, array $requestParams = NULL, array $options = array()) {
+            $url = $url. (strpos($url, '?') === FALSE ? '?' : ''). self::BuildQueryParams($requestParams);
+            $options[CURLOPT_URL] = $url;
+            $options[CURLOPT_CUSTOMREQUEST] = "DELETE";
 
             $result = $this->execute($options);
 

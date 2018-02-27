@@ -19,20 +19,13 @@ namespace GettyImages\Api\Request\Search {
          */
         protected $route = "search/images/creative/";
 
-        /**
-         * Gets the route configuration of the current search
-         *
-         * @return string The relative route for this request type
-         */
-        public function getRoute() {
+        protected function getRoute() {
             return $this->route;
         }
 
         protected function getMethod() {
             return "get";
         }
-
-        //ACCEPT LANG
 
         /**
          * @param array $ages An array of ages by which to filter.
@@ -74,9 +67,10 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
+         * @param string $color
          * @return $this
          */
-        public function withColor($color) {
+        public function withColor(string $color) {
             $this->requestDetails["color"] = $color;
             return $this;
         }
@@ -110,11 +104,10 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param string $val
          * @return $this
          */
-        public function withExcludeNudity($val = "true") {
-            $this->requestDetails["exclude_nudity"] = $val;
+        public function withExcludeNudity() {
+            $this->requestDetails["exclude_nudity"] = "true";
             return $this;
         }
 
@@ -229,7 +222,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * Scopes response down to only prestige curated content
+         * @return $this
          */
         public function withPrestigeContentOnly()
         {
