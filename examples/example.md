@@ -9,7 +9,7 @@
 
 		$types = array("easyaccess", "editorialsubscription");
 		
-		//Example of built in search endpoint
+		//Example of built in search images endpoint
 		$client = GettyImages_Client::getClientWithClientCredentials("$apiKey", "$apiSecret");
 
 		$response = $client->SearchImages()->withPhrase("cat")->withProductTypes($types)->execute();

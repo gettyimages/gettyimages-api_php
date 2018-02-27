@@ -15,7 +15,7 @@ final class DownloadImageTest extends TestCase
 
         $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
 
-        $response = $client->DownloadImage()->WithId("629219532")->execute();
+        $response = $client->DownloadImage()->WithId("123445")->execute();
 
         $this->assertContains("downloads/images/123445", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("auto_download=false", $curlerMock->options[CURLOPT_URL]);

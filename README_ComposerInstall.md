@@ -28,11 +28,11 @@ Create your .php file
       $apiKey = "myApiKey";
       $apiSecret = "myApiSecret";
 
-      $client = new GettyImages_Client($apiKey,$apiSecret);
+      $client = GettyImages_Client::getClientWithClientCredentials("$apiKey", "$apiSecret");
 
-      $response = $client->Search()->Images()->withPhrase("dog")->execute();
+	  $response = $client->SearchImages()->withPhrase("cat")->withProductTypes($types)->execute();
 
-      var_dump($response);
+	  var_dump($response);
 
 ### Already established Project
 
