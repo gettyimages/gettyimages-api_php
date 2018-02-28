@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class DownloadImageTest extends TestCase
 {
-    public function testDownloadImage(): void
+    public function testDownloadImage()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -21,7 +21,7 @@ final class DownloadImageTest extends TestCase
         $this->assertContains("auto_download=false", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageWithAutoDownload(): void
+    public function testDownloadImageWithAutoDownload()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -36,7 +36,7 @@ final class DownloadImageTest extends TestCase
         $this->assertContains("auto_download=true", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageWithFileType(): void
+    public function testDownloadImageWithFileType()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -51,7 +51,7 @@ final class DownloadImageTest extends TestCase
         $this->assertContains("file_type=eps", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageWithHeight(): void
+    public function testDownloadImageWithHeight()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -66,7 +66,7 @@ final class DownloadImageTest extends TestCase
         $this->assertContains("height=592", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageWithProductId(): void
+    public function testDownloadImageWithProductId()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -81,7 +81,7 @@ final class DownloadImageTest extends TestCase
         $this->assertContains("product_id=7758", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadImageWithProductType(): void
+    public function testDownloadImageWithProductType()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

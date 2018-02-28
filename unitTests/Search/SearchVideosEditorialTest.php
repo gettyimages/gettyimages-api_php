@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class SearchVideosEditorialTest extends TestCase
 {
-    public function testSearchVideosEditorialWithPhrase(): void
+    public function testSearchVideosEditorialWithPhrase()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -21,7 +21,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithAgeOfPeople(): void
+    public function testSearchVideosEditorialWithAgeOfPeople()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -39,7 +39,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("age_of_people=newborn%2C2-3_years%2C0-1_months", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithCollectionCodes(): void
+    public function testSearchVideosEditorialWithCollectionCodes()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -57,7 +57,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("collection_codes=wri%2Carf", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithCollectionFilterType(): void
+    public function testSearchVideosEditorialWithCollectionFilterType()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -73,7 +73,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("collections_filter_type=exclude", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithEditorialVideoTypes(): void
+    public function testSearchVideosEditorialWithEditorialVideoTypes()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -91,7 +91,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("editorial_video_types=raw%2Cproduced", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEntityUris(): void
+    public function testSearchVideosEntityUris()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -109,7 +109,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("entity_uris=example_uri_1%2Cexample_uri_2", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithExcludeNudity(): void
+    public function testSearchVideosEditorialWithExcludeNudity()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -125,7 +125,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("exclude_nudity=true", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithFields(): void
+    public function testSearchVideosEditorialWithFields()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -143,7 +143,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithFormatFilter(): void
+    public function testSearchVideosEditorialWithFormatFilter()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -159,7 +159,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("format_available=hd", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithFrameRates(): void
+    public function testSearchVideosEditorialWithFrameRates()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -177,7 +177,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("frame_rates=24%2C29.97", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchVideosEditorialWithKeywordIds(): void
+    public function testSearchVideosEditorialWithKeywordIds()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -195,7 +195,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("keyword_ids=64284%2C67255", $curlerMock->options[CURLOPT_URL]);
     }
    
-    public function testSearchVideosEditorialWithPage(): void
+    public function testSearchVideosEditorialWithPage()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -212,7 +212,7 @@ final class SearchVideosEditorialTest extends TestCase
     }
 
     
-    public function testSearchVideosEditorialWithPageSize(): void
+    public function testSearchVideosEditorialWithPageSize()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -228,7 +228,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
     
-    public function testSearchVideosEditorialWithProductTypes(): void
+    public function testSearchVideosEditorialWithProductTypes()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -246,7 +246,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("product_types=easyaccess%2Ceditorialsubscription", $curlerMock->options[CURLOPT_URL]);
     }
     
-    public function testSearchVideosEditorialWithSortOrder(): void
+    public function testSearchVideosEditorialWithSortOrder()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -262,7 +262,7 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
     }
  
-    public function testSearchVideosEditorialWithSpecificPeople(): void
+    public function testSearchVideosEditorialWithSpecificPeople()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

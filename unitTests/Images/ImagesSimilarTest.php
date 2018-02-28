@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class ImagesSimilarTest extends TestCase
 {
-    public function testImagesSimilarWithId(): void
+    public function testImagesSimilarWithId()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -20,7 +20,7 @@ final class ImagesSimilarTest extends TestCase
         $this->assertContains("images/12345/similar", $curlerMock->options[CURLOPT_URL]);
     }  
     
-    public function testImagesSimilarWithFields(): void
+    public function testImagesSimilarWithFields()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -37,7 +37,7 @@ final class ImagesSimilarTest extends TestCase
         $this->assertContains("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testImagesSimilarWithPage(): void
+    public function testImagesSimilarWithPage()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -52,7 +52,7 @@ final class ImagesSimilarTest extends TestCase
         $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testImagesSimilarWithPageSize(): void
+    public function testImagesSimilarWithPageSize()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

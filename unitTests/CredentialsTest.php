@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class CredentialsTest extends TestCase
 {
-    public function testGetClientWithClientCredentials(): void
+    public function testGetClientWithClientCredentials()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -20,7 +20,7 @@ final class CredentialsTest extends TestCase
         $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
 
-    public function testGetClientWithResourceOwnderCredentials(): void
+    public function testGetClientWithResourceOwnderCredentials()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -34,7 +34,7 @@ final class CredentialsTest extends TestCase
         $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
 
-    public function testGetClientWithRefreshTokenTest(): void
+    public function testGetClientWithRefreshTokenTest()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

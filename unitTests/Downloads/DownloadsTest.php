@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class DownloadsTest extends TestCase
 {
-    public function testDownloads(): void
+    public function testDownloads()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -20,7 +20,7 @@ final class DownloadsTest extends TestCase
         $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadsWithCompanyDownloads(): void
+    public function testDownloadsWithCompanyDownloads()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -35,7 +35,7 @@ final class DownloadsTest extends TestCase
         $this->assertContains("company_downloads=true", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadsWithEndDate(): void
+    public function testDownloadsWithEndDate()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -50,7 +50,7 @@ final class DownloadsTest extends TestCase
         $this->assertContains("end_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadsWithPage(): void
+    public function testDownloadsWithPage()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -65,7 +65,7 @@ final class DownloadsTest extends TestCase
         $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadsWithPageSize(): void
+    public function testDownloadsWithPageSize()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -80,7 +80,7 @@ final class DownloadsTest extends TestCase
         $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadsWithProductType(): void
+    public function testDownloadsWithProductType()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -95,7 +95,7 @@ final class DownloadsTest extends TestCase
         $this->assertContains("product_type=easyaccess", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadsWithStartDate(): void
+    public function testDownloadsWithStartDate()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

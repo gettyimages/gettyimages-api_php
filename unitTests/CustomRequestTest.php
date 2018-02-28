@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class CustomRequestTest extends TestCase
 {
-    public function testCustomRequest(): void
+    public function testCustomRequest()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

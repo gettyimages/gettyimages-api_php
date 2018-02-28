@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class DownloadVideoTest extends TestCase
 {
-    public function testDownloadVideo(): void
+    public function testDownloadVideo()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -21,7 +21,7 @@ final class DownloadVideoTest extends TestCase
         $this->assertContains("auto_download=false", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadVideoWithAutoDownload(): void
+    public function testDownloadVideoWithAutoDownload()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -36,7 +36,7 @@ final class DownloadVideoTest extends TestCase
         $this->assertContains("auto_download=true", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadVideoWithProductId(): void
+    public function testDownloadVideoWithProductId()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -51,7 +51,7 @@ final class DownloadVideoTest extends TestCase
         $this->assertContains("product_id=7758", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testDownloadVideoWithSize(): void
+    public function testDownloadVideoWithSize()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class ImagesTest extends TestCase
 {
-    public function testImagesWithId(): void
+    public function testImagesWithId()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -20,7 +20,7 @@ final class ImagesTest extends TestCase
         $this->assertContains("images/12345", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testImagesWithIds(): void
+    public function testImagesWithIds()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -37,7 +37,7 @@ final class ImagesTest extends TestCase
         $this->assertContains("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
     }  
     
-    public function testImagesWithFields(): void
+    public function testImagesWithFields()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

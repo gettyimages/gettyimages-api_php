@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class SearchEventsTest extends TestCase
 {
-    public function testSearchEventsWithPhrase(): void
+    public function testSearchEventsWithPhrase()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -21,7 +21,7 @@ final class SearchEventsTest extends TestCase
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchEventsWithDateFrom(): void
+    public function testSearchEventsWithDateFrom()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -37,7 +37,7 @@ final class SearchEventsTest extends TestCase
         $this->assertContains("date_from=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchEventsWithDateTo(): void
+    public function testSearchEventsWithDateTo()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -53,7 +53,7 @@ final class SearchEventsTest extends TestCase
         $this->assertContains("date_to=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchEventsWithEditorialSegment(): void
+    public function testSearchEventsWithEditorialSegment()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -69,7 +69,7 @@ final class SearchEventsTest extends TestCase
         $this->assertContains("editorial_segment=archival", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchEventsWithFields(): void
+    public function testSearchEventsWithFields()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -87,7 +87,7 @@ final class SearchEventsTest extends TestCase
         $this->assertContains("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchEventsWithPage(): void
+    public function testSearchEventsWithPage()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -104,7 +104,7 @@ final class SearchEventsTest extends TestCase
     }
 
     
-    public function testSearchEventsWithPageSize(): void
+    public function testSearchEventsWithPageSize()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class EventsTest extends TestCase
 {
-    public function testEventsWithId(): void
+    public function testEventsWithId()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -20,7 +20,7 @@ final class EventsTest extends TestCase
         $this->assertContains("events/12345", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testEventsWithIds(): void
+    public function testEventsWithIds()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
@@ -37,7 +37,7 @@ final class EventsTest extends TestCase
         $this->assertContains("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
     }  
     
-    public function testSingleEventWithFields(): void
+    public function testSingleEventWithFields()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();

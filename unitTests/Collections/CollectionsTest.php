@@ -6,7 +6,7 @@ use GettyImages\Api\Curler\CurlerMock;
 
 final class CollectionsTest extends TestCase
 {
-    public function testCollectionsEndpoint(): void
+    public function testCollectionsEndpoint()
     {
         $curlerMock = new CurlerMock();
         $builder = new \DI\ContainerBuilder();
