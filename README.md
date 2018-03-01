@@ -6,7 +6,7 @@ This SDK makes using the Getty Images [API](http://developers.gettyimages.com) e
 
 ## Initial Setup
 ### Assumptions
-* You have PHP >=5.4 setup
+* You have PHP >=7.0 setup
 
 ### PHP.ini settings to build the code
     [Phar]

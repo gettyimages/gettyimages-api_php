@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "license": "MIT",
     "keywords": ["images","getty","gettyimages","photo","photos","search","creative","artist","embed"],
-    "homepage": "http://developer.gettyimages.com",
+    "homepage": "https://developers.gettyimages.com",
     "authors": [
         {
             "name": "Getty Images, Inc.",
@@ -18,7 +18,7 @@
         "source": "https://github.com/gettyimages/gettyimages-api_php"
     },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.0",
         "php-di/php-di": "^5.4"
     },
     "require-dev" : {
