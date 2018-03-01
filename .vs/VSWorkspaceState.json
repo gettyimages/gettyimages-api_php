@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bdd_bootstrap",
+    "\\examples",
+    "\\src",
+    "\\src\\Request",
+    "\\src\\Request\\Search",
+    "\\tests"
+  ],
+  "SelectedNode": "\\tests\\CollectionsTests.php",
+  "PreviewInSolutionExplorer": false
+}

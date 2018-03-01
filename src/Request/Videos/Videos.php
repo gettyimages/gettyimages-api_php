@@ -1,26 +1,30 @@
 <?php
 
-namespace GettyImages\Api\Request {
+namespace GettyImages\Api\Request\Videos {
 
-    class Events extends FluentRequest {
+    use GettyImages\Api\Request\FluentRequest;
+    use GettyImages\Api\Request\WebHelper;
+    use Exception;
     
+    class Videos extends FluentRequest {
+
         /**
          * @access private
          */
-        private $eventIdsToLookup = array();
+        private $videoIdsToLookup = array();
 
         /**
-         * @ignore
+         * @access private
          */
-        protected $route = "events/";
+        private $route = "videos/";
 
         protected function getRoute() {
-            $eventIds = $this->eventIdsToLookup;
+            $videoIds = $this->videoIdsToLookup;
             
-            if(count($eventIds) == 1) {
-                $this->route = $this->route.implode(",", $eventIds);
-            } else if (count($eventIds) > 1) {
-                $this->addArrayOfValuesToRequestDetails("ids", $eventIds);
+            if(count($videoIds) == 1) {
+                $this->route = $this->route.implode(",", $videoIds);
+            } else {
+                $this->addArrayOfValuesToRequestDetails("ids", $videoIds);
             }
 
             return $this->route;
@@ -31,20 +35,23 @@ namespace GettyImages\Api\Request {
         }
 
         /**
-         * @param int $eventId
+         * @param array $videoIds
          * @return $this
          */
-        public function withId(int $eventId) {
-            array_push($this->eventIdsToLookup,$eventId);
+        public function withIds(array $videoIds) {
+            
+            $this->videoIdsToLookup = $videoIds;
+            
             return $this;
         }
 
-         /**
-         * @param array $eventIds
+        /**
+         * @param string $videoId
          * @return $this
          */
-        public function withIds(array $eventIds) {
-            $this->eventIdsToLookup = $eventIds;
+        public function withId(string $videoId) {
+			array_push($this->videoIdsToLookup,$videoId);
+
             return $this;
         }
 
@@ -60,5 +67,5 @@ namespace GettyImages\Api\Request {
             $this->addArrayOfValuesToRequestDetails("fields", $fields);
             return $this;
         }
-    }
+	}
 }

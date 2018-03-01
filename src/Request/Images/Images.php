@@ -1,26 +1,30 @@
 <?php
 
-namespace GettyImages\Api\Request {
+namespace GettyImages\Api\Request\Images {
 
-    class Events extends FluentRequest {
+    use GettyImages\Api\Request\FluentRequest;
+    use GettyImages\Api\Request\WebHelper;
+    use Exception;
     
+    class Images extends FluentRequest {
+
         /**
          * @access private
          */
-        private $eventIdsToLookup = array();
+        private $imageIdsToLookup = array();
 
         /**
          * @ignore
          */
-        protected $route = "events/";
+        protected $route = "images/";
 
         protected function getRoute() {
-            $eventIds = $this->eventIdsToLookup;
+            $imageIds = $this->imageIdsToLookup;
             
-            if(count($eventIds) == 1) {
-                $this->route = $this->route.implode(",", $eventIds);
-            } else if (count($eventIds) > 1) {
-                $this->addArrayOfValuesToRequestDetails("ids", $eventIds);
+            if(count($imageIds) == 1) {
+                $this->route = $this->route.implode(",", $imageIds);
+            } else {
+                $this->addArrayOfValuesToRequestDetails("ids", $imageIds);
             }
 
             return $this->route;
@@ -29,25 +33,25 @@ namespace GettyImages\Api\Request {
         protected function getMethod() {
             return "get";
         }
+       
+        /**
+         * @param array $imageIds
+         * @return $this
+         */
+        public function withIds(array $imageIds) {
+            $this->imageIdsToLookup = $imageIds;
+            return $this;
+        }
 
         /**
-         * @param int $eventId
+         * @param string $imageId
          * @return $this
          */
-        public function withId(int $eventId) {
-            array_push($this->eventIdsToLookup,$eventId);
+        public function withId(string $imageId) {
+            array_push($this->imageIdsToLookup,$imageId);
             return $this;
         }
-
-         /**
-         * @param array $eventIds
-         * @return $this
-         */
-        public function withIds(array $eventIds) {
-            $this->eventIdsToLookup = $eventIds;
-            return $this;
-        }
-
+        
         /**
          * Will set the search request to only return the fields provided.
          *

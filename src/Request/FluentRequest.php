@@ -19,10 +19,18 @@ namespace GettyImages\Api\Request {
         public $requestDetails = array();
 
         /**
+         * Holds the data for body in request
+         * @access private
+         */
+        protected $data;
+
+        /**
          * Holds the credentials object
          * @access private
          */
         protected $credentials = null;
+
+        protected $authHeader;
 
         /**
          * The root endpoint for Connect
@@ -30,56 +38,117 @@ namespace GettyImages\Api\Request {
          */
         protected $endpointUri = null;
 
+        protected $container;
+
         /**
-         *
          * @param mixed $credentials
          * @param string $endpointUri
+         * @param mixed $container
          * @param string[] $requestParams Optional search request details if you already know what you want.
          */
-        public function __construct(&$credentials, $endpointUri, array $requestParams = null) {
+        public function __construct(&$credentials, $endpointUri, $container, array $requestParams = null) {
             $this->credentials = $credentials;
 
             $this->endpointUri = $endpointUri;
             if(!is_null($requestParams)) {
                 $this->requestDetails = $requestParams;
             }
+
+            $this->container = $container;
         }
 
         /**
          * @param string $field The array field in request details to append the value to
-         * @param string $value The value to push
-         * @throws \Exception If the request details field is already initialized and is not an array
+         * @param array $values The values to add
+         * @throws \Exception If values is not an array an exception is thrown
          */
-        protected function appendArrayValueToRequestDetails($field,$value) {
+        protected function addArrayOfValuesToRequestDetails($field,$values) {
+            if(!is_array($values)) {
+                throw new \Exception("Values " . $values . " is not an array");
+            }
+            if(strpos($field, 'id') === false ) {
+                $values = array_map('strtolower', $values);
+            }
             if(!array_key_exists($field,$this->requestDetails) || is_null($this->requestDetails[$field])) {
-                $this->requestDetails[$field] = array();
+                $this->requestDetails[$field] = $values;
             }
-
-            if(!is_array($this->requestDetails[$field])) {
-                throw new \Exception("Request field " . $field . " is not an array");
+            else { 
+                $this->requestDetails[$field] = array_unique(array_merge($this->requestDetails[$field], $values));
             }
-
-            array_push($this->requestDetails[$field],strtolower($value));
         }
 
         /**
          * Perform the request against the api
          */
         public function execute() {
-            $endpointUrl = $this->endpointUri."/".$this->getRoute();
+            $route = $this->getRoute();
+            if ($route === null)
+            {
+                throw new \Exception("No appropriate route found for this request.");
+            }
+            $endpointUrl = $this->endpointUri."/".$route;
+            $method = $this->getMethod();
 
-            $response = WebHelper::getJsonWebRequest($endpointUrl,
-                $this->requestDetails,
-                array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
-                    "Authorization: ".$this->credentials->getAuthorizationHeaderValue())));
+            if (!$this->authHeader)
+            {
+                $this->authHeader = array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
+                                        "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
+            }
 
-            if($response["http_code"] != 200) {
+            $webHelper = new WebHelper($this->container);
+            
+            switch ($method) {
+                case "get":
+                    $response = $webHelper->get($endpointUrl,
+                                                $this->requestDetails,
+                                                $this->authHeader);
+                    break;
+                case "post":
+                    $response = $webHelper->post($endpointUrl,
+                                                $this->requestDetails,
+                                                $this->authHeader,
+                                                $this->data);
+                    break;
+                case "put":
+                    $response = $webHelper->put($endpointUrl,
+                                            $this->requestDetails,
+                                            $this->authHeader,
+                                            $this->data);
+                    break;
+                case "delete":
+                    $response = $webHelper->delete($endpointUrl,
+                                            $this->requestDetails,
+                                            $this->authHeader);
+                    break;
+                default:
+                    throw new \Exception("No appropriate HTTP method found for this request.");
+            }
+            
+            return $this->handleResponse($response);
+        }
+
+        protected function handleResponse($response){
+            if(($response["http_code"] < 200 || $response["http_code"] >= 300) && $response['http_code'] != 303) {
                 throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
             }
+
+            if($response["http_code"] == 303) {
+                $parsedHeaderArray = explode("\r\n", $response["header"]);
+                foreach ($parsedHeaderArray as $headerValue) {
+                    $headerValueToLookup = "Location: ";
+                    $headerLookupLen = strlen($headerValueToLookup);
+
+                    if(substr($headerValue, 0, $headerLookupLen) === $headerValueToLookup) {
+                        $imageDownloadUrl = substr($headerValue, $headerLookupLen);
+                        return $imageDownloadUrl;
+                    }
+                }
+            } 
 
             return $response["body"];
         }
 
+        
         /**
          * @return string
          */

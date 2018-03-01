@@ -16,8 +16,6 @@ namespace GettyImages\Api {
          * @access private
          */
         private $credentials = array();
-
-
         /**
          * @access private
          */
@@ -29,16 +27,22 @@ namespace GettyImages\Api {
         private $endpointUri = null;
 
         /**
+         * @access private
+         */
+        private $container;
+
+        /**
          * Creates an instance of your GettyImages credentials either through explicitly setting of them or
          * implicitly pulling them from the environment.
          *
          * @param string $endpointUri The uri where the oauth2 endpoint is.
          * @param string[] $credentials Optionally provide explicit credentials to use. If not provided will get setting from the environment
          */
-        public function __construct($endpointUri, array $credentials) {
+        public function __construct($endpointUri, array $credentials, $container) {
             $this->endpointUri = $endpointUri;
+            $this->container = $container;
             $credentials = $this->removeNullValuesFromArray($credentials);
-            $this->credentials = self::validateCredentials($credentials);
+            $this->credentials = self::validateCredentials($credentials);     
         }
 
         private function removeNullValuesFromArray(array $collectionToFilter) {
@@ -61,10 +65,6 @@ namespace GettyImages\Api {
         private static function validateCredentials($credentials) {
             if($credentials == null) {
                 throw new CredentialValidationException("Credentials were null");
-            }
-
-            if(array_key_exists("client_key",$credentials) && !is_null($credentials["client_key"])) {
-                $credentials["credential_type"] = "api-key";
             }
 
             if(array_key_exists("client_secret",$credentials) && !is_null($credentials["client_secret"])) {
@@ -204,7 +204,9 @@ namespace GettyImages\Api {
                 "grant_type" => "password"
             );
 
-            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri,$request);
+            $webHelper = new WebHelper($this->container);
+
+            $response = $webHelper->postFormEncodedWebRequest($this->endpointUri,$request);
 
             return $response;
         }
@@ -216,7 +218,9 @@ namespace GettyImages\Api {
                 "refresh_token" => $refreshToken,
                 "grant_type" => "refresh_token");
 
-            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri, $request);
+            $webHelper = new WebHelper($this->container);
+
+            $response = $webHelper->postFormEncodedWebRequest($this->endpointUri, $request);
             return $response;
         }
 
@@ -234,7 +238,9 @@ namespace GettyImages\Api {
                 "grant_type" => "client_credentials"
             );
 
-            $response = WebHelper::postFormEncodedWebRequest($this->endpointUri,$request);
+            $webHelper = new WebHelper($this->container);
+
+            $response = $webHelper->postFormEncodedWebRequest($this->endpointUri,$request);
 
             return $response;
         }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Provides general helpers around curl
  */
@@ -9,13 +10,16 @@ namespace GettyImages\Api\Request {
      * @ignore
      */
     class WebHelper {
-        public static function getJsonWebRequest($endpoint, $params = NULL, array $options = array()) {
-            $json_response = self::curl_get($endpoint, $params, $options);
+        protected $container;
 
-            return $json_response;
+        /**
+         * @param mixed $container
+         */
+        public function __construct($container) {
+            $this->container = $container;
         }
 
-        public static function postFormEncodedWebRequest($endpoint,array $data, array $options = array()) {
+        public function postFormEncodedWebRequest($endpoint,array $data, array $options = array()) {
 
             $data = http_build_query($data);
             $defaults = array(
@@ -28,12 +32,20 @@ namespace GettyImages\Api\Request {
             $defaults[CURLOPT_URL] = $endpoint;
             $defaults[CURLOPT_POSTFIELDS] = $data;
 
-            $result = self::execute(($options + $defaults));
+            $result = $this->execute(($options + $defaults));
 
             return $result;
         }
 
-        public static function postWithNoBody($endpoint, $queryParams, array $options = array()) {
+        /**
+         * Send a POST requst using cURL
+         * @param string $url to request
+         * @param array $queryParams values to send
+         * @param array $options for cURL
+         * @param array $data to add to body
+         * @return string
+         */
+        public function post($endpoint, $queryParams, array $options = array(), array $data = null) {
 
             $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
 
@@ -41,9 +53,40 @@ namespace GettyImages\Api\Request {
                 $options[CURLOPT_HTTPHEADER] = array();
             }
 
+            $data = json_encode($data);
+
             array_push($options[CURLOPT_HTTPHEADER],'Content-Type: application/json');
-            array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: 0');
+            array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: ' . strlen($data));
             $options[CURLOPT_POST] = 1;
+            $options[CURLOPT_POSTFIELDS] = $data;
+            $options[CURLOPT_URL] = $endpoint;
+
+            $result = self::execute($options);
+            return $result;
+        }
+
+         /**
+         * Send a PUT requst using cURL
+         * @param string $url to request
+         * @param array $queryParams values to send
+         * @param array $options for cURL
+         * @param array $data to add to body
+         * @return string
+         */
+        public function put($endpoint, $queryParams, array $options = array(), array $data = null) {
+
+            $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
+
+            if(!array_key_exists(CURLOPT_HTTPHEADER, $options)) {
+                $options[CURLOPT_HTTPHEADER] = array();
+            }
+
+            $data = json_encode($data);
+
+            array_push($options[CURLOPT_HTTPHEADER],'Content-Type: application/json');
+            array_push($options[CURLOPT_HTTPHEADER], 'Content-Length: ' . strlen($data));
+            $options[CURLOPT_CUSTOMREQUEST] = 'PUT';
+            $options[CURLOPT_POSTFIELDS] = $data;
             $options[CURLOPT_URL] = $endpoint;
 
             $result = self::execute($options);
@@ -58,11 +101,28 @@ namespace GettyImages\Api\Request {
          * @param array $options for cURL
          * @return string
          */
-        public static function curl_get($url, array $requestParams = NULL, array $options = array()) {
+        public function get($url, array $requestParams = NULL, array $options = array()) {
             $url = $url. (strpos($url, '?') === FALSE ? '?' : ''). self::BuildQueryParams($requestParams);
             $options[CURLOPT_URL] = $url;
 
-            $result = self::execute($options);
+            $result = $this->execute($options);
+
+            return $result;
+        }
+
+        /**
+         * Send a DELETE requst using cURL
+         * @param string $url to request
+         * @param array $requestParams values to send
+         * @param array $options for cURL
+         * @return string
+         */
+        public function delete($url, array $requestParams = NULL, array $options = array()) {
+            $url = $url. (strpos($url, '?') === FALSE ? '?' : ''). self::BuildQueryParams($requestParams);
+            $options[CURLOPT_URL] = $url;
+            $options[CURLOPT_CUSTOMREQUEST] = "DELETE";
+
+            $result = $this->execute($options);
 
             return $result;
         }
@@ -116,34 +176,11 @@ namespace GettyImages\Api\Request {
         /**
          * @ignore
          */
-        private static function execute(array $options) {
-
-            $options = self::getCurlDefaults($options);
+        private function execute(array $options) {
             
-            $ch = curl_init();
-            curl_setopt_array($ch, $options);
-            $response = curl_exec($ch);
+            $options = self::getCurlDefaults($options);
 
-            $error = curl_error($ch);
-            $result = array( 'header' => '',
-                'body' => '',
-                'curl_error' => '',
-                'http_code' => '',
-                'last_url' => '',
-                'debugInfo' => '');
-            if ( $error != "" )
-            {
-                $result['curl_error'] = $error;
-                return $result;
-            }
-
-            $header_size = curl_getinfo($ch,CURLINFO_HEADER_SIZE);
-            $result['header'] = substr($response, 0, $header_size);
-            $result['body'] = substr( $response, $header_size );
-            $result['http_code'] = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-            $result['last_url'] = curl_getinfo($ch,CURLINFO_EFFECTIVE_URL);
-            curl_close($ch);
-            return $result;
+            return $this->container->get('ICurler')->execute($options);
         }
 
     }
