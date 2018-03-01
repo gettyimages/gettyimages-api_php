@@ -7,6 +7,8 @@ use Phine\Phar\Stub;
 // create a new Phar instance
 $builder = Builder::create('./build/GettyImagesApi.phar');
 
+
+
 $builder->buildFromDirectory('./src');
 $builder->setStub(
     Stub::create()

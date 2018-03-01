@@ -29,9 +29,20 @@ If everything is setup on your machine where PHP will run, you can most likely r
 
     build.bat
 
-### *nix / OSX
+### Linux / OSX
 
-    ./build.sh
+#### Prerequisites 
+On Ubuntu, you may need to install a few additional packages
+
+```sh
+sudo apt update
+sudo apt install php-xml php-mbstring
+```
+#### Building
+
+```sh
+./build.sh
+```
 
 This will put GettyImagesApi.phar in a build folder. Then you can use the package as you would any other phar.
 
@@ -48,11 +59,11 @@ From the root of the repository
 
     php composer.phar install
 
-### If you want the BDD dependencies
+### If you want the test dependencies
 
     php composer.phar install --require-dev
 
-This command should install behat (the bdd framework) and any other php dependency libraries
+This command should install PHPUnit and any other php dependency libraries
 
 
 ## Environment variables of interest
@@ -79,33 +90,15 @@ The sdk does support using a proxy directly as well as ignoring ssl validation e
 
 ## Tests
 
-### Running BDD Scenarios
-The test project contains scenarios written in the [Gherkin language](https://github.com/cucumber/gherkin/wiki).
+### Running unit tests
+The test project contains unit tests written using the [PHPUnit Framwork](https://phpunit.de/index.html).
 
-If you'd like to run the SDK through it's paces using your credentials, you can do this by creating the following environment variables prior to executing the behat infrastructure
+### Execute the unit tests
+#### Assumptions
+* You have PHPUnit installed
 
-#### Credential Environment Variables
+To execute all of the unit tests:
+    ./vendor/bin/phpunit --bootstrap vendor/autoload.php unitTests/.
 
-    //If you only have sandbox credentials that you got through signing up
-    GettyImagesApi_SandboxApiKey
-    GettyImagesApi_SandboxApiSecret
-
-    //If you only have an api key and api secret only export the first two variables.
-    //Sandbox credentials can be used in most of the cases where key and secret are used
-    GettyImagesApi_ApiKey
-    GettyImagesApi_ApiSecret
-
-    //If you're a getty images partner and have a username and password, export these variables
-    GettyImagesApi_UserName
-    GettyImagesApi_Password
-
-#### Execute the tests
-
-Note that depending on your actual credentials some of these scenarios may very well fail. The scenario should call out the type of credentials being used before the test executes.
-
-
-    php ./vendor/behat/behat/bin/behat
-
-To execute a specific feature, run the same command above and include the location of the feature
-
-    php ./vendor/behat/behat/bin/behat features/authentication.feature
+To execute one test class:
+    ./vendor/bin/phpunit --bootstrap vendor/autoload.php unitTests/EXAMPLETEST
