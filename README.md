@@ -29,9 +29,20 @@ If everything is setup on your machine where PHP will run, you can most likely r
 
     build.bat
 
-### *nix / OSX
+### Linux / OSX
 
-    ./build.sh
+#### Prerequisites 
+On Ubuntu, you may need to install a few additional packages
+
+```sh
+sudo apt update
+sudo apt install php-xml php-mbstring
+```
+#### Building
+
+```sh
+./build.sh
+```
 
 This will put GettyImagesApi.phar in a build folder. Then you can use the package as you would any other phar.
 

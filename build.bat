@@ -45,15 +45,3 @@ echo Contents of Build output @: %outputDirectory%
 dir /B %outputDirectory%
 echo ;%PATH%; | find /C /I ";%currentDirectory%vendor/behat/behat/bin;" > nul
 
-IF %ERRORLEVEL% == 1 (
-  echo Behat not found adding to the path
-  set PATH="%PATH%;%currentDirectory%vendor/behat/behat/bin"
-) else (
-  echo BEHAT found
-)
-
-echo(
-echo To run BDD scenarios
-echo php ./vendor/behat/behat/bin/behat
-echo or
-echo behat
