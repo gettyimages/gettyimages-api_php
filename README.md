@@ -17,7 +17,7 @@ This SDK makes using the Getty Images [API](http://developers.gettyimages.com) e
 
 ## Getting started
 ### Installing the package
-The SDK is available as on [Packagist](https://packagist.org/packages/gettyimages/gettyimages-api).
+The SDK is available on [Packagist](https://packagist.org/packages/gettyimages/gettyimages-api).
 
 ## Examples
 See [example.md](https://github.com/gettyimages/gettyimages-api_php/blob/master/examples/example.md) for examples.
