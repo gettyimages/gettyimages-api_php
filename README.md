@@ -1,8 +1,29 @@
 # Getty Images API SDK - PHP
+[![Build Status](https://travis-ci.org/gettyimages/gettyimages-api_php.svg?branch=master)](https://travis-ci.org/gettyimages/gettyimages-api_php)  
 
 ## Introduction
-[![Build Status](https://travis-ci.org/gettyimages/gettyimages-api_php.svg?branch=master)](https://travis-ci.org/gettyimages/gettyimages-api_php)  
-This SDK makes using the Getty Images [API](http://developers.gettyimages.com) easy. It handles credential management, makes HTTP requests and is written with a fluent style in mind. The [API Documentation](https://github.com/gettyimages/gettyimages-api) is located on Github.
+This SDK makes using the Getty Images [API](http://developers.gettyimages.com) easy. It handles credential management, makes HTTP requests and is written with a fluent style in mind. For more info about the API, see the [Documentation](https://developers.gettyimages.com/api/).
+
+* Search for images and videos from our extensive creative and editorial catalogs.
+* Get image and video metadata.
+* Download files using your Getty Images products (e.g., Editorial subscriptions, Easy Access, Thinkstock Subscriptions, and Image Packs).
+* Custom Request functionality that allows user to call any endpoint.
+
+## Help & Support
+
+* [Getty Images API](http://developers.gettyimages.com/)
+* [Contact Developer Support](mailto:developersupport@gettyimages.com)
+* [Issue Tracker](https://github.com/gettyimages/gettyimages-api_php/issues)
+
+## Getting started
+### Installing the package
+The SDK is available as on [Packagist](https://packagist.org/packages/gettyimages/gettyimages-api).
+
+## Examples
+See [example.md](https://github.com/gettyimages/gettyimages-api_php/blob/master/examples/example.md) for examples.
+
+## Building From Source Code
+_Source code is only needed if you would like to contribute to the project. Otherwise, use the [package](https://packagist.org/packages/gettyimages/gettyimages-api)_
 
 ## Initial Setup
 ### Assumptions
