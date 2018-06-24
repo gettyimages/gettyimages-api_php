@@ -469,4 +469,19 @@ final class SearchImagesEditorialTest extends TestCase
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("start_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
+
+    public function testSearchImagesEditorialWithAcceptLanguage()
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImagesEditorial()->withAcceptLanguage("en-US")->execute();
+
+        $this->assertContains("search/images/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("Accept-Language: en-US", $curlerMock->options[CURLOPT_HTTPHEADER]);
+    }
 }

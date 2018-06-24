@@ -281,5 +281,15 @@ namespace GettyImages\Api\Request\Search {
             $this->requestDetails["start_date"] = $startDate;
             return $this;
         }
+
+        /**
+         * @param array $acceptLanguage Provide a header to specify the language of result values.
+         * @throws Exception
+         * @return $this
+         */
+        public function withAcceptLanguage(string $acceptLanguage) {
+            $this->addHeader("Accept-Language", $acceptLanguage);
+            return $this;
+        }
     }
 }

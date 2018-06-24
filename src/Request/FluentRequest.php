@@ -30,7 +30,7 @@ namespace GettyImages\Api\Request {
          */
         protected $credentials = null;
 
-        protected $authHeader;
+        protected $options = array();
 
         /**
          * The root endpoint for Connect
@@ -55,6 +55,7 @@ namespace GettyImages\Api\Request {
             }
 
             $this->container = $container;
+            $this->options[CURLOPT_HTTPHEADER] = array();
         }
 
         /**
@@ -77,6 +78,10 @@ namespace GettyImages\Api\Request {
             }
         }
 
+        protected function addHeader(string $name, string $value) {
+            $this->options[CURLOPT_HTTPHEADER][] = $name.": ".$value;
+        }
+
         /**
          * Perform the request against the api
          */
@@ -88,12 +93,15 @@ namespace GettyImages\Api\Request {
             }
             $endpointUrl = $this->endpointUri."/".$route;
             $method = $this->getMethod();
+            
+            $this->options[CURLOPT_HTTPHEADER][] = "Api-Key:".$this->credentials->getApiKey();
+            $this->options[CURLOPT_HTTPHEADER][] = "Authorization: ".$this->credentials->getAuthorizationHeaderValue();
 
-            if (!$this->authHeader)
-            {
-                $this->authHeader = array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
-                                        "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
-            }
+            // if (!$this->options)
+            // {
+            //     $this->options = array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
+            //                             "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
+            // }
 
             $webHelper = new WebHelper($this->container);
             
@@ -101,24 +109,24 @@ namespace GettyImages\Api\Request {
                 case "get":
                     $response = $webHelper->get($endpointUrl,
                                                 $this->requestDetails,
-                                                $this->authHeader);
+                                                $this->options);
                     break;
                 case "post":
                     $response = $webHelper->post($endpointUrl,
                                                 $this->requestDetails,
-                                                $this->authHeader,
+                                                $this->options,
                                                 $this->data);
                     break;
                 case "put":
                     $response = $webHelper->put($endpointUrl,
                                             $this->requestDetails,
-                                            $this->authHeader,
+                                            $this->options,
                                             $this->data);
                     break;
                 case "delete":
                     $response = $webHelper->delete($endpointUrl,
                                             $this->requestDetails,
-                                            $this->authHeader);
+                                            $this->options);
                     break;
                 default:
                     throw new \Exception("No appropriate HTTP method found for this request.");
