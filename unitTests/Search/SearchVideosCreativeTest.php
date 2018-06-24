@@ -243,4 +243,19 @@ final class SearchVideosCreativeTest extends TestCase
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
     }
+
+    public function testSearchVideosCreativeWithAcceptLanguage()
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchVideosCreative()->withAcceptLanguage("en-US")->execute();
+
+        $this->assertContains("search/videos/creative", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("Accept-Language: en-US", $curlerMock->options[CURLOPT_HTTPHEADER]);
+    }
 }

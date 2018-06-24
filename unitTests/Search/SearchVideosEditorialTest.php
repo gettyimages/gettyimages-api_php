@@ -279,4 +279,19 @@ final class SearchVideosEditorialTest extends TestCase
         $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("specific_people=reggie+jackson", $curlerMock->options[CURLOPT_URL]);
     }
+
+    public function testSearchVideosEditorialWithAcceptLanguage()
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchVideosEditorial()->withAcceptLanguage("en-US")->execute();
+
+        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("Accept-Language: en-US", $curlerMock->options[CURLOPT_HTTPHEADER]);
+    }
 }
