@@ -30,7 +30,7 @@ Create your .php file
 
       $client = GettyImages_Client::getClientWithClientCredentials("$apiKey", "$apiSecret");
 
-	  $response = $client->SearchImages()->withPhrase("cat")->withProductTypes($types)->execute();
+	  $response = $client->SearchImages()->withPhrase("cat")->execute();
 
 	  var_dump($response);
 
