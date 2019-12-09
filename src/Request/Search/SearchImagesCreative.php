@@ -154,16 +154,6 @@ namespace GettyImages\Api\Request\Search {
             return $this;
         } 
 
-        /**
-         * @param array $licenseModels An array of license models by which to filter.
-         * @throws Exception
-         * @return $this
-         */
-        public function withLicenseModels(array $licenseModels) {
-            $this->addArrayOfValuesToRequestDetails("license_models",$licenseModels);
-            return $this;
-        }
-
            /**
          * @param string $minimumSize
          * @return $this

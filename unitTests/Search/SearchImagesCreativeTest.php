@@ -247,24 +247,6 @@ final class SearchImagesCreativeTest extends TestCase
         $this->assertContains("keyword_ids=64284%2C67255", $curlerMock->options[CURLOPT_URL]);
     }
 
-    public function testSearchImagesCreativeWithLicenseModels()
-    {
-        $curlerMock = new CurlerMock();
-        $builder = new \DI\ContainerBuilder();
-        $container = $builder->build();
-        $container->set('ICurler', $curlerMock);
-
-        $models = array("rightsmanaged", "royaltyfree");
-
-        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
-
-        $search = $client->SearchImagesCreative()->withPhrase("cat")->withLicenseModels($models)->execute();
-
-        $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("license_models=rightsmanaged%2Croyaltyfree", $curlerMock->options[CURLOPT_URL]);
-    }
-
     public function testSearchImagesCreativeWithMinimumSize()
     {
         $curlerMock = new CurlerMock();
