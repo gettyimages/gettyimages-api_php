@@ -27,7 +27,7 @@ _Source code is only needed if you would like to contribute to the project. Othe
 
 ## Initial Setup
 ### Assumptions
-* You have PHP >=7.0 setup
+* You have PHP >=7.2 setup
 
 ### PHP.ini settings to build the code
     [Phar]
