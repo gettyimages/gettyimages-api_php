@@ -1,5 +1,6 @@
+#!/usr/bin/env php
 <?php
-    require 'vendor/autoload.php';
+    require '../vendor/autoload.php';
     use GettyImages\Api\GettyImages_Client;
 
     $apiKey = "API_KEY";

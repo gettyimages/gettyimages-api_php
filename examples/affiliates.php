@@ -1,7 +1,8 @@
+#!/usr/bin/env php
 <?php
 	// Search for creative images and return referral_destinations, title and preview
 
-	require 'vendor/autoload.php';
+	require '../vendor/autoload.php';
 	use GettyImages\Api\GettyImages_Client;
 
 	$apiKey = "API_KEY";
