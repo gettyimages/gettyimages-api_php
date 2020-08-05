@@ -82,16 +82,18 @@ namespace GettyImages\Api {
          * @param null $password
          * @param null $refreshToken
          * @param null $container
+         * @param null $accessToken
          * @example UsageExamples.php Examples
          */
-        private function __construct($apiKey, $apiSecret, $username = null, $password = null, $refreshToken = null, $container) {
+        private function __construct($apiKey, $apiSecret, $username = null, $password = null, $refreshToken = null, $container, $accessToken = null) {
 
             $credentials = array(
                 "client_key" => $apiKey,
                 "client_secret" => $apiSecret,
                 "username" => $username,
                 "password" => $password,
-                "refresh_token" => $refreshToken);
+                "refresh_token" => $refreshToken,
+                "access_token" => $accessToken);
 
             if($container == null)
             {
@@ -99,7 +101,7 @@ namespace GettyImages\Api {
                 $this->container = $builder->build();
                 $this->container->set('ICurler', \DI\Object(Curler\Curler::Class));
             }
-            else 
+            else
             {
                 $this->container = $container;
             }
@@ -118,7 +120,7 @@ namespace GettyImages\Api {
         {
             return new GettyImages_Client($apiKey, $apiSecret, null, null, null, $container);
         }
-        
+
         /**
          * Get client using resource owner credentials
          *
@@ -144,6 +146,20 @@ namespace GettyImages\Api {
         public static function getClientWithRefreshToken($apiKey, $apiSecret, $refreshToken, $container = null)
         {
             return new GettyImages_Client($apiKey, $apiSecret, null, null, $refreshToken, $container);
+        }
+
+        /**
+         * Get client using access token and refresh token
+         *
+         * @param null $apiKey
+         * @param null $apiSecret
+         * @param null $accessToken
+         * @param null $refreshToken
+         * @param null $container
+         */
+        public static function getClientWithAccessToken($apiKey, $apiSecret, $accessToken, $refreshToken, $container = null)
+        {
+            return new GettyImages_Client($apiKey, $apiSecret, null, null, $refreshToken, $container, $accessToken);
         }
 
         /**
@@ -247,8 +263,8 @@ namespace GettyImages\Api {
 
         /**
         * Events
-        * 
-        * Get metadata fro events 
+        *
+        * Get metadata fro events
         */
         public function Events() {
             $eventsObj = new Events($this->credentials,$this->apiBaseUri,$this->container);
