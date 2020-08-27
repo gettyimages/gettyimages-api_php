@@ -47,4 +47,22 @@ final class CredentialsTest extends TestCase
 
         $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
+
+    public function testGetClientWithAccessTokenTest()
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithAccessToken("", "", array(
+            "access_token" => "test_token",
+            "token_type"      => "Bearer",
+            "sdk_expire_time"=> time() + 1476
+        ), "", $container);
+
+        $response = $client->Collections()->execute();
+
+        $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
+    }
 }

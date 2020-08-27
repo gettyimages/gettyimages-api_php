@@ -42,7 +42,8 @@ namespace GettyImages\Api {
             $this->endpointUri = $endpointUri;
             $this->container = $container;
             $credentials = $this->removeNullValuesFromArray($credentials);
-            $this->credentials = self::validateCredentials($credentials);     
+            $this->credentials = self::validateCredentials($credentials);
+            $this->initializeAccessToken();
         }
 
         private function removeNullValuesFromArray(array $collectionToFilter) {
@@ -87,6 +88,12 @@ namespace GettyImages\Api {
             }
 
             return $credentials;
+        }
+
+        private function initializeAccessToken(){
+            if(array_key_exists("access_token", $this->credentials)) {
+                $this->tokenDetails = $this->credentials['access_token'];
+            }
         }
 
         /**
