@@ -12,10 +12,13 @@ This SDK makes using the Getty Images [API](http://developers.gettyimages.com) e
 ## Help & Support
 
 * [Getty Images API](http://developers.gettyimages.com/)
-* [Contact API Support](mailto:apisupport@gettyimages.com)
 * [Issue Tracker](https://github.com/gettyimages/gettyimages-api_php/issues)
 
 ## Getting started
+### Obtain an API Key
+
+If you don't already have an API key, fill out and submit the [contact form](http://engage.gettyimages.com/api-contact) to be connected to our Sales team.
+
 ### Installing the package
 The SDK is available on [Packagist](https://packagist.org/packages/gettyimages/gettyimages-api).
 
