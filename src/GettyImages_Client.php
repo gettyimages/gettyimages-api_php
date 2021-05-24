@@ -85,7 +85,7 @@ namespace GettyImages\Api {
          * @param null $accessToken
          * @example UsageExamples.php Examples
          */
-        private function __construct($apiKey, $apiSecret, $username = null, $password = null, $refreshToken = null, $container, $accessToken = null) {
+        private function __construct($apiKey, $apiSecret, $username = null, $password = null, $refreshToken = null, $container = null, $accessToken = null) {
 
             $credentials = array(
                 "client_key" => $apiKey,
