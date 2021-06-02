@@ -127,3 +127,11 @@ To execute all of the unit tests:
 
 To execute one test class:
     ./vendor/bin/phpunit --bootstrap vendor/autoload.php unitTests/EXAMPLETEST
+
+
+## Maintainers
+
+To publish a new version to
+[Packagist](https://packagist.org/packages/gettyimages/gettyimages-api),
+create a new release with an updated tag. A webhook will notify Packagist
+to grab the latest version.
