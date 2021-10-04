@@ -99,7 +99,7 @@ namespace GettyImages\Api {
             {
                 $builder = new \DI\ContainerBuilder();
                 $this->container = $builder->build();
-                $this->container->set('ICurler', \DI\Object(Curler\Curler::Class));
+                $this->container->set('ICurler', \DI\create(Curler\Curler::Class));
             }
             else
             {
