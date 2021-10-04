@@ -19,7 +19,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "php-di/php-di": "^5.4||^6.0"
+        "php-di/php-di": "^5.4"
     },
     "require-dev" : {
         "phine/phar": "~1.0",
