@@ -401,4 +401,36 @@ final class SearchImagesCreativeTest extends TestCase
         $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("Accept-Language: en-US", $curlerMock->options[CURLOPT_HTTPHEADER]);
     }
+
+    public function testSearchImagesCreativeWithCustomParameter()
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImagesCreative()->withCustomParameter("safe_search", "true")->withPhrase("cat")->execute();
+
+        $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("safe_search=true", $curlerMock->options[CURLOPT_URL]);
+    }
+
+    public function testSearchImagesCreativeWithCustomHeader()
+    {
+        $curlerMock = new CurlerMock();
+        $builder = new \DI\ContainerBuilder();
+        $container = $builder->build();
+        $container->set('ICurler', $curlerMock);
+
+        $client = GettyImages_Client::getClientWithClientCredentials("", "", $container);
+
+        $search = $client->SearchImagesCreative()->withCustomHeader("gi-country-code", "ABW")->withPhrase("cat")->execute();
+
+        $this->assertContains("search/images/creative", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertContains("gi-country-code: ABW", $curlerMock->options[CURLOPT_HTTPHEADER]);
+    }
 }

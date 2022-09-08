@@ -97,12 +97,6 @@ namespace GettyImages\Api\Request {
             $this->options[CURLOPT_HTTPHEADER][] = "Api-Key:".$this->credentials->getApiKey();
             $this->options[CURLOPT_HTTPHEADER][] = "Authorization: ".$this->credentials->getAuthorizationHeaderValue();
 
-            // if (!$this->options)
-            // {
-            //     $this->options = array(CURLOPT_HTTPHEADER => array("Api-Key:".$this->credentials->getApiKey(),
-            //                             "Authorization: ".$this->credentials->getAuthorizationHeaderValue()));
-            // }
-
             $webHelper = new WebHelper($this->container);
             
             switch ($method) {
@@ -154,6 +148,24 @@ namespace GettyImages\Api\Request {
             } 
 
             return $response["body"];
+        }
+
+        /**
+         * @param string $name The name of the custom header
+         * @param string $value The value to set for the custom header
+         */
+        public function withCustomHeader(string $name, string $value) {
+            $this->addHeader($name, $value);
+            return $this;
+        }
+
+        /**
+         * @param string $name The name of the custom parameter
+         * @param string $value The value to set for the custom parameter
+         */
+        public function withCustomParameter(string $name, string $value) {
+            $this->requestDetails[$name] = $value;
+            return $this;
         }
 
         
