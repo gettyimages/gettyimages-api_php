@@ -181,6 +181,9 @@ namespace GettyImages\Api {
                                                                              $this->credentials["password"]);
                     }
                     break;
+                case "api-key":  
+                    return array();
+                    break;
                 default:
                     throw new UnknownCredentialTypeException("Not sure what type : ".$credentialType);
             }
