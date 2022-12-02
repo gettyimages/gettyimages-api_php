@@ -28,6 +28,8 @@ namespace GettyImages\Api {
     require_once("Request/Videos/VideosSimilar.php");
     require_once("Request/Search/SearchImages.php");
     require_once("Request/Search/SearchImagesCreative.php");
+    require_once("Request/Search/SearchImagesCreativeByImage.php");
+    require_once("Request/Search/SearchVideosCreativeByImage.php");
     require_once("Request/Search/SearchImagesEditorial.php");
     require_once("Request/Search/SearchVideos.php");
     require_once("Request/Search/SearchVideosCreative.php");
@@ -37,6 +39,8 @@ namespace GettyImages\Api {
 
     use GettyImages\Api\Request\Search\SearchImages;
     use GettyImages\Api\Request\Search\SearchImagesCreative;
+    use GettyImages\Api\Request\Search\SearchImagesCreativeByImage;
+    use GettyImages\Api\Request\Search\SearchVideosCreativeByImage;
     use GettyImages\Api\Request\Search\SearchImagesEditorial;
     use GettyImages\Api\Request\Search\SearchVideos;
     use GettyImages\Api\Request\Search\SearchVideosCreative;
@@ -331,6 +335,18 @@ namespace GettyImages\Api {
         }
 
         /**
+         * SearchImagesCreativeByImage
+         *
+         * Search for creative Images by image
+         *
+         * @return SearchImagesCreativeByImage
+         */
+        public function SearchImagesCreativeByImage() {
+            $searchImagesCreativeByImageObj = new SearchImagesCreativeByImage($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchImagesCreativeByImageObj;
+        }
+
+        /**
          * SearchImagesEditorial
          *
          * Search for editorial images
@@ -364,6 +380,18 @@ namespace GettyImages\Api {
         public function SearchVideosCreative() {
             $searchVideosCreativeObj = new SearchVideosCreative($this->credentials,$this->apiBaseUri,$this->container);
             return $searchVideosCreativeObj;
+        }
+
+        /**
+         * SearchVideosCreativeByImage
+         *
+         * Search for creative Videos by image
+         *
+         * @return SearchVideosCreativeByImage
+         */
+        public function SearchVideosCreativeByImage() {
+            $searchVideosCreativeByImageObj = new SearchVideosCreativeByImage($this->credentials,$this->apiBaseUri,$this->container);
+            return $searchVideosCreativeByImageObj;
         }
 
         /**

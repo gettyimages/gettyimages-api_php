@@ -93,6 +93,32 @@ namespace GettyImages\Api\Request {
             return $result;
         }
 
+        /**
+         * Send a PUT requst using cURL
+         * @param string $url to request
+         * @param array $queryParams values to send
+         * @param array $options for cURL
+         * @param string $filepath of image to add
+         * @return string
+         */
+        public function putImageRequest($endpoint, $queryParams, array $options = array(), string $filepath) {
+
+            $image = fopen($filepath, "rb");
+
+            if(!array_key_exists(CURLOPT_HTTPHEADER, $options)) {
+                $options[CURLOPT_HTTPHEADER] = array();
+            }
+
+            array_push($options[CURLOPT_HTTPHEADER],'Content-Type: image/jpeg');
+            $options[CURLOPT_PUT] = 1;
+            $options[CURLOPT_INFILE] = $image;
+            $options[CURLOPT_INFILESIZE] = filesize($filepath);
+            $options[CURLOPT_URL] = $endpoint;
+            $result = self::execute($options);
+
+            return $result;
+        }
+
 
         /**
          * Send a GET requst using cURL

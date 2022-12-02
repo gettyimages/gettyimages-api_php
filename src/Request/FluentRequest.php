@@ -129,6 +129,24 @@ namespace GettyImages\Api\Request {
             return $this->handleResponse($response);
         }
 
+        /**
+         * Upload image for SBI search
+         */
+        protected function executeFileUpload(string $route, string $filepath) {
+            $endpointUrl = $this->endpointUri."/".$route;
+            
+            $this->options[CURLOPT_HTTPHEADER][] = "Api-Key:".$this->credentials->getApiKey();
+
+            $webHelper = new WebHelper($this->container);
+
+            $response = $webHelper->putImageRequest($endpointUrl,
+                                    $this->requestDetails,
+                                    $this->options,
+                                    $filepath);
+            
+            return $this->handleResponse($response);
+        }
+
         protected function handleResponse($response){
             if(($response["http_code"] < 200 || $response["http_code"] >= 300) && $response['http_code'] != 303) {
                 throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
