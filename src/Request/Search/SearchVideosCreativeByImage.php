@@ -35,7 +35,6 @@ class SearchVideosCreativeByImage extends FluentRequest {
     public function addToBucketAndSearchAsync(string $filename, string $imageFilepath)
     {
         $url = self::addToBucket($filename, $imageFilepath);
-        echo $url;
         return self::withImageUrl($url);
     }
 
