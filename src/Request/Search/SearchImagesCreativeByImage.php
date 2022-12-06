@@ -24,11 +24,11 @@ class SearchImagesCreativeByImage extends FluentRequest {
     /**
     * @ignore
      */
-    private function addToBucket(string $filename, string $filepath)
+    private function addToBucket(string $destFilename, string $sourceFilepath)
     {
-        $route = 'search/by-image/uploads/'.$filename;
+        $route = 'search/by-image/uploads/'.$destFilename;
         $fileUrl = $this->endpointUri."/".$route;
-        self::executeFileUpload($route, $filepath);
+        self::executeFileUpload($route, $sourceFilepath);
         return $fileUrl;
     }
 

@@ -12,10 +12,10 @@ $password = "PASSWORD";
 $client = GettyImages_Client::getClientWithResourceOwnerCredentials("$apiKey", "$apiSecret", "$user", "$password");
 
 //Upload image to bucket and search:
-$filename = "testimage.jpg";
-$filepath = "filepath/to/testimage.jpg";
+$destFilename = "testimage.jpg";
+$sourceFilepath = "filepath/to/testimage.jpg";
 
-$uploadedImageResponse = $client->SearchImagesCreativeByImage()->addToBucketAndSearchAsync($filename, $filepath)->execute();
+$uploadedImageResponse = $client->SearchImagesCreativeByImage()->addToBucketAndSearchAsync($destFilename, $sourceFilepath)->execute();
 
 echo $uploadedImageResponse;
 
