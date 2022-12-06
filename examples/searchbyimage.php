@@ -15,7 +15,7 @@ $client = GettyImages_Client::getClientWithResourceOwnerCredentials("$apiKey", "
 $destFilename = "testimage.jpg";
 $sourceFilepath = "filepath/to/testimage.jpg";
 
-$uploadedImageResponse = $client->SearchImagesCreativeByImage()->addToBucketAndSearchAsync($destFilename, $sourceFilepath)->execute();
+$uploadedImageResponse = $client->SearchImagesCreativeByImage()->addToBucketAndSearch($destFilename, $sourceFilepath)->execute();
 
 echo $uploadedImageResponse;
 
