@@ -16,7 +16,7 @@ namespace GettyImages\Api\Exception {
             $this->errorCode = $errorCode;
         }
 
-        function GetErrorCode() 
+        function getErrorCode() 
         {
             return $this->errorCode;
         }
