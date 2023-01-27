@@ -4,7 +4,7 @@
  */
 
 namespace GettyImages\Api\Request {
-
+    use GettyImages\Api\Exception;
     /**
      * FluentRequest
      *
@@ -149,7 +149,8 @@ namespace GettyImages\Api\Request {
 
         protected function handleResponse($response){
             if(($response["http_code"] < 200 || $response["http_code"] >= 300) && $response['http_code'] != 303) {
-                throw new \Exception("Non 200 status code returned: " .$response["http_code"] . "\nBody: ". $response["body"]);
+                $body = json_decode($response["body"], true);
+                throw new Exception\ClientException($body["ErrorMessage"], $response["http_code"], $body["ErrorCode"]);
             }
 
             if($response["http_code"] == 303) {
