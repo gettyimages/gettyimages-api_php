@@ -73,7 +73,7 @@ namespace GettyImages\Api {
         /** @ignore */
         private $apiBaseUri = "https://api.gettyimages.com/v3";
 
-        private $authEndpoint = "https://api.gettyimages.com/oauth2/token";
+        private $authEndpoint = "https://authentication.gettyimages.com/oauth2/token";
 
         private $container;
 
