@@ -140,10 +140,9 @@ namespace GettyImages\Api\Request {
             $webHelper = new WebHelper($this->container);
 
             $response = $webHelper->putImageRequest($endpointUrl,
-                $this->requestDetails,
-                $filepath,
-                $this->options
-            );
+                                    $this->requestDetails,
+                                    $filepath,
+                                    $this->options);
 
             return $this->handleResponse($response);
         }
