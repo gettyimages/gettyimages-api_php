@@ -97,11 +97,11 @@ namespace GettyImages\Api\Request {
          * Send a PUT requst using cURL
          * @param string $url to request
          * @param array $queryParams values to send
-         * @param array $options for cURL
          * @param string $filepath of image to add
+         * @param array $options for cURL
          * @return string
          */
-        public function putImageRequest($endpoint, $queryParams, array $options = array(), string $filepath) {
+        public function putImageRequest($endpoint, $queryParams, string $filepath, array $options = array()) {
 
             $image = fopen($filepath, "rb");
 

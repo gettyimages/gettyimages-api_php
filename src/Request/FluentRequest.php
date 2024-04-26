@@ -125,7 +125,7 @@ namespace GettyImages\Api\Request {
                 default:
                     throw new \Exception("No appropriate HTTP method found for this request.");
             }
-            
+
             return $this->handleResponse($response);
         }
 
@@ -134,16 +134,17 @@ namespace GettyImages\Api\Request {
          */
         protected function executeFileUpload(string $route, string $filepath) {
             $endpointUrl = $this->endpointUri."/".$route;
-            
+
             $this->options[CURLOPT_HTTPHEADER][] = "Api-Key:".$this->credentials->getApiKey();
 
             $webHelper = new WebHelper($this->container);
 
             $response = $webHelper->putImageRequest($endpointUrl,
-                                    $this->requestDetails,
-                                    $this->options,
-                                    $filepath);
-            
+                $this->requestDetails,
+                $filepath,
+                $this->options
+            );
+
             return $this->handleResponse($response);
         }
 
