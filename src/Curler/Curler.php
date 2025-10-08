@@ -6,8 +6,6 @@ namespace GettyImages\Api\Curler {
     {
         public function execute($options)
         {
-            $this->options = $options;
-
             $ch = curl_init();
             curl_setopt_array($ch, $options);
             $response = curl_exec($ch);
