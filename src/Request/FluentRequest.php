@@ -46,7 +46,7 @@ namespace GettyImages\Api\Request {
          * @param mixed $container
          * @param string[] $requestParams Optional search request details if you already know what you want.
          */
-        public function __construct(&$credentials, $endpointUri, $container, array $requestParams = null) {
+        public function __construct(&$credentials, $endpointUri, $container, ?array $requestParams = null) {
             $this->credentials = $credentials;
 
             $this->endpointUri = $endpointUri;
