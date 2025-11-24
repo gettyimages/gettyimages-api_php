@@ -17,8 +17,8 @@ final class SearchVideosCreativeByImageTest extends TestCase
 
         $search = $client->SearchVideosCreativeByImage()->withImageUrl("https://api.gettyimages.com/v3/search/by-image/uploads/my-test-image.jpg")->execute();
         $encodedUrl = urlencode("https://api.gettyimages.com/v3/search/by-image/uploads/my-test-image.jpg");
-        $this->assertContains("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("image_url=".$encodedUrl, $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("image_url=".$encodedUrl, $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosCreativeByImageWithAssetId()
@@ -32,8 +32,8 @@ final class SearchVideosCreativeByImageTest extends TestCase
 
         $search = $client->SearchVideosCreativeByImage()->withAssetId("fakeasset")->execute();
 
-        $this->assertContains("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosCreativeByImageWithFields()
@@ -49,9 +49,9 @@ final class SearchVideosCreativeByImageTest extends TestCase
 
         $search = $client->SearchVideosCreativeByImage()->withAssetId("fakeasset")->withFields($fields)->execute();
 
-        $this->assertContains("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosCreativeByImageWithPage()
@@ -65,9 +65,9 @@ final class SearchVideosCreativeByImageTest extends TestCase
 
         $search = $client->SearchVideosCreativeByImage()->withAssetId("fakeasset")->withPage(3)->execute();
 
-        $this->assertContains("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
     
@@ -82,9 +82,9 @@ final class SearchVideosCreativeByImageTest extends TestCase
 
         $search = $client->SearchVideosCreativeByImage()->withAssetId("fakeasset")->withPageSize(50)->execute();
 
-        $this->assertContains("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosCreativeByImageWithProductTypes()
@@ -100,9 +100,9 @@ final class SearchVideosCreativeByImageTest extends TestCase
 
         $search = $client->SearchVideosCreativeByImage()->withAssetId("fakeasset")->withProductTypes($types)->execute();
 
-        $this->assertContains("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("product_types=easyaccess%2Ceditorialsubscription", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("asset_id=fakeasset", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("product_types=easyaccess%2Ceditorialsubscription", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosCreativeByImageWithAcceptLanguage()
@@ -116,7 +116,7 @@ final class SearchVideosCreativeByImageTest extends TestCase
 
         $search = $client->SearchVideosCreativeByImage()->withAcceptLanguage("en-US")->execute();
 
-        $this->assertContains("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/creative/by-image", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("Accept-Language: en-US", $curlerMock->options[CURLOPT_HTTPHEADER]);
     }
 }

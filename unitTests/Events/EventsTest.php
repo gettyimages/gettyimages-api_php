@@ -17,7 +17,7 @@ final class EventsTest extends TestCase
 
         $response = $client->Events()->WithId(12345)->execute();
 
-        $this->assertContains("events/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("events/12345", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testEventsWithIds()
@@ -33,8 +33,8 @@ final class EventsTest extends TestCase
 
         $response = $client->Events()->WithIds($ids)->execute();
 
-        $this->assertContains("events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
     }  
     
     public function testSingleEventWithFields()
@@ -50,7 +50,7 @@ final class EventsTest extends TestCase
 
         $response = $client->Events()->WithId(12345)->withFields($fields)->execute();
 
-        $this->assertContains("events/12345", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("events/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
     }
 }

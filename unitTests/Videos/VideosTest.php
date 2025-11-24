@@ -17,7 +17,7 @@ final class VideosTest extends TestCase
 
         $response = $client->Videos()->WithId(12345)->execute();
 
-        $this->assertContains("videos/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("videos/12345", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testVideosWithIds()
@@ -33,8 +33,8 @@ final class VideosTest extends TestCase
 
         $response = $client->Videos()->WithIds($ids)->execute();
 
-        $this->assertContains("videos", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("videos", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
     }  
     
     public function testVideosWithFields()
@@ -50,7 +50,7 @@ final class VideosTest extends TestCase
 
         $response = $client->Videos()->WithId(12345)->withFields($fields)->execute();
 
-        $this->assertContains("videos/12345", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("videos/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
     }
 }

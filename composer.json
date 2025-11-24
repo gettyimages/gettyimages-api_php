@@ -23,7 +23,7 @@
     },
     "require-dev" : {
         "phine/phar": "~1.0",
-        "phpunit/phpunit": "^6"
+        "phpunit/phpunit": "^12"
     },
     "autoload" : {
         "psr-4" : {

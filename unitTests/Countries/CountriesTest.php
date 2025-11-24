@@ -17,6 +17,6 @@ final class CountriesTest extends TestCase
 
         $response = $client->Countries()->execute();
 
-        $this->assertContains("countries", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("countries", $curlerMock->options[CURLOPT_URL]);
     }
 }

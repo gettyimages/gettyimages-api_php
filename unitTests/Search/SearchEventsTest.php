@@ -17,8 +17,8 @@ final class SearchEventsTest extends TestCase
 
         $search = $client->SearchEvents()->withPhrase("cat")->execute();
 
-        $this->assertContains("search/events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchEventsWithDateFrom()
@@ -32,9 +32,9 @@ final class SearchEventsTest extends TestCase
 
         $search = $client->SearchEvents()->withPhrase("cat")->withDateFrom("2015-04-01")->execute();
 
-        $this->assertContains("search/events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("date_from=2015-04-01", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("date_from=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchEventsWithDateTo()
@@ -48,9 +48,9 @@ final class SearchEventsTest extends TestCase
 
         $search = $client->SearchEvents()->withPhrase("cat")->withDateTo("2015-04-01")->execute();
 
-        $this->assertContains("search/events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("date_to=2015-04-01", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("date_to=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchEventsWithEditorialSegment()
@@ -64,9 +64,9 @@ final class SearchEventsTest extends TestCase
 
         $search = $client->SearchEvents()->withPhrase("cat")->withEditorialSegment("archival")->execute();
 
-        $this->assertContains("search/events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("editorial_segment=archival", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("editorial_segment=archival", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchEventsWithFields()
@@ -82,9 +82,9 @@ final class SearchEventsTest extends TestCase
 
         $search = $client->SearchEvents()->withPhrase("cat")->withFields($fields)->execute();
 
-        $this->assertContains("search/events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchEventsWithPage()
@@ -98,9 +98,9 @@ final class SearchEventsTest extends TestCase
 
         $search = $client->SearchEvents()->withPhrase("cat")->withPage(3)->execute();
 
-        $this->assertContains("search/events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
     
@@ -115,8 +115,8 @@ final class SearchEventsTest extends TestCase
 
         $search = $client->SearchEvents()->withPhrase("cat")->withPageSize(50)->execute();
 
-        $this->assertContains("search/events", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/events", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
 }
