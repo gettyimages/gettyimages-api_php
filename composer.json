@@ -18,7 +18,7 @@
         "source": "https://github.com/gettyimages/gettyimages-api_php"
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=8.3",
         "php-di/php-di": "^7.0",
         "ext-curl": "*"
     },
