@@ -17,10 +17,10 @@ final class CustomRequestTest extends TestCase
 
         $response = $client->CustomRequest()->WithRoute("artists/images")->withMethod("get")->withQueryParameters(array("artist_name" => "roman makhmutov", "page" => 3, "page_size" => 50))->execute();
 
-        $this->assertContains("artists/images", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("artist_name=roman+makhmutov", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("artists/images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("artist_name=roman+makhmutov", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page=3", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }  
     
 }

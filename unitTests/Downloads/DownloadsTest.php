@@ -17,7 +17,7 @@ final class DownloadsTest extends TestCase
 
         $response = $client->Downloads()->execute();
 
-        $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadsWithCompanyDownloads()
@@ -31,8 +31,8 @@ final class DownloadsTest extends TestCase
 
         $response = $client->Downloads()->withCompanyDownloads()->execute();
 
-        $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("company_downloads=true", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("company_downloads=true", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadsWithEndDate()
@@ -46,8 +46,8 @@ final class DownloadsTest extends TestCase
 
         $response = $client->Downloads()->withEndDate("2015-04-01")->execute();
 
-        $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("end_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("end_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadsWithPage()
@@ -61,8 +61,8 @@ final class DownloadsTest extends TestCase
 
         $response = $client->Downloads()->withPage(3)->execute();
 
-        $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadsWithPageSize()
@@ -76,8 +76,8 @@ final class DownloadsTest extends TestCase
 
         $response = $client->Downloads()->withPageSize(50)->execute();
 
-        $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadsWithProductType()
@@ -91,8 +91,8 @@ final class DownloadsTest extends TestCase
 
         $response = $client->Downloads()->withProductType("easyaccess")->execute();
 
-        $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("product_type=easyaccess", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("product_type=easyaccess", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadsWithStartDate()
@@ -106,7 +106,7 @@ final class DownloadsTest extends TestCase
 
         $response = $client->Downloads()->withStartDate("2015-04-01")->execute();
 
-        $this->assertContains("downloads", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("start_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("start_date=2015-04-01", $curlerMock->options[CURLOPT_URL]);
     }
 }

@@ -17,6 +17,6 @@ final class CollectionsTest extends TestCase
 
         $response = $client->Collections()->execute();
 
-        $this->assertContains("collections", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("collections", $curlerMock->options[CURLOPT_URL]);
     }
 }

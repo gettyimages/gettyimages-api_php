@@ -17,8 +17,8 @@ final class CredentialsTest extends TestCase
 
         $response = $client->Collections()->execute();
 
-        $this->assertContains("1234", $curlerMock->options[CURLOPT_HTTPHEADER][0]);
-        $this->assertNotContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
+        $this->assertStringContainsString("1234", $curlerMock->options[CURLOPT_HTTPHEADER][0]);
+        $this->assertStringNotContainsString("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
 
     public function testGetClientWithClientCredentials()
@@ -32,7 +32,7 @@ final class CredentialsTest extends TestCase
 
         $response = $client->Collections()->execute();
 
-        $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
+        $this->assertStringContainsString("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
 
     public function testGetClientWithResourceOwnderCredentials()
@@ -46,7 +46,7 @@ final class CredentialsTest extends TestCase
 
         $response = $client->Collections()->execute();
 
-        $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
+        $this->assertStringContainsString("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
 
     public function testGetClientWithRefreshTokenTest()
@@ -60,7 +60,7 @@ final class CredentialsTest extends TestCase
 
         $response = $client->Collections()->execute();
 
-        $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
+        $this->assertStringContainsString("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
 
     public function testGetClientWithAccessTokenTest()
@@ -78,6 +78,6 @@ final class CredentialsTest extends TestCase
 
         $response = $client->Collections()->execute();
 
-        $this->assertContains("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
+        $this->assertStringContainsString("test_token", $curlerMock->options[CURLOPT_HTTPHEADER][1]);
     }
 }

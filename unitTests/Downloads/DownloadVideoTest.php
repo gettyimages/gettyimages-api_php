@@ -17,8 +17,8 @@ final class DownloadVideoTest extends TestCase
 
         $response = $client->DownloadVideo()->WithId("123445")->execute();
 
-        $this->assertContains("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("auto_download=false", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("auto_download=false", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadVideoWithAutoDownload()
@@ -32,8 +32,8 @@ final class DownloadVideoTest extends TestCase
 
         $response = $client->DownloadVideo()->WithId("123445")->withAutoDownload()->execute();
 
-        $this->assertContains("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("auto_download=true", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("auto_download=true", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadVideoWithProductId()
@@ -47,8 +47,8 @@ final class DownloadVideoTest extends TestCase
 
         $response = $client->DownloadVideo()->WithId("123445")->withProductId(7758)->execute();
 
-        $this->assertContains("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("product_id=7758", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("product_id=7758", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testDownloadVideoWithSize()
@@ -62,7 +62,7 @@ final class DownloadVideoTest extends TestCase
 
         $response = $client->DownloadVideo()->WithId("123445")->withSize("hd1")->execute();
 
-        $this->assertContains("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("size=hd1", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("downloads/videos/123445", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("size=hd1", $curlerMock->options[CURLOPT_URL]);
     }
 }

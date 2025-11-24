@@ -45,7 +45,7 @@ namespace GettyImages\Api\Request {
          * @param array $data to add to body
          * @return string
          */
-        public function post($endpoint, $queryParams, array $options = array(), array $data = null) {
+        public function post($endpoint, $queryParams, array $options = array(), ?array $data = null) {
 
             $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
 
@@ -73,7 +73,7 @@ namespace GettyImages\Api\Request {
          * @param array $data to add to body
          * @return string
          */
-        public function put($endpoint, $queryParams, array $options = array(), array $data = null) {
+        public function put($endpoint, $queryParams, array $options = array(), ?array $data = null) {
 
             $endpoint = $endpoint. (strpos($endpoint, '?') === FALSE ? '?' : ''). self::BuildQueryParams($queryParams);
 
@@ -127,7 +127,7 @@ namespace GettyImages\Api\Request {
          * @param array $options for cURL
          * @return string
          */
-        public function get($url, array $requestParams = NULL, array $options = array()) {
+        public function get($url, ?array $requestParams = NULL, array $options = array()) {
             $url = $url. (strpos($url, '?') === FALSE ? '?' : ''). self::BuildQueryParams($requestParams);
             $options[CURLOPT_URL] = $url;
 
@@ -143,7 +143,7 @@ namespace GettyImages\Api\Request {
          * @param array $options for cURL
          * @return string
          */
-        public function delete($url, array $requestParams = NULL, array $options = array()) {
+        public function delete($url, ?array $requestParams = NULL, array $options = array()) {
             $url = $url. (strpos($url, '?') === FALSE ? '?' : ''). self::BuildQueryParams($requestParams);
             $options[CURLOPT_URL] = $url;
             $options[CURLOPT_CUSTOMREQUEST] = "DELETE";

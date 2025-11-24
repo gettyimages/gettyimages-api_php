@@ -17,8 +17,8 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithAgeOfPeople()
@@ -34,9 +34,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withAgeOfPeople($people)->withPhrase("cat")->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("age_of_people=newborn%2C2-3_years%2C0-1_months", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("age_of_people=newborn%2C2-3_years%2C0-1_months", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithCollectionCodes()
@@ -52,9 +52,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withCollectionCodes($codes)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("collection_codes=wri%2Carf", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("collection_codes=wri%2Carf", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithCollectionFilterType()
@@ -68,9 +68,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withCollectionFilterType("exclude")->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("collections_filter_type=exclude", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("collections_filter_type=exclude", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithEditorialVideoTypes()
@@ -86,9 +86,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withEditorialVideoTypes($types)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("editorial_video_types=raw%2Cproduced", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("editorial_video_types=raw%2Cproduced", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEntityUris()
@@ -104,9 +104,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withEntityUris($uris)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("entity_uris=example_uri_1%2Cexample_uri_2", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("entity_uris=example_uri_1%2Cexample_uri_2", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithExcludeNudity()
@@ -120,9 +120,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withExcludeNudity()->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("exclude_nudity=true", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("exclude_nudity=true", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithFields()
@@ -138,9 +138,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withFields($fields)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("fields=asset_family%2Cid%2Curi_oembed", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithFormatFilter()
@@ -154,9 +154,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withAvailableFormat("HD")->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("format_available=hd", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("format_available=hd", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithFrameRates()
@@ -172,9 +172,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withFrameRates($rates)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("frame_rates=24%2C29.97", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("frame_rates=24%2C29.97", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithKeywordIds()
@@ -190,9 +190,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withKeywordIds($ids)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("keyword_ids=64284%2C67255", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("keyword_ids=64284%2C67255", $curlerMock->options[CURLOPT_URL]);
     }
    
     public function testSearchVideosEditorialWithPage()
@@ -206,9 +206,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withPage(3)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page=3", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page=3", $curlerMock->options[CURLOPT_URL]);
     }
 
     
@@ -223,9 +223,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withPageSize(50)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("page_size=50", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("page_size=50", $curlerMock->options[CURLOPT_URL]);
     }
     
     public function testSearchVideosEditorialWithProductTypes()
@@ -241,9 +241,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withProductTypes($types)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("product_types=easyaccess%2Ceditorialsubscription", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("product_types=easyaccess%2Ceditorialsubscription", $curlerMock->options[CURLOPT_URL]);
     }
     
     public function testSearchVideosEditorialWithSortOrder()
@@ -257,9 +257,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withSortOrder("newest")->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("sort_order=newest", $curlerMock->options[CURLOPT_URL]);
     }
  
     public function testSearchVideosEditorialWithSpecificPeople()
@@ -275,9 +275,9 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withPhrase("cat")->withSpecificPeople($people)->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("phrase=cat", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("specific_people=reggie+jackson", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("phrase=cat", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("specific_people=reggie+jackson", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testSearchVideosEditorialWithAcceptLanguage()
@@ -291,7 +291,7 @@ final class SearchVideosEditorialTest extends TestCase
 
         $search = $client->SearchVideosEditorial()->withAcceptLanguage("en-US")->execute();
 
-        $this->assertContains("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("search/videos/editorial", $curlerMock->options[CURLOPT_URL]);
         $this->assertContains("Accept-Language: en-US", $curlerMock->options[CURLOPT_HTTPHEADER]);
     }
 }

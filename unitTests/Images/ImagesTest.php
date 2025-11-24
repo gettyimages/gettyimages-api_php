@@ -17,7 +17,7 @@ final class ImagesTest extends TestCase
 
         $response = $client->Images()->WithId(12345)->execute();
 
-        $this->assertContains("images/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("images/12345", $curlerMock->options[CURLOPT_URL]);
     }
 
     public function testImagesWithIds()
@@ -33,8 +33,8 @@ final class ImagesTest extends TestCase
 
         $response = $client->Images()->WithIds($ids)->execute();
 
-        $this->assertContains("images", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("images", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("ids=775051817%2C775072327%2C775114230", $curlerMock->options[CURLOPT_URL]);
     }  
     
     public function testImagesWithFields()
@@ -50,7 +50,7 @@ final class ImagesTest extends TestCase
 
         $response = $client->Images()->WithId(12345)->withFields($fields)->execute();
 
-        $this->assertContains("images/12345", $curlerMock->options[CURLOPT_URL]);
-        $this->assertContains("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("images/12345", $curlerMock->options[CURLOPT_URL]);
+        $this->assertStringContainsString("fields=id%2Cimage_count", $curlerMock->options[CURLOPT_URL]);
     }
 }
