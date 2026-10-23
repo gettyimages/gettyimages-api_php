@@ -76,7 +76,7 @@ namespace GettyImages\Api\Request\Search {
         }
 
         /**
-         * @param array $compositions An array of compostitions by which to filter.
+         * @param array $compositions An array of compositions by which to filter.
          * @throws Exception
          * @return $this
          */

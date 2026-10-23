@@ -38,7 +38,7 @@ namespace GettyImages\Api\Request {
         }
 
         /**
-         * Send a POST requst using cURL
+         * Send a POST request using cURL
          * @param string $url to request
          * @param array $queryParams values to send
          * @param array $options for cURL
@@ -66,7 +66,7 @@ namespace GettyImages\Api\Request {
         }
 
          /**
-         * Send a PUT requst using cURL
+         * Send a PUT request using cURL
          * @param string $url to request
          * @param array $queryParams values to send
          * @param array $options for cURL
@@ -94,7 +94,7 @@ namespace GettyImages\Api\Request {
         }
 
         /**
-         * Send a PUT requst using cURL
+         * Send a PUT request using cURL
          * @param string $url to request
          * @param array $queryParams values to send
          * @param string $filepath of image to add
@@ -121,7 +121,7 @@ namespace GettyImages\Api\Request {
 
 
         /**
-         * Send a GET requst using cURL
+         * Send a GET request using cURL
          * @param string $url to request
          * @param array $requestParams values to send
          * @param array $options for cURL
@@ -137,7 +137,7 @@ namespace GettyImages\Api\Request {
         }
 
         /**
-         * Send a DELETE requst using cURL
+         * Send a DELETE request using cURL
          * @param string $url to request
          * @param array $requestParams values to send
          * @param array $options for cURL
